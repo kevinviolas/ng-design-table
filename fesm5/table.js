@@ -888,7 +888,6 @@ var TableComponent = /** @class */ (function () {
                 }
                 if (_this.data.paginator.pageIndex !== newpage) {
                     _this.data.paginator.pageIndex = newpage;
-                    _this.data.number = newpage;
                 }
             });
             var page = this.route.snapshot.queryParams["page"];
@@ -896,6 +895,7 @@ var TableComponent = /** @class */ (function () {
                 var currentPage = Number(page) - 1;
                 this.data.startWith = currentPage;
                 this.data.fetch(currentPage);
+                this.data.number = currentPage;
             }
             this.buildHeaders().catch(function (err) { return console.log('Error build table', err); });
         }
