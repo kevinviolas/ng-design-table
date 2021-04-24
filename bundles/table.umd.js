@@ -250,26 +250,32 @@
         CustomerRankComponent.prototype.ngOnInit = function () {
             var e_1, _a;
             var config = this.service.settingConfig.customerRank || ['gold', 'silver', 'bronze', 'default'];
-            this._type = (this.type || '').replace(/[^A-Z0-9]+/ig, "");
-            try {
-                for (var config_1 = __values(config), config_1_1 = config_1.next(); !config_1_1.done; config_1_1 = config_1.next()) {
-                    var c = config_1_1.value;
-                    if (this._type.toLocaleLowerCase() === 'default') {
-                        this.type = 'Classic'.toUpperCase();
-                        this.typeClass = c.toLocaleLowerCase();
+            if (this.type) {
+                this._type = (this.type || '').replace(/[^A-Z0-9]+/ig, "");
+                try {
+                    for (var config_1 = __values(config), config_1_1 = config_1.next(); !config_1_1.done; config_1_1 = config_1.next()) {
+                        var c = config_1_1.value;
+                        if (this._type.toLocaleLowerCase() === 'default') {
+                            this.type = 'Classic'.toUpperCase();
+                            this.typeClass = c.toLocaleLowerCase();
+                        }
+                        else if (this._type.toLocaleLowerCase() === c.toLocaleLowerCase()) {
+                            this.typeClass = c.toLocaleLowerCase();
+                            this.type = this.type.toUpperCase();
+                        }
                     }
-                    else if (this._type.toLocaleLowerCase() === c.toLocaleLowerCase()) {
-                        this.typeClass = c.toLocaleLowerCase();
-                        this.type = this.type.toUpperCase();
+                }
+                catch (e_1_1) { e_1 = { error: e_1_1 }; }
+                finally {
+                    try {
+                        if (config_1_1 && !config_1_1.done && (_a = config_1.return)) _a.call(config_1);
                     }
+                    finally { if (e_1) throw e_1.error; }
                 }
             }
-            catch (e_1_1) { e_1 = { error: e_1_1 }; }
-            finally {
-                try {
-                    if (config_1_1 && !config_1_1.done && (_a = config_1.return)) _a.call(config_1);
-                }
-                finally { if (e_1) throw e_1.error; }
+            else {
+                this.type = 'Classic'.toUpperCase();
+                this.typeClass = 'default';
             }
             /*  if (this._type.toLocaleLowerCase() === 'gold') {
                 this.typeClass = 'gold'

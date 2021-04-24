@@ -38,16 +38,22 @@ let CustomerRankComponent = class CustomerRankComponent {
     }
     ngOnInit() {
         const config = this.service.settingConfig.customerRank || ['gold', 'silver', 'bronze', 'default'];
-        this._type = (this.type || '').replace(/[^A-Z0-9]+/ig, "");
-        for (let c of config) {
-            if (this._type.toLocaleLowerCase() === 'default') {
-                this.type = 'Classic'.toUpperCase();
-                this.typeClass = c.toLocaleLowerCase();
+        if (this.type) {
+            this._type = (this.type || '').replace(/[^A-Z0-9]+/ig, "");
+            for (let c of config) {
+                if (this._type.toLocaleLowerCase() === 'default') {
+                    this.type = 'Classic'.toUpperCase();
+                    this.typeClass = c.toLocaleLowerCase();
+                }
+                else if (this._type.toLocaleLowerCase() === c.toLocaleLowerCase()) {
+                    this.typeClass = c.toLocaleLowerCase();
+                    this.type = this.type.toUpperCase();
+                }
             }
-            else if (this._type.toLocaleLowerCase() === c.toLocaleLowerCase()) {
-                this.typeClass = c.toLocaleLowerCase();
-                this.type = this.type.toUpperCase();
-            }
+        }
+        else {
+            this.type = 'Classic'.toUpperCase();
+            this.typeClass = 'default';
         }
         /*  if (this._type.toLocaleLowerCase() === 'gold') {
             this.typeClass = 'gold'
