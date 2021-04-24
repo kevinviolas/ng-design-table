@@ -157,6 +157,9 @@ let EquipementStatusComponent = class EquipementStatusComponent {
         if (params[clean]) {
             this.icon = params[clean];
         }
+        else {
+            this.icon = params['default'];
+        }
         this.changeDetectorRefs.detectChanges();
     }
     ngOnChanges(changes) {
@@ -821,14 +824,16 @@ let TableComponent = class TableComponent {
                         queryParamsHandling: 'merge',
                     });
                 }
+                if (this.data.paginator.pageIndex !== newpage) {
+                    this.data.paginator.pageIndex = newpage;
+                    this.data.number = newpage;
+                }
             });
             const page = this.route.snapshot.queryParams["page"];
             if (page) {
                 const currentPage = Number(page) - 1;
                 this.data.startWith = currentPage;
-                this.data.paginator.pageIndex = currentPage;
-                // this.data.fetch(currentPage);
-                // this.data.number = currentPage;
+                this.data.fetch(currentPage);
             }
             this.buildHeaders().catch((err) => console.log('Error build table', err));
         }

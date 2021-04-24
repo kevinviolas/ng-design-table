@@ -165,6 +165,9 @@ var EquipementStatusComponent = /** @class */ (function () {
         if (params[clean]) {
             this.icon = params[clean];
         }
+        else {
+            this.icon = params['default'];
+        }
         this.changeDetectorRefs.detectChanges();
     };
     EquipementStatusComponent.prototype.ngOnChanges = function (changes) {
@@ -886,14 +889,16 @@ var TableComponent = /** @class */ (function () {
                         queryParamsHandling: 'merge',
                     });
                 }
+                if (_this.data.paginator.pageIndex !== newpage) {
+                    _this.data.paginator.pageIndex = newpage;
+                    _this.data.number = newpage;
+                }
             });
             var page = this.route.snapshot.queryParams["page"];
             if (page) {
                 var currentPage = Number(page) - 1;
                 this.data.startWith = currentPage;
-                this.data.paginator.pageIndex = currentPage;
-                // this.data.fetch(currentPage);
-                // this.data.number = currentPage;
+                this.data.fetch(currentPage);
             }
             this.buildHeaders().catch(function (err) { return console.log('Error build table', err); });
         }
