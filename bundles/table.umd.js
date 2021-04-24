@@ -418,34 +418,31 @@
             this.css.maxWidth = String((this.size || 40)) + 'px';
             this.css.maxHeight = String((this.size || 40)) + 'px';
             var params = this.service.settingConfig.equipmentType; /*{
-                "firewall": "/assets/icons/equipment/firewallnwt.png",
-                "nas": "/assets/icons/equipment/nasnwt.png",
-                "pcfixe": "/assets/icons/equipment/pcfixe_1.png",
-                "pcportable": "/assets/icons/equipment/pcportable_1.png",
-                "portable": "/assets/icons/equipment/pcportable_1.png",
-                "clientleger": "/assets/icons/equipment/pcportable_1.png",
-                "clientléger": "/assets/icons/equipment/pcportable_1.png",
-                "onduleur": "/assets/icons/equipment/ondulateur.png",
-                "serveur": "/assets/icons/equipment/serveur.png",
-                "server": "/assets/icons/equipment/serveur.png",
-                "servervirtuel": "/assets/icons/equipment/vps.png",
-                "serveurvirtuel": "/assets/icons/equipment/vps.png",
-                "vm": "/assets/icons/equipment/vps.png",
-                "wifi": "/assets/icons/equipment/wifi.png",
-                "workstationfixe": "/assets/icons/equipment/pcfixe_1.png",
-                "workstationportable": "/assets/icons/equipment/pcportable_1.png",
-                "imprimante": "/assets/icons/equipment/printer.png",
-            }*/
+                    "firewall": "/assets/icons/equipment/firewallnwt.png",
+                    "nas": "/assets/icons/equipment/nasnwt.png",
+                    "pcfixe": "/assets/icons/equipment/pcfixe_1.png",
+                    "pcportable": "/assets/icons/equipment/pcportable_1.png",
+                    "portable": "/assets/icons/equipment/pcportable_1.png",
+                    "clientleger": "/assets/icons/equipment/pcportable_1.png",
+                    "clientléger": "/assets/icons/equipment/pcportable_1.png",
+                    "onduleur": "/assets/icons/equipment/ondulateur.png",
+                    "serveur": "/assets/icons/equipment/serveur.png",
+                    "server": "/assets/icons/equipment/serveur.png",
+                    "servervirtuel": "/assets/icons/equipment/vps.png",
+                    "serveurvirtuel": "/assets/icons/equipment/vps.png",
+                    "vm": "/assets/icons/equipment/vps.png",
+                    "wifi": "/assets/icons/equipment/wifi.png",
+                    "workstationfixe": "/assets/icons/equipment/pcfixe_1.png",
+                    "workstationportable": "/assets/icons/equipment/pcportable_1.png",
+                    "imprimante": "/assets/icons/equipment/printer.png",
+                }*/
             var clean = (this.type || "").toLocaleLowerCase().replace(/[^A-Z0-9]+/ig, "");
             var server = this.name.toLocaleLowerCase().includes('srv');
             if (params[clean]) {
                 this.icon = params[clean];
             }
-            else if (server) {
-                this.icon = "/assets/icons/equipment/serveur.png";
-            }
             else {
-                this.icon = "/assets/icons/equipment/default.png";
+                this.icon = params['default'];
             }
         };
         EquipementTypeComponent.prototype.ngOnChanges = function (changes) {
