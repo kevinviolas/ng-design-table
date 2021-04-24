@@ -697,13 +697,14 @@ var CoreMatTable = /** @class */ (function (_super) {
         var _this = _super.call(this) || this;
         _this.number = 0;
         _this.pageNumber = new Subject();
+        _this.startWith = 0;
         _this.pageSort = new Subject();
         _this.pageFilter = new Subject();
         _this.pageFilterDate = new Subject();
         _this.size = size;
         _this.data = __spread(data);
         _this.totalElements = data.length;
-        _this.page$ = _this.pageFilterDate.pipe(startWith(rangeRules), switchMap(function (range) { return _this.pageFilter.pipe(debounceTime(500)).pipe(startWith(''), switchMap(function (filter) { return _this.pageSort.pipe(startWith(sortRules), switchMap(function (sortAction) { return _this.pageNumber.pipe(startWith(0), switchMap(function (page) { return from([{
+        _this.page$ = _this.pageFilterDate.pipe(startWith(rangeRules), switchMap(function (range) { return _this.pageFilter.pipe(debounceTime(500)).pipe(startWith(''), switchMap(function (filter) { return _this.pageSort.pipe(startWith(sortRules), switchMap(function (sortAction) { return _this.pageNumber.pipe(startWith(_this.startWith), switchMap(function (page) { return from([{
                 content: _this.slice(_this.sortData(_this.filterData(_this.filterDateRange(_this.data, range), filter), sortAction), page, _this.size, detailRaws)
             }]); }), share()); })); })); }));
         return _this;
@@ -888,8 +889,11 @@ var TableComponent = /** @class */ (function () {
             });
             var page = this.route.snapshot.queryParams["page"];
             if (page) {
-                this.data.pageNumber.next(Number(page) - 1);
-                this.data.number = Number(page) - 1;
+                var currentPage = Number(page) - 1;
+                this.data.startWith = currentPage;
+                this.data.paginator.pageIndex = currentPage;
+                this.data.fetch(currentPage);
+                this.data.number = currentPage;
             }
             this.buildHeaders().catch(function (err) { return console.log('Error build table', err); });
         }

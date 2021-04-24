@@ -671,13 +671,14 @@ class CoreMatTable extends DataSource {
         super();
         this.number = 0;
         this.pageNumber = new Subject();
+        this.startWith = 0;
         this.pageSort = new Subject();
         this.pageFilter = new Subject();
         this.pageFilterDate = new Subject();
         this.size = size;
         this.data = [...data];
         this.totalElements = data.length;
-        this.page$ = this.pageFilterDate.pipe(startWith(rangeRules), switchMap(range => this.pageFilter.pipe(debounceTime(500)).pipe(startWith(''), switchMap(filter => this.pageSort.pipe(startWith(sortRules), switchMap(sortAction => this.pageNumber.pipe(startWith(0), switchMap(page => from([{
+        this.page$ = this.pageFilterDate.pipe(startWith(rangeRules), switchMap(range => this.pageFilter.pipe(debounceTime(500)).pipe(startWith(''), switchMap(filter => this.pageSort.pipe(startWith(sortRules), switchMap(sortAction => this.pageNumber.pipe(startWith(this.startWith), switchMap(page => from([{
                 content: this.slice(this.sortData(this.filterData(this.filterDateRange(this.data, range), filter), sortAction), page, this.size, detailRaws)
             }])), share())))))));
     }
@@ -823,8 +824,11 @@ let TableComponent = class TableComponent {
             });
             const page = this.route.snapshot.queryParams["page"];
             if (page) {
-                this.data.pageNumber.next(Number(page) - 1);
-                this.data.number = Number(page) - 1;
+                const currentPage = Number(page) - 1;
+                this.data.startWith = currentPage;
+                this.data.paginator.pageIndex = currentPage;
+                this.data.fetch(currentPage);
+                this.data.number = currentPage;
             }
             this.buildHeaders().catch((err) => console.log('Error build table', err));
         }

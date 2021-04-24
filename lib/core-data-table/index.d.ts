@@ -29,6 +29,7 @@ export interface CoreMatTableInterface {
     filter: (myFilter: any) => void;
     filterDate: (dateFilter: FilterDateInterface) => void;
     pageNumber: Subject<number>;
+    startWith: number;
 }
 export interface FilterDateInterface {
     active: string;
@@ -44,6 +45,7 @@ export declare class CoreMatTable extends DataSource<Element> {
     paginator: MatPaginator;
     data: any;
     pageNumber: Subject<number>;
+    startWith: number;
     private pageSort;
     private pageFilter;
     private pageFilterDate;

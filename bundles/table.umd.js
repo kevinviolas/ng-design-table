@@ -907,13 +907,14 @@
             var _this = _super.call(this) || this;
             _this.number = 0;
             _this.pageNumber = new rxjs.Subject();
+            _this.startWith = 0;
             _this.pageSort = new rxjs.Subject();
             _this.pageFilter = new rxjs.Subject();
             _this.pageFilterDate = new rxjs.Subject();
             _this.size = size;
             _this.data = __spread(data);
             _this.totalElements = data.length;
-            _this.page$ = _this.pageFilterDate.pipe(operators.startWith(rangeRules), operators.switchMap(function (range) { return _this.pageFilter.pipe(operators.debounceTime(500)).pipe(operators.startWith(''), operators.switchMap(function (filter) { return _this.pageSort.pipe(operators.startWith(sortRules), operators.switchMap(function (sortAction) { return _this.pageNumber.pipe(operators.startWith(0), operators.switchMap(function (page) { return rxjs.from([{
+            _this.page$ = _this.pageFilterDate.pipe(operators.startWith(rangeRules), operators.switchMap(function (range) { return _this.pageFilter.pipe(operators.debounceTime(500)).pipe(operators.startWith(''), operators.switchMap(function (filter) { return _this.pageSort.pipe(operators.startWith(sortRules), operators.switchMap(function (sortAction) { return _this.pageNumber.pipe(operators.startWith(_this.startWith), operators.switchMap(function (page) { return rxjs.from([{
                     content: _this.slice(_this.sortData(_this.filterData(_this.filterDateRange(_this.data, range), filter), sortAction), page, _this.size, detailRaws)
                 }]); }), operators.share()); })); })); }));
             return _this;
@@ -1098,8 +1099,11 @@
                 });
                 var page = this.route.snapshot.queryParams["page"];
                 if (page) {
-                    this.data.pageNumber.next(Number(page) - 1);
-                    this.data.number = Number(page) - 1;
+                    var currentPage = Number(page) - 1;
+                    this.data.startWith = currentPage;
+                    this.data.paginator.pageIndex = currentPage;
+                    this.data.fetch(currentPage);
+                    this.data.number = currentPage;
                 }
                 this.buildHeaders().catch(function (err) { return console.log('Error build table', err); });
             }
