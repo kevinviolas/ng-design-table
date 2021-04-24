@@ -872,6 +872,7 @@ var TableComponent = /** @class */ (function () {
             this.data.paginator = this.paginatorCurrent;
             this.data.sort = this.sortCurrent;
             this.data.pageNumber.subscribe(function (newpage) {
+                console.log('ALLLO PAGE ', newpage);
                 if (newpage > 0) {
                     _this.router.navigate([], {
                         relativeTo: _this.route,
@@ -886,7 +887,7 @@ var TableComponent = /** @class */ (function () {
                         queryParamsHandling: 'merge',
                     });
                 }
-                if (_this.data.paginator.pageIndex !== newpage) {
+                if (_this.data && _this.data.paginator && _this.data.paginator.pageIndex !== newpage) {
                     _this.data.paginator.pageIndex = newpage;
                 }
             });

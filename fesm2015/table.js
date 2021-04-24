@@ -807,6 +807,7 @@ let TableComponent = class TableComponent {
             this.data.paginator = this.paginatorCurrent;
             this.data.sort = this.sortCurrent;
             this.data.pageNumber.subscribe((newpage) => {
+                console.log('ALLLO PAGE ', newpage);
                 if (newpage > 0) {
                     this.router.navigate([], {
                         relativeTo: this.route,
@@ -821,7 +822,7 @@ let TableComponent = class TableComponent {
                         queryParamsHandling: 'merge',
                     });
                 }
-                if (this.data.paginator.pageIndex !== newpage) {
+                if (this.data && this.data.paginator && this.data.paginator.pageIndex !== newpage) {
                     this.data.paginator.pageIndex = newpage;
                 }
             });
