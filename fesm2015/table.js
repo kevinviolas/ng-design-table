@@ -827,8 +827,8 @@ let TableComponent = class TableComponent {
                 const currentPage = Number(page) - 1;
                 this.data.startWith = currentPage;
                 this.data.paginator.pageIndex = currentPage;
-                this.data.fetch(currentPage);
-                this.data.number = currentPage;
+                // this.data.fetch(currentPage);
+                // this.data.number = currentPage;
             }
             this.buildHeaders().catch((err) => console.log('Error build table', err));
         }

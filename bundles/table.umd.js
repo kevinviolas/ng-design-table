@@ -1102,8 +1102,8 @@
                     var currentPage = Number(page) - 1;
                     this.data.startWith = currentPage;
                     this.data.paginator.pageIndex = currentPage;
-                    this.data.fetch(currentPage);
-                    this.data.number = currentPage;
+                    // this.data.fetch(currentPage);
+                    // this.data.number = currentPage;
                 }
                 this.buildHeaders().catch(function (err) { return console.log('Error build table', err); });
             }
