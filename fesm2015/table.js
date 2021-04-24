@@ -807,14 +807,14 @@ let TableComponent = class TableComponent {
             this.data.paginator = this.paginatorCurrent;
             this.data.sort = this.sortCurrent;
             this.data.pageNumber.subscribe((newpage) => {
-                if (newpage > 0 && newpage !== this.data.number) {
+                if (newpage > 0) {
                     this.router.navigate([], {
                         relativeTo: this.route,
                         queryParams: { page: newpage + 1 },
                         queryParamsHandling: 'merge',
                     });
                 }
-                else if (newpage === 0 && newpage !== this.data.number) {
+                else if (newpage === 0) {
                     this.router.navigate([], {
                         relativeTo: this.route,
                         queryParams: { page: null },

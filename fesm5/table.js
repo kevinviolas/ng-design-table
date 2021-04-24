@@ -872,14 +872,14 @@ var TableComponent = /** @class */ (function () {
             this.data.paginator = this.paginatorCurrent;
             this.data.sort = this.sortCurrent;
             this.data.pageNumber.subscribe(function (newpage) {
-                if (newpage > 0 && newpage !== _this.data.number) {
+                if (newpage > 0) {
                     _this.router.navigate([], {
                         relativeTo: _this.route,
                         queryParams: { page: newpage + 1 },
                         queryParamsHandling: 'merge',
                     });
                 }
-                else if (newpage === 0 && newpage !== _this.data.number) {
+                else if (newpage === 0) {
                     _this.router.navigate([], {
                         relativeTo: _this.route,
                         queryParams: { page: null },
