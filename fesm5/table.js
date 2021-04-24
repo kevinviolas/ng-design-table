@@ -7,10 +7,10 @@ import { Subject, from } from 'rxjs';
 import { startWith, switchMap, debounceTime, share, pluck } from 'rxjs/operators';
 import { DataSource } from '@angular/cdk/collections';
 import { trigger, state, style, transition, animate } from '@angular/animations';
+import { Router, ActivatedRoute, RouterModule } from '@angular/router';
 import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatIconModule } from '@angular/material/icon';
-import { RouterModule } from '@angular/router';
 import { MatBadgeModule } from '@angular/material/badge';
 
 var TableService = /** @class */ (function () {
@@ -856,17 +856,33 @@ var CoreMatTable = /** @class */ (function (_super) {
 }(DataSource));
 
 var TableComponent = /** @class */ (function () {
-    function TableComponent() {
+    function TableComponent(router, route) {
+        this.router = router;
+        this.route = route;
         this.displayDetail = false;
         this.callFunction = new EventEmitter();
         this.filter = [];
         this.index = 0;
     }
     TableComponent.prototype.ngOnInit = function () {
+        var _this = this;
         if (this.data) {
             this.expandedElement = false;
             this.data.paginator = this.paginatorCurrent;
             this.data.sort = this.sortCurrent;
+            var page = this.route.snapshot.queryParams["page"];
+            if (page) {
+                this.data.number = Number(page);
+            }
+            this.data.pageNumber.subscribe(function (newpage) {
+                if (newpage > 0) {
+                    _this.router.navigate([], {
+                        relativeTo: _this.route,
+                        queryParams: { page: newpage },
+                        queryParamsHandling: 'merge',
+                    });
+                }
+            });
             this.buildHeaders().catch(function (err) { return console.log('Error build table', err); });
         }
     };
@@ -968,6 +984,10 @@ var TableComponent = /** @class */ (function () {
     TableComponent.prototype.ngOnChanges = function (changes) {
         this.ngOnInit();
     };
+    TableComponent.ctorParameters = function () { return [
+        { type: Router },
+        { type: ActivatedRoute }
+    ]; };
     __decorate([
         ViewChild('MatPaginatorCurrent', { static: true }),
         __metadata("design:type", MatPaginator)
@@ -1008,7 +1028,8 @@ var TableComponent = /** @class */ (function () {
             encapsulation: ViewEncapsulation.None,
             styles: [".table-wrapper table{width:100%}.table-wrapper .mat-cell{padding-left:10px}.table-wrapper png-icon{padding-left:17px}.table-wrapper tr:nth-child(1){min-height:48px}.table-wrapper .detail-row{height:auto!important}.table-wrapper tr.element-row:not(.expanded-row):hover{background:#f5f5f5}.table-wrapper tr.element-row:not(.expanded-row):active{background:#efefef}.table-wrapper .element-row .mat-cell{padding-right:5px}.table-wrapper .text-align-right{text-align:right!important}.table-wrapper .text-align-left{text-align:left!important}.table-wrapper .text-align-center{text-align:center!important}.table-wrapper .element-detail{overflow:hidden;display:flex;padding-top:10px;padding-bottom:10px}@media screen and (min-width:1441px){.table-wrapper .mat-cell{padding-top:15px;padding-bottom:10px;font-size:13px!important}}.table-wrapper .u-1{width:4%!important;max-width:4%!important;min-width:4%!important}.table-wrapper .u-2{width:5%!important;max-width:5%!important;min-width:5%!important}.table-wrapper .u-3{width:7%!important;max-width:7%!important;min-width:7%!important}@media screen and (max-width:1440px){.table-wrapper a.mat-button{padding-top:10px}.table-wrapper .mat-cell{padding-top:15px;padding-bottom:10px;font-size:11px!important}.table-wrapper .u-1{width:5%!important;max-width:5%!important;min-width:5%!important}.table-wrapper .u-2{width:6%!important;max-width:6%!important;min-width:6%!important}.table-wrapper .u-3{width:10%!important;max-width:10%!important;min-width:10%!important}}.table-wrapper .u-4{max-width:11%!important;width:11%!important;min-width:11%!important}.table-wrapper .u-5{max-width:10%!important;width:10%!important;min-width:10%!important}.table-wrapper .u-6{max-width:15%!important;width:15%!important;min-width:15%!important}.table-wrapper .u-7{width:20%!important;min-width:20%!important}.table-wrapper .u-8{width:25%!important;min-width:25%!important}.table-wrapper .u-9{width:30%!important;min-width:30%!important}.is-mat-icon-cell{width:auto;height:auto;display:auto}.is-mat-icon-cell .mat-icon{font-size:14px}.is-mat-icon-cell span,app-is-mat-icon span{margin:auto}"]
         }),
-        __metadata("design:paramtypes", [])
+        __metadata("design:paramtypes", [Router,
+            ActivatedRoute])
     ], TableComponent);
     return TableComponent;
 }());

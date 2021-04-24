@@ -3,6 +3,7 @@ import { CellsComponentList } from "./setting/CellsComponentRegistry";
 import { MatSort } from "@angular/material/sort";
 import { MatPaginator } from "@angular/material/paginator";
 import { CoreMatTable, CoreMatTableInterface, FilterDateInterface, Page, PageRequest, Sort } from "./core-data-table";
+import { ActivatedRoute, Router } from "@angular/router";
 interface displayColumnsConfig {
     sizeIcon?: number;
     displayYes?: boolean;
@@ -22,6 +23,8 @@ interface displayedColumnsInterface {
     config?: displayColumnsConfig;
 }
 declare class TableComponent implements OnInit, OnChanges {
+    private router;
+    private route;
     paginatorCurrent: MatPaginator;
     sortCurrent: MatSort;
     columnDefinitions: [displayedColumnsInterface];
@@ -34,7 +37,7 @@ declare class TableComponent implements OnInit, OnChanges {
     displayedColumns: any;
     expandedElement: any;
     index: number;
-    constructor();
+    constructor(router: Router, route: ActivatedRoute);
     ngOnInit(): void;
     buildHeaders(): Promise<void>;
     generateClass(Class: string[]): string[];

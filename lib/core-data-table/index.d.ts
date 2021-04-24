@@ -1,4 +1,4 @@
-import { Observable } from "rxjs";
+import { Observable, Subject } from "rxjs";
 import { MatPaginator } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
 import { DataSource } from "@angular/cdk/collections";
@@ -28,6 +28,7 @@ export interface CoreMatTableInterface {
     sortIt: (sortidea: any) => void;
     filter: (myFilter: any) => void;
     filterDate: (dateFilter: FilterDateInterface) => void;
+    pageNumber: Subject<number>;
 }
 export interface FilterDateInterface {
     active: string;
@@ -42,7 +43,7 @@ export declare class CoreMatTable extends DataSource<Element> {
     sort: MatSort;
     paginator: MatPaginator;
     data: any;
-    private pageNumber;
+    pageNumber: Subject<number>;
     private pageSort;
     private pageFilter;
     private pageFilterDate;
