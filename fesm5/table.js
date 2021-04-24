@@ -870,19 +870,15 @@ var TableComponent = /** @class */ (function () {
             this.expandedElement = false;
             this.data.paginator = this.paginatorCurrent;
             this.data.sort = this.sortCurrent;
-            var page = this.route.snapshot.queryParams["page"];
-            if (page) {
-                this.data.number = Number(page) - 1;
-            }
             this.data.pageNumber.subscribe(function (newpage) {
-                if (newpage > 0) {
+                if (newpage > 0 && newpage !== _this.data.number) {
                     _this.router.navigate([], {
                         relativeTo: _this.route,
                         queryParams: { page: newpage + 1 },
                         queryParamsHandling: 'merge',
                     });
                 }
-                else if (newpage === 0) {
+                else if (newpage === 0 && newpage !== _this.data.number) {
                     _this.router.navigate([], {
                         relativeTo: _this.route,
                         queryParams: { page: null },
@@ -890,6 +886,11 @@ var TableComponent = /** @class */ (function () {
                     });
                 }
             });
+            var page = this.route.snapshot.queryParams["page"];
+            if (page) {
+                this.data.pageNumber.next(Number(page) - 1);
+                this.data.number = Number(page) - 1;
+            }
             this.buildHeaders().catch(function (err) { return console.log('Error build table', err); });
         }
     };
