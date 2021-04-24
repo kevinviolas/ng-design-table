@@ -1082,13 +1082,20 @@
                 this.data.sort = this.sortCurrent;
                 var page = this.route.snapshot.queryParams["page"];
                 if (page) {
-                    this.data.number = Number(page);
+                    this.data.number = Number(page) - 1;
                 }
                 this.data.pageNumber.subscribe(function (newpage) {
                     if (newpage > 0) {
                         _this.router.navigate([], {
                             relativeTo: _this.route,
-                            queryParams: { page: newpage },
+                            queryParams: { page: newpage + 1 },
+                            queryParamsHandling: 'merge',
+                        });
+                    }
+                    else if (newpage === 0) {
+                        _this.router.navigate([], {
+                            relativeTo: _this.route,
+                            queryParams: { page: null },
                             queryParamsHandling: 'merge',
                         });
                     }
