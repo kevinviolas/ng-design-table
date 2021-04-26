@@ -703,6 +703,7 @@ var CoreMatTable = /** @class */ (function (_super) {
         _this.pageFilterDate = new Subject();
         _this.size = size;
         _this.data = __spread(data);
+        _this.backUpData = __spread(data);
         _this.totalElements = data.length;
         _this.page$ = _this.pageFilterDate.pipe(startWith(rangeRules), switchMap(function (range) { return _this.pageFilter.pipe(debounceTime(500)).pipe(startWith(''), switchMap(function (filter) { return _this.pageSort.pipe(startWith(sortRules), switchMap(function (sortAction) { return _this.pageNumber.pipe(startWith(_this.startWith), switchMap(function (page) { return from([{
                 content: _this.slice(_this.sortData(_this.filterData(_this.filterDateRange(_this.data, range), filter), sortAction), page, _this.size, detailRaws)
@@ -828,6 +829,9 @@ var CoreMatTable = /** @class */ (function (_super) {
         this.pageSort.next(sortidea);
     };
     CoreMatTable.prototype.filter = function (myFilter) {
+        if (myFilter.target.value === '' || !myFilter.target.value) {
+            this.data = this.backUpData;
+        }
         this.pageFilter.next(myFilter.target.value);
     };
     CoreMatTable.prototype.filterDate = function (dateFilter) {

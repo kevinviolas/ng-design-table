@@ -677,6 +677,7 @@ class CoreMatTable extends DataSource {
         this.pageFilterDate = new Subject();
         this.size = size;
         this.data = [...data];
+        this.backUpData = [...data];
         this.totalElements = data.length;
         this.page$ = this.pageFilterDate.pipe(startWith(rangeRules), switchMap(range => this.pageFilter.pipe(debounceTime(500)).pipe(startWith(''), switchMap(filter => this.pageSort.pipe(startWith(sortRules), switchMap(sortAction => this.pageNumber.pipe(startWith(this.startWith), switchMap(page => from([{
                 content: this.slice(this.sortData(this.filterData(this.filterDateRange(this.data, range), filter), sortAction), page, this.size, detailRaws)
@@ -768,6 +769,9 @@ class CoreMatTable extends DataSource {
         this.pageSort.next(sortidea);
     }
     filter(myFilter) {
+        if (myFilter.target.value === '' || !myFilter.target.value) {
+            this.data = this.backUpData;
+        }
         this.pageFilter.next(myFilter.target.value);
     }
     filterDate(dateFilter) {
