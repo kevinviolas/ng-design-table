@@ -870,7 +870,7 @@ var CoreMatTable = /** @class */ (function (_super) {
         this.pageSort.next(sortidea);
     };
     CoreMatTable.prototype.filter = function (myFilter) {
-        if (!myFilter.target.value || !myFilter.trim()) {
+        if (!myFilter.target.value || !myFilter.target.value.trim()) {
             this.totalElements = this.data.length;
         }
         console.log('my filter', myFilter.target.value, this.data.length);
