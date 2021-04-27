@@ -906,11 +906,11 @@
             if (detailRaws === void 0) { detailRaws = true; }
             var _this = _super.call(this) || this;
             _this.number = 0;
-            _this.pageNumber = new rxjs.Subject();
+            _this.pageNumber = new rxjs.BehaviorSubject(null);
             _this.startWith = 0;
-            _this.pageSort = new rxjs.Subject();
-            _this.pageFilter = new rxjs.Subject();
-            _this.pageFilterDate = new rxjs.Subject();
+            _this.pageSort = new rxjs.BehaviorSubject(null);
+            _this.pageFilter = new rxjs.BehaviorSubject(null);
+            _this.pageFilterDate = new rxjs.BehaviorSubject(null);
             _this.size = size;
             _this.data = __spread(data);
             _this.backUpData = __spread(data);

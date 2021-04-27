@@ -1,4 +1,4 @@
-import { Observable, Subject } from "rxjs";
+import { BehaviorSubject, Observable, Subject } from "rxjs";
 import { MatPaginator } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
 import { DataSource } from "@angular/cdk/collections";
@@ -44,7 +44,7 @@ export declare class CoreMatTable extends DataSource<Element> {
     sort: MatSort;
     paginator: MatPaginator;
     data: any;
-    pageNumber: Subject<number>;
+    pageNumber: BehaviorSubject<number>;
     startWith: number;
     private pageSort;
     private pageFilter;

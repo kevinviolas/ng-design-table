@@ -3,7 +3,7 @@ import { Inject, ɵɵdefineInjectable, ɵɵinject, Injectable, ChangeDetectorRef
 import { CommonModule } from '@angular/common';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
-import { Subject, from } from 'rxjs';
+import { BehaviorSubject, from } from 'rxjs';
 import { startWith, switchMap, debounceTime, pluck } from 'rxjs/operators';
 import { DataSource } from '@angular/cdk/collections';
 import { trigger, state, style, transition, animate } from '@angular/animations';
@@ -670,11 +670,11 @@ class CoreMatTable extends DataSource {
     constructor(data, sortRules, rangeRules, size = 20, detailRaws = true) {
         super();
         this.number = 0;
-        this.pageNumber = new Subject();
+        this.pageNumber = new BehaviorSubject(null);
         this.startWith = 0;
-        this.pageSort = new Subject();
-        this.pageFilter = new Subject();
-        this.pageFilterDate = new Subject();
+        this.pageSort = new BehaviorSubject(null);
+        this.pageFilter = new BehaviorSubject(null);
+        this.pageFilterDate = new BehaviorSubject(null);
         this.size = size;
         this.data = [...data];
         this.backUpData = [...data];
