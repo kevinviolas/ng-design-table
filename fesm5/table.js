@@ -711,7 +711,7 @@ var CoreMatTable = /** @class */ (function (_super) {
             }]); })); })); })); }));
         return _this;
         /*
-     
+    
         (likes: any[]) => {
            return likes.length === 0 ?
              Observable.of(likes) :
@@ -719,7 +719,7 @@ var CoreMatTable = /** @class */ (function (_super) {
                likes.map(like => this.af.database.object("/citations/" + like.$key))
            )
          }
-     
+    
         this.page$ = this.pageFilterDate.pipe(
            startWith(rangeRules),
            switchMap(range => this.pageFilter.pipe(debounceTime(500)).pipe(
@@ -747,7 +747,7 @@ var CoreMatTable = /** @class */ (function (_super) {
         if (!range || (!range.valueStart && !range.valueEnd)) {
             return data;
         }
-        else {
+        else if (data && data.length) {
             return data.filter(function (e) {
                 if (range.valueStart && range.valueEnd) {
                     return new Date(e[range.active]) >= new Date(range.valueStart)
@@ -760,6 +760,9 @@ var CoreMatTable = /** @class */ (function (_super) {
                     return new Date(e[range.active]) <= new Date(range.valueEnd);
                 }
             });
+        }
+        else {
+            return this.data;
         }
     };
     CoreMatTable.prototype.ponderation = function (str, searchKey) {
@@ -842,10 +845,7 @@ var CoreMatTable = /** @class */ (function (_super) {
     CoreMatTable.prototype.sortData = function (data, sortAction) {
         var _this = this;
         console.log('sort data', data.length);
-        if (data.length === 0) {
-            return data;
-        }
-        else if (sortAction.direction !== '') {
+        if (sortAction.direction !== '') {
             return data.sort(function (a, b) {
                 return _this.compare(a[sortAction.active], b[sortAction.active], sortAction.direction === 'asc');
             });

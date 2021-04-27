@@ -684,7 +684,7 @@ class CoreMatTable extends DataSource {
                 content: this.slice(this.sortData(this.filterData(this.filterDateRange(this.data, range), filter), sortAction), page, this.size, detailRaws)
             }])))))))));
         /*
-     
+    
         (likes: any[]) => {
            return likes.length === 0 ?
              Observable.of(likes) :
@@ -692,7 +692,7 @@ class CoreMatTable extends DataSource {
                likes.map(like => this.af.database.object("/citations/" + like.$key))
            )
          }
-     
+    
         this.page$ = this.pageFilterDate.pipe(
            startWith(rangeRules),
            switchMap(range => this.pageFilter.pipe(debounceTime(500)).pipe(
@@ -720,7 +720,7 @@ class CoreMatTable extends DataSource {
         if (!range || (!range.valueStart && !range.valueEnd)) {
             return data;
         }
-        else {
+        else if (data && data.length) {
             return data.filter((e) => {
                 if (range.valueStart && range.valueEnd) {
                     return new Date(e[range.active]) >= new Date(range.valueStart)
@@ -733,6 +733,9 @@ class CoreMatTable extends DataSource {
                     return new Date(e[range.active]) <= new Date(range.valueEnd);
                 }
             });
+        }
+        else {
+            return this.data;
         }
     }
     ponderation(str, searchKey) {
@@ -782,10 +785,7 @@ class CoreMatTable extends DataSource {
     }
     sortData(data, sortAction) {
         console.log('sort data', data.length);
-        if (data.length === 0) {
-            return data;
-        }
-        else if (sortAction.direction !== '') {
+        if (sortAction.direction !== '') {
             return data.sort((a, b) => {
                 return this.compare(a[sortAction.active], b[sortAction.active], sortAction.direction === 'asc');
             });
