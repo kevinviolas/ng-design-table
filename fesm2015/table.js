@@ -716,7 +716,6 @@ class CoreMatTable extends DataSource {
            )));*/
     }
     filterDateRange(data, range) {
-        console.log('filterDateRange data', data.length);
         if (!range || (!range.valueStart && !range.valueEnd)) {
             return data;
         }
@@ -750,7 +749,6 @@ class CoreMatTable extends DataSource {
         return pond;
     }
     filterData(data, filter) {
-        console.log('filterData', data.length, this.data.length, filter);
         if (data.length === 0 && this.data) {
             data = this.data;
         }
@@ -784,7 +782,6 @@ class CoreMatTable extends DataSource {
         }
     }
     sortData(data, sortAction) {
-        console.log('sort data', data.length);
         if (sortAction.direction !== '') {
             return data.sort((a, b) => {
                 return this.compare(a[sortAction.active], b[sortAction.active], sortAction.direction === 'asc');
@@ -813,7 +810,6 @@ class CoreMatTable extends DataSource {
         if (!myFilter.target.value || !myFilter.target.value.trim()) {
             this.totalElements = this.data.length;
         }
-        console.log('my filter', myFilter.target.value, this.data.length);
         this.pageFilter.next(myFilter.target.value);
     }
     filterDate(dateFilter) {
@@ -825,7 +821,6 @@ class CoreMatTable extends DataSource {
     disconnect() {
     }
     slice(data, start = 0, end = 20, detailRow = true) {
-        console.log('slice data', data.length);
         const rows = [];
         this.totalElements = data.length;
         if (this.totalElements) {
@@ -853,7 +848,6 @@ let TableComponent = class TableComponent {
             this.data.paginator = this.paginatorCurrent;
             this.data.sort = this.sortCurrent;
             this.data.pageNumber.subscribe((newpage) => {
-                console.log('ALLLO PAGE ', newpage);
                 if (newpage > 0) {
                     this.router.navigate([], {
                         relativeTo: this.route,

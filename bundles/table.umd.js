@@ -953,7 +953,6 @@
                )));*/
         }
         CoreMatTable.prototype.filterDateRange = function (data, range) {
-            console.log('filterDateRange data', data.length);
             if (!range || (!range.valueStart && !range.valueEnd)) {
                 return data;
             }
@@ -999,7 +998,6 @@
         };
         CoreMatTable.prototype.filterData = function (data, filter) {
             var e_2, _a, e_3, _b;
-            console.log('filterData', data.length, this.data.length, filter);
             if (data.length === 0 && this.data) {
                 data = this.data;
             }
@@ -1054,7 +1052,6 @@
         };
         CoreMatTable.prototype.sortData = function (data, sortAction) {
             var _this = this;
-            console.log('sort data', data.length);
             if (sortAction.direction !== '') {
                 return data.sort(function (a, b) {
                     return _this.compare(a[sortAction.active], b[sortAction.active], sortAction.direction === 'asc');
@@ -1083,7 +1080,6 @@
             if (!myFilter.target.value || !myFilter.target.value.trim()) {
                 this.totalElements = this.data.length;
             }
-            console.log('my filter', myFilter.target.value, this.data.length);
             this.pageFilter.next(myFilter.target.value);
         };
         CoreMatTable.prototype.filterDate = function (dateFilter) {
@@ -1098,7 +1094,6 @@
             if (start === void 0) { start = 0; }
             if (end === void 0) { end = 20; }
             if (detailRow === void 0) { detailRow = true; }
-            console.log('slice data', data.length);
             var rows = [];
             this.totalElements = data.length;
             if (this.totalElements) {
@@ -1128,7 +1123,6 @@
                 this.data.paginator = this.paginatorCurrent;
                 this.data.sort = this.sortCurrent;
                 this.data.pageNumber.subscribe(function (newpage) {
-                    console.log('ALLLO PAGE ', newpage);
                     if (newpage > 0) {
                         _this.router.navigate([], {
                             relativeTo: _this.route,
