@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { BehaviorSubject, from } from 'rxjs';
-import { startWith, switchMap, debounceTime, pluck } from 'rxjs/operators';
+import { switchMap, debounceTime, pluck } from 'rxjs/operators';
 import { DataSource } from '@angular/cdk/collections';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { Router, ActivatedRoute, RouterModule } from '@angular/router';
@@ -696,17 +696,17 @@ var CoreMatTable = /** @class */ (function (_super) {
         if (detailRaws === void 0) { detailRaws = true; }
         var _this = _super.call(this) || this;
         _this.number = 0;
-        _this.pageNumber = new BehaviorSubject(null);
         _this.startWith = 0;
-        _this.pageSort = new BehaviorSubject(null);
-        _this.pageFilter = new BehaviorSubject(null);
-        _this.pageFilterDate = new BehaviorSubject(null);
         _this.size = size;
         _this.data = __spread(data);
         _this.backUpData = __spread(data);
         _this.totalElements = data.length;
-        _this.page$ = _this.pageSort.pipe(startWith(sortRules), switchMap(function (sortAction) { return _this.pageFilter.pipe(debounceTime(500))
-            .pipe(startWith(''), switchMap(function (filter) { return _this.pageFilterDate.pipe(startWith(rangeRules), switchMap(function (range) { return _this.pageNumber.pipe(startWith(_this.startWith), switchMap(function (page) { return from([{
+        _this.pageSort = new BehaviorSubject(sortRules);
+        _this.pageFilterDate = new BehaviorSubject(null);
+        _this.pageFilter = new BehaviorSubject('');
+        _this.pageNumber = new BehaviorSubject(_this.startWith);
+        _this.page$ = _this.pageSort.pipe(switchMap(function (sortAction) { return _this.pageFilter.pipe(debounceTime(500))
+            .pipe(switchMap(function (filter) { return _this.pageFilterDate.pipe(switchMap(function (range) { return _this.pageNumber.pipe(switchMap(function (page) { return from([{
                 content: _this.slice(_this.sortData(_this.filterData(_this.filterDateRange(_this.data, range), filter), sortAction), page, _this.size, detailRaws)
             }]); })); })); })); }));
         return _this;
