@@ -829,9 +829,6 @@ var CoreMatTable = /** @class */ (function (_super) {
         this.pageSort.next(sortidea);
     };
     CoreMatTable.prototype.filter = function (myFilter) {
-        if (myFilter.target.value === '' || !myFilter.target.value) {
-            this.data = this.backUpData;
-        }
         this.pageFilter.next(myFilter.target.value);
     };
     CoreMatTable.prototype.filterDate = function (dateFilter) {
@@ -848,13 +845,12 @@ var CoreMatTable = /** @class */ (function (_super) {
         if (detailRow === void 0) { detailRow = true; }
         var rows = [];
         this.totalElements = data.length;
-        data = data.slice(start * end, (start * end) + end);
-        if (detailRow) {
-            data.forEach(function (element) { return rows.push(element); });
-            return rows;
+        if (this.totalElements) {
+            data = data.slice(start * end, (start * end) + end);
+            return data;
         }
         else {
-            return data;
+            return rows;
         }
     };
     return CoreMatTable;

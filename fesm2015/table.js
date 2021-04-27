@@ -769,9 +769,6 @@ class CoreMatTable extends DataSource {
         this.pageSort.next(sortidea);
     }
     filter(myFilter) {
-        if (myFilter.target.value === '' || !myFilter.target.value) {
-            this.data = this.backUpData;
-        }
         this.pageFilter.next(myFilter.target.value);
     }
     filterDate(dateFilter) {
@@ -785,13 +782,12 @@ class CoreMatTable extends DataSource {
     slice(data, start = 0, end = 20, detailRow = true) {
         const rows = [];
         this.totalElements = data.length;
-        data = data.slice(start * end, (start * end) + end);
-        if (detailRow) {
-            data.forEach(element => rows.push(element));
-            return rows;
+        if (this.totalElements) {
+            data = data.slice(start * end, (start * end) + end);
+            return data;
         }
         else {
-            return data;
+            return rows;
         }
     }
 }
