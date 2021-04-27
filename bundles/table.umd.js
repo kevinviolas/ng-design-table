@@ -996,7 +996,8 @@
         };
         CoreMatTable.prototype.filterData = function (data, filter) {
             var e_2, _a, e_3, _b;
-            if (!data && this.data) {
+            console.log('filterData', data.length, this.data.length, filter);
+            if (data.length === 0 && this.data) {
                 data = this.data;
             }
             var result = [];
