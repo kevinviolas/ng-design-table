@@ -769,6 +769,7 @@ class CoreMatTable extends DataSource {
         this.pageSort.next(sortidea);
     }
     filter(myFilter) {
+        console.log('my filter', myFilter.target.value, this.data.length);
         this.pageFilter.next(myFilter.target.value);
     }
     filterDate(dateFilter) {

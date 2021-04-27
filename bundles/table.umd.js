@@ -1039,6 +1039,7 @@
             this.pageSort.next(sortidea);
         };
         CoreMatTable.prototype.filter = function (myFilter) {
+            console.log('my filter', myFilter.target.value, this.data.length);
             this.pageFilter.next(myFilter.target.value);
         };
         CoreMatTable.prototype.filterDate = function (dateFilter) {
