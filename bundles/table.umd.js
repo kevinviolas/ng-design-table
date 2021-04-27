@@ -921,6 +921,7 @@
             return _this;
         }
         CoreMatTable.prototype.filterDateRange = function (data, range) {
+            console.log('filterDateRange data', data.length);
             if (!range.valueStart && !range.valueEnd) {
                 return data;
             }
@@ -963,6 +964,7 @@
         };
         CoreMatTable.prototype.filterData = function (data, filter) {
             var e_2, _a, e_3, _b;
+            console.log('filter data', data.length);
             var result = [];
             if (filter && filter.replace(/[^a-zA-Z ]/g, " ")) {
                 try {
@@ -1014,6 +1016,7 @@
         };
         CoreMatTable.prototype.sortData = function (data, sortAction) {
             var _this = this;
+            console.log('sort data', data.length);
             if (sortAction.direction !== '') {
                 return data.sort(function (a, b) {
                     return _this.compare(a[sortAction.active], b[sortAction.active], sortAction.direction === 'asc');
@@ -1054,6 +1057,7 @@
             if (start === void 0) { start = 0; }
             if (end === void 0) { end = 20; }
             if (detailRow === void 0) { detailRow = true; }
+            console.log('slice data', data.length);
             var rows = [];
             this.totalElements = data.length;
             if (this.totalElements) {

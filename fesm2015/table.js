@@ -684,6 +684,7 @@ class CoreMatTable extends DataSource {
             }])), share())))))));
     }
     filterDateRange(data, range) {
+        console.log('filterDateRange data', data.length);
         if (!range.valueStart && !range.valueEnd) {
             return data;
         }
@@ -714,6 +715,7 @@ class CoreMatTable extends DataSource {
         return pond;
     }
     filterData(data, filter) {
+        console.log('filter data', data.length);
         const result = [];
         if (filter && filter.replace(/[^a-zA-Z ]/g, " ")) {
             for (let e of data) {
@@ -744,6 +746,7 @@ class CoreMatTable extends DataSource {
         }
     }
     sortData(data, sortAction) {
+        console.log('sort data', data.length);
         if (sortAction.direction !== '') {
             return data.sort((a, b) => {
                 return this.compare(a[sortAction.active], b[sortAction.active], sortAction.direction === 'asc');
@@ -781,6 +784,7 @@ class CoreMatTable extends DataSource {
     disconnect() {
     }
     slice(data, start = 0, end = 20, detailRow = true) {
+        console.log('slice data', data.length);
         const rows = [];
         this.totalElements = data.length;
         if (this.totalElements) {
