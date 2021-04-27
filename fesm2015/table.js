@@ -683,7 +683,17 @@ class CoreMatTable extends DataSource {
             .pipe(startWith(''), switchMap(filter => this.pageFilterDate.pipe(startWith(rangeRules), switchMap(range => this.pageNumber.pipe(startWith(this.startWith), switchMap(page => from([{
                 content: this.slice(this.sortData(this.filterData(this.filterDateRange(this.data, range), filter), sortAction), page, this.size, detailRaws)
             }])))))))));
-        /* this.page$ = this.pageFilterDate.pipe(
+        /*
+     
+        (likes: any[]) => {
+           return likes.length === 0 ?
+             Observable.of(likes) :
+             Observable.combineLatest(
+               likes.map(like => this.af.database.object("/citations/" + like.$key))
+           )
+         }
+     
+        this.page$ = this.pageFilterDate.pipe(
            startWith(rangeRules),
            switchMap(range => this.pageFilter.pipe(debounceTime(500)).pipe(
              startWith(''),
@@ -737,7 +747,9 @@ class CoreMatTable extends DataSource {
         return pond;
     }
     filterData(data, filter) {
-        console.log('filter data', data.length);
+        if (!data && this.data) {
+            data = this.data;
+        }
         const result = [];
         if (filter && filter.replace(/[^a-zA-Z ]/g, " ")) {
             for (let e of data) {

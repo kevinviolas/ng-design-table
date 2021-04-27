@@ -920,7 +920,17 @@
                     content: _this.slice(_this.sortData(_this.filterData(_this.filterDateRange(_this.data, range), filter), sortAction), page, _this.size, detailRaws)
                 }]); })); })); })); }));
             return _this;
-            /* this.page$ = this.pageFilterDate.pipe(
+            /*
+         
+            (likes: any[]) => {
+               return likes.length === 0 ?
+                 Observable.of(likes) :
+                 Observable.combineLatest(
+                   likes.map(like => this.af.database.object("/citations/" + like.$key))
+               )
+             }
+         
+            this.page$ = this.pageFilterDate.pipe(
                startWith(rangeRules),
                switchMap(range => this.pageFilter.pipe(debounceTime(500)).pipe(
                  startWith(''),
@@ -986,7 +996,9 @@
         };
         CoreMatTable.prototype.filterData = function (data, filter) {
             var e_2, _a, e_3, _b;
-            console.log('filter data', data.length);
+            if (!data && this.data) {
+                data = this.data;
+            }
             var result = [];
             if (filter && filter.replace(/[^a-zA-Z ]/g, " ")) {
                 try {
