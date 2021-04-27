@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { Subject, from } from 'rxjs';
-import { startWith, switchMap, debounceTime, share, pluck } from 'rxjs/operators';
+import { startWith, switchMap, debounceTime, pluck } from 'rxjs/operators';
 import { DataSource } from '@angular/cdk/collections';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { Router, ActivatedRoute, RouterModule } from '@angular/router';
@@ -679,13 +679,35 @@ class CoreMatTable extends DataSource {
         this.data = [...data];
         this.backUpData = [...data];
         this.totalElements = data.length;
-        this.page$ = this.pageFilterDate.pipe(startWith(rangeRules), switchMap(range => this.pageFilter.pipe(debounceTime(500)).pipe(startWith(''), switchMap(filter => this.pageSort.pipe(startWith(sortRules), switchMap(sortAction => this.pageNumber.pipe(startWith(this.startWith), switchMap(page => from([{
+        this.page$ = this.pageSort.pipe(startWith(sortRules), switchMap(sortAction => this.pageFilter.pipe(debounceTime(500))
+            .pipe(startWith(''), switchMap(filter => this.pageFilterDate.pipe(startWith(rangeRules), switchMap(range => this.pageNumber.pipe(startWith(this.startWith), switchMap(page => from([{
                 content: this.slice(this.sortData(this.filterData(this.filterDateRange(this.data, range), filter), sortAction), page, this.size, detailRaws)
-            }])), share())))))));
+            }])))))))));
+        /* this.page$ = this.pageFilterDate.pipe(
+           startWith(rangeRules),
+           switchMap(range => this.pageFilter.pipe(debounceTime(500)).pipe(
+             startWith(''),
+             switchMap(filter => this.pageSort.pipe(
+               startWith(sortRules),
+               switchMap(sortAction => this.pageNumber.pipe(
+                 startWith(this.startWith),
+                 switchMap(page => from([{
+                   content: this.slice(
+                     this.sortData(
+                       this.filterData(
+                         this.filterDateRange(
+                           this.data, range
+                         ), filter
+                       ), sortAction
+                     ), page, this.size, detailRaws)
+                 }])),
+                 share()
+               ))))
+           )));*/
     }
     filterDateRange(data, range) {
         console.log('filterDateRange data', data.length);
-        if (!range.valueStart && !range.valueEnd) {
+        if (!range || (!range.valueStart && !range.valueEnd)) {
             return data;
         }
         else {

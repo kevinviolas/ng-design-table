@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { Subject, from } from 'rxjs';
-import { startWith, switchMap, debounceTime, share, pluck } from 'rxjs/operators';
+import { startWith, switchMap, debounceTime, pluck } from 'rxjs/operators';
 import { DataSource } from '@angular/cdk/collections';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { Router, ActivatedRoute, RouterModule } from '@angular/router';
@@ -705,14 +705,36 @@ var CoreMatTable = /** @class */ (function (_super) {
         _this.data = __spread(data);
         _this.backUpData = __spread(data);
         _this.totalElements = data.length;
-        _this.page$ = _this.pageFilterDate.pipe(startWith(rangeRules), switchMap(function (range) { return _this.pageFilter.pipe(debounceTime(500)).pipe(startWith(''), switchMap(function (filter) { return _this.pageSort.pipe(startWith(sortRules), switchMap(function (sortAction) { return _this.pageNumber.pipe(startWith(_this.startWith), switchMap(function (page) { return from([{
+        _this.page$ = _this.pageSort.pipe(startWith(sortRules), switchMap(function (sortAction) { return _this.pageFilter.pipe(debounceTime(500))
+            .pipe(startWith(''), switchMap(function (filter) { return _this.pageFilterDate.pipe(startWith(rangeRules), switchMap(function (range) { return _this.pageNumber.pipe(startWith(_this.startWith), switchMap(function (page) { return from([{
                 content: _this.slice(_this.sortData(_this.filterData(_this.filterDateRange(_this.data, range), filter), sortAction), page, _this.size, detailRaws)
-            }]); }), share()); })); })); }));
+            }]); })); })); })); }));
         return _this;
+        /* this.page$ = this.pageFilterDate.pipe(
+           startWith(rangeRules),
+           switchMap(range => this.pageFilter.pipe(debounceTime(500)).pipe(
+             startWith(''),
+             switchMap(filter => this.pageSort.pipe(
+               startWith(sortRules),
+               switchMap(sortAction => this.pageNumber.pipe(
+                 startWith(this.startWith),
+                 switchMap(page => from([{
+                   content: this.slice(
+                     this.sortData(
+                       this.filterData(
+                         this.filterDateRange(
+                           this.data, range
+                         ), filter
+                       ), sortAction
+                     ), page, this.size, detailRaws)
+                 }])),
+                 share()
+               ))))
+           )));*/
     }
     CoreMatTable.prototype.filterDateRange = function (data, range) {
         console.log('filterDateRange data', data.length);
-        if (!range.valueStart && !range.valueEnd) {
+        if (!range || (!range.valueStart && !range.valueEnd)) {
             return data;
         }
         else {

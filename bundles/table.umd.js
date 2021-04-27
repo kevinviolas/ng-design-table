@@ -915,14 +915,36 @@
             _this.data = __spread(data);
             _this.backUpData = __spread(data);
             _this.totalElements = data.length;
-            _this.page$ = _this.pageFilterDate.pipe(operators.startWith(rangeRules), operators.switchMap(function (range) { return _this.pageFilter.pipe(operators.debounceTime(500)).pipe(operators.startWith(''), operators.switchMap(function (filter) { return _this.pageSort.pipe(operators.startWith(sortRules), operators.switchMap(function (sortAction) { return _this.pageNumber.pipe(operators.startWith(_this.startWith), operators.switchMap(function (page) { return rxjs.from([{
+            _this.page$ = _this.pageSort.pipe(operators.startWith(sortRules), operators.switchMap(function (sortAction) { return _this.pageFilter.pipe(operators.debounceTime(500))
+                .pipe(operators.startWith(''), operators.switchMap(function (filter) { return _this.pageFilterDate.pipe(operators.startWith(rangeRules), operators.switchMap(function (range) { return _this.pageNumber.pipe(operators.startWith(_this.startWith), operators.switchMap(function (page) { return rxjs.from([{
                     content: _this.slice(_this.sortData(_this.filterData(_this.filterDateRange(_this.data, range), filter), sortAction), page, _this.size, detailRaws)
-                }]); }), operators.share()); })); })); }));
+                }]); })); })); })); }));
             return _this;
+            /* this.page$ = this.pageFilterDate.pipe(
+               startWith(rangeRules),
+               switchMap(range => this.pageFilter.pipe(debounceTime(500)).pipe(
+                 startWith(''),
+                 switchMap(filter => this.pageSort.pipe(
+                   startWith(sortRules),
+                   switchMap(sortAction => this.pageNumber.pipe(
+                     startWith(this.startWith),
+                     switchMap(page => from([{
+                       content: this.slice(
+                         this.sortData(
+                           this.filterData(
+                             this.filterDateRange(
+                               this.data, range
+                             ), filter
+                           ), sortAction
+                         ), page, this.size, detailRaws)
+                     }])),
+                     share()
+                   ))))
+               )));*/
         }
         CoreMatTable.prototype.filterDateRange = function (data, range) {
             console.log('filterDateRange data', data.length);
-            if (!range.valueStart && !range.valueEnd) {
+            if (!range || (!range.valueStart && !range.valueEnd)) {
                 return data;
             }
             else {
