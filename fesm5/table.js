@@ -958,7 +958,7 @@ var TableComponent = /** @class */ (function () {
     };
     TableComponent.prototype.buildHeaders = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var _a, _b, _c, k;
+            var _a, tmp, _b, _c, k;
             var e_1, _d;
             return __generator(this, function (_e) {
                 switch (_e.label) {
@@ -968,11 +968,11 @@ var TableComponent = /** @class */ (function () {
                     case 1:
                         _a.displayedColumns = _e.sent();
                         if (this.displayedColumns) {
-                            this.columnsToDisplay = [];
+                            tmp = [];
                             try {
                                 for (_b = __values(this.displayedColumns), _c = _b.next(); !_c.done; _c = _b.next()) {
                                     k = _c.value;
-                                    this.columnsToDisplay.push(k.key);
+                                    tmp.push(k.key);
                                 }
                             }
                             catch (e_1_1) { e_1 = { error: e_1_1 }; }
@@ -982,6 +982,7 @@ var TableComponent = /** @class */ (function () {
                                 }
                                 finally { if (e_1) throw e_1.error; }
                             }
+                            this.columnsToDisplay = __spread(tmp);
                         }
                         this.detector.detectChanges();
                         console.log('Module Table New Update Column Definition', this.columnsToDisplay);
@@ -1019,7 +1020,7 @@ var TableComponent = /** @class */ (function () {
                     return (a.order < b.order ? -1 : (a.order > b.order ? 1 : 0));
                 };
                 if (this.PrivateColumnDefinitions) {
-                    return [2 /*return*/, this.PrivateColumnDefinitions.sort(compare)];
+                    return [2 /*return*/, __spread(this.PrivateColumnDefinitions.sort(compare))];
                 }
                 return [2 /*return*/];
             });

@@ -895,10 +895,11 @@ let TableComponent = class TableComponent {
         return __awaiter(this, void 0, void 0, function* () {
             this.displayedColumns = yield this.sort();
             if (this.displayedColumns) {
-                this.columnsToDisplay = [];
+                const tmp = [];
                 for (let k of this.displayedColumns) {
-                    this.columnsToDisplay.push(k.key);
+                    tmp.push(k.key);
                 }
+                this.columnsToDisplay = [...tmp];
             }
             this.detector.detectChanges();
             console.log('Module Table New Update Column Definition', this.columnsToDisplay);
@@ -920,7 +921,7 @@ let TableComponent = class TableComponent {
                 return (a.order < b.order ? -1 : (a.order > b.order ? 1 : 0));
             };
             if (this.PrivateColumnDefinitions) {
-                return this.PrivateColumnDefinitions.sort(compare);
+                return [...this.PrivateColumnDefinitions.sort(compare)];
             }
         });
     }
