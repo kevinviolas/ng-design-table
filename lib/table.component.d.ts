@@ -4,6 +4,7 @@ import { MatSort } from "@angular/material/sort";
 import { MatPaginator } from "@angular/material/paginator";
 import { CoreMatTable, CoreMatTableInterface, FilterDateInterface, Page, PageRequest, Sort } from "./core-data-table";
 import { ActivatedRoute, Router } from "@angular/router";
+import { TableService } from "./table.service";
 interface displayColumnsConfig {
     sizeIcon?: number;
     displayYes?: boolean;
@@ -25,6 +26,7 @@ interface displayedColumnsInterface {
 declare class TableComponent implements OnInit, OnChanges {
     private router;
     private route;
+    private service;
     paginatorCurrent: MatPaginator;
     sortCurrent: MatSort;
     columnDefinitions: [displayedColumnsInterface];
@@ -37,7 +39,7 @@ declare class TableComponent implements OnInit, OnChanges {
     displayedColumns: any;
     expandedElement: any;
     index: number;
-    constructor(router: Router, route: ActivatedRoute);
+    constructor(router: Router, route: ActivatedRoute, service: TableService);
     ngOnInit(): void;
     buildHeaders(): Promise<void>;
     generateClass(Class: string[]): string[];

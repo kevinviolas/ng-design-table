@@ -1,5 +1,5 @@
 import { __decorate, __param, __metadata, __values, __extends, __spread, __awaiter, __generator } from 'tslib';
-import { Inject, ɵɵdefineInjectable, ɵɵinject, Injectable, ChangeDetectorRef, Input, Component, ViewChild, ElementRef, NgModule, EventEmitter, Output, ViewEncapsulation, Optional, SkipSelf } from '@angular/core';
+import { EventEmitter, Inject, ɵɵdefineInjectable, ɵɵinject, Injectable, ChangeDetectorRef, Input, Component, ViewChild, ElementRef, NgModule, Output, ViewEncapsulation, Optional, SkipSelf } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
@@ -16,8 +16,13 @@ import { MatBadgeModule } from '@angular/material/badge';
 var TableService = /** @class */ (function () {
     function TableService(settingConfig) {
         this.settingConfig = settingConfig;
+        this.updateHeader = new EventEmitter();
         this.config = settingConfig;
     }
+    TableService.prototype.setHeader = function (displayColumn) {
+        this.displayColumn = displayColumn;
+        this.updateHeader.emit(true);
+    };
     TableService.ctorParameters = function () { return [
         { type: undefined, decorators: [{ type: Inject, args: ['__NgxDesignTable__',] }] }
     ]; };
@@ -898,9 +903,10 @@ var CoreMatTable = /** @class */ (function (_super) {
 }(DataSource));
 
 var TableComponent = /** @class */ (function () {
-    function TableComponent(router, route) {
+    function TableComponent(router, route, service) {
         this.router = router;
         this.route = route;
+        this.service = service;
         this.displayDetail = false;
         this.callFunction = new EventEmitter();
         this.filter = [];
@@ -939,6 +945,12 @@ var TableComponent = /** @class */ (function () {
                 this.data.number = currentPage;
             }
             this.buildHeaders().catch(function (err) { return console.log('Error build table', err); });
+            this.service.updateHeader.subscribe(function (status) {
+                if (status === true) {
+                    _this.columnDefinitions = _this.service.displayColumn;
+                    _this.buildHeaders().catch(function (err) { return console.log('Error build table', err); });
+                }
+            });
         }
     };
     TableComponent.prototype.buildHeaders = function () {
@@ -1041,7 +1053,8 @@ var TableComponent = /** @class */ (function () {
     };
     TableComponent.ctorParameters = function () { return [
         { type: Router },
-        { type: ActivatedRoute }
+        { type: ActivatedRoute },
+        { type: TableService }
     ]; };
     __decorate([
         ViewChild('MatPaginatorCurrent', { static: true }),
@@ -1084,7 +1097,8 @@ var TableComponent = /** @class */ (function () {
             styles: [".table-wrapper table{width:100%}.table-wrapper .mat-cell{padding-left:10px}.table-wrapper png-icon{padding-left:17px}.table-wrapper tr:nth-child(1){min-height:48px}.table-wrapper .detail-row{height:auto!important}.table-wrapper tr.element-row:not(.expanded-row):hover{background:#f5f5f5}.table-wrapper tr.element-row:not(.expanded-row):active{background:#efefef}.table-wrapper .element-row .mat-cell{padding-right:5px}.table-wrapper .text-align-right{text-align:right!important}.table-wrapper .text-align-left{text-align:left!important}.table-wrapper .text-align-center{text-align:center!important}.table-wrapper .element-detail{overflow:hidden;display:flex;padding-top:10px;padding-bottom:10px}@media screen and (min-width:1441px){.table-wrapper .mat-cell{padding-top:15px;padding-bottom:10px;font-size:13px!important}}.table-wrapper .u-1{width:4%!important;max-width:4%!important;min-width:4%!important}.table-wrapper .u-2{width:5%!important;max-width:5%!important;min-width:5%!important}.table-wrapper .u-3{width:7%!important;max-width:7%!important;min-width:7%!important}@media screen and (max-width:1440px){.table-wrapper a.mat-button{padding-top:10px}.table-wrapper .mat-cell{padding-top:15px;padding-bottom:10px;font-size:11px!important}.table-wrapper .u-1{width:5%!important;max-width:5%!important;min-width:5%!important}.table-wrapper .u-2{width:6%!important;max-width:6%!important;min-width:6%!important}.table-wrapper .u-3{width:10%!important;max-width:10%!important;min-width:10%!important}}.table-wrapper .u-4{max-width:11%!important;width:11%!important;min-width:11%!important}.table-wrapper .u-5{max-width:10%!important;width:10%!important;min-width:10%!important}.table-wrapper .u-6{max-width:15%!important;width:15%!important;min-width:15%!important}.table-wrapper .u-7{width:20%!important;min-width:20%!important}.table-wrapper .u-8{width:25%!important;min-width:25%!important}.table-wrapper .u-9{width:30%!important;min-width:30%!important}.is-mat-icon-cell{width:auto;height:auto;display:auto}.is-mat-icon-cell .mat-icon{font-size:14px}.is-mat-icon-cell span,app-is-mat-icon span{margin:auto}"]
         }),
         __metadata("design:paramtypes", [Router,
-            ActivatedRoute])
+            ActivatedRoute,
+            TableService])
     ], TableComponent);
     return TableComponent;
 }());
