@@ -949,6 +949,8 @@ var TableComponent = /** @class */ (function () {
             this.buildHeaders().catch(function (err) { return console.log('Error build table', err); });
             this.service.updateHeader.subscribe(function (status) {
                 if (status === true) {
+                    _this.displayedColumns = null;
+                    _this.columnsToDisplay = null;
                     _this.PrivateColumnDefinitions = _this.service.displayColumn;
                     console.log('Module table -> New column definitions', _this.PrivateColumnDefinitions);
                     _this.buildHeaders().catch(function (err) { return console.log('Error build table', err); });
