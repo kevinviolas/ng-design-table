@@ -1113,10 +1113,11 @@
     }(collections.DataSource));
 
     var TableComponent = /** @class */ (function () {
-        function TableComponent(router, route, service) {
+        function TableComponent(router, route, service, detector) {
             this.router = router;
             this.route = route;
             this.service = service;
+            this.detector = detector;
             this.displayDetail = false;
             this.callFunction = new core.EventEmitter();
             this.filter = [];
@@ -1158,6 +1159,7 @@
                 this.service.updateHeader.subscribe(function (status) {
                     if (status === true) {
                         _this.columnDefinitions = _this.service.displayColumn;
+                        console.log('Module table -> New column definitions', _this.columnDefinitions);
                         _this.buildHeaders().catch(function (err) { return console.log('Error build table', err); });
                     }
                 });
@@ -1190,6 +1192,9 @@
                                     finally { if (e_1) throw e_1.error; }
                                 }
                             }
+                            this.detector.detectChanges();
+                            console.log('Module Table New Update Column Definition', this.columnsToDisplay);
+                            this.detector.markForCheck();
                             return [2 /*return*/];
                     }
                 });
@@ -1264,7 +1269,8 @@
         TableComponent.ctorParameters = function () { return [
             { type: router.Router },
             { type: router.ActivatedRoute },
-            { type: TableService }
+            { type: TableService },
+            { type: core.ChangeDetectorRef }
         ]; };
         __decorate([
             core.ViewChild('MatPaginatorCurrent', { static: true }),
@@ -1308,7 +1314,8 @@
             }),
             __metadata("design:paramtypes", [router.Router,
                 router.ActivatedRoute,
-                TableService])
+                TableService,
+                core.ChangeDetectorRef])
         ], TableComponent);
         return TableComponent;
     }());

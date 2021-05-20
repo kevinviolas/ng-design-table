@@ -1,4 +1,4 @@
-import { EventEmitter, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { ChangeDetectorRef, EventEmitter, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { CellsComponentList } from "./setting/CellsComponentRegistry";
 import { MatSort } from "@angular/material/sort";
 import { MatPaginator } from "@angular/material/paginator";
@@ -27,6 +27,7 @@ declare class TableComponent implements OnInit, OnChanges {
     private router;
     private route;
     private service;
+    private detector;
     paginatorCurrent: MatPaginator;
     sortCurrent: MatSort;
     columnDefinitions: [displayedColumnsInterface];
@@ -39,7 +40,7 @@ declare class TableComponent implements OnInit, OnChanges {
     displayedColumns: any;
     expandedElement: any;
     index: number;
-    constructor(router: Router, route: ActivatedRoute, service: TableService);
+    constructor(router: Router, route: ActivatedRoute, service: TableService, detector: ChangeDetectorRef);
     ngOnInit(): void;
     buildHeaders(): Promise<void>;
     generateClass(Class: string[]): string[];

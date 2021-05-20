@@ -903,10 +903,11 @@ var CoreMatTable = /** @class */ (function (_super) {
 }(DataSource));
 
 var TableComponent = /** @class */ (function () {
-    function TableComponent(router, route, service) {
+    function TableComponent(router, route, service, detector) {
         this.router = router;
         this.route = route;
         this.service = service;
+        this.detector = detector;
         this.displayDetail = false;
         this.callFunction = new EventEmitter();
         this.filter = [];
@@ -948,6 +949,7 @@ var TableComponent = /** @class */ (function () {
             this.service.updateHeader.subscribe(function (status) {
                 if (status === true) {
                     _this.columnDefinitions = _this.service.displayColumn;
+                    console.log('Module table -> New column definitions', _this.columnDefinitions);
                     _this.buildHeaders().catch(function (err) { return console.log('Error build table', err); });
                 }
             });
@@ -980,6 +982,9 @@ var TableComponent = /** @class */ (function () {
                                 finally { if (e_1) throw e_1.error; }
                             }
                         }
+                        this.detector.detectChanges();
+                        console.log('Module Table New Update Column Definition', this.columnsToDisplay);
+                        this.detector.markForCheck();
                         return [2 /*return*/];
                 }
             });
@@ -1054,7 +1059,8 @@ var TableComponent = /** @class */ (function () {
     TableComponent.ctorParameters = function () { return [
         { type: Router },
         { type: ActivatedRoute },
-        { type: TableService }
+        { type: TableService },
+        { type: ChangeDetectorRef }
     ]; };
     __decorate([
         ViewChild('MatPaginatorCurrent', { static: true }),
@@ -1098,7 +1104,8 @@ var TableComponent = /** @class */ (function () {
         }),
         __metadata("design:paramtypes", [Router,
             ActivatedRoute,
-            TableService])
+            TableService,
+            ChangeDetectorRef])
     ], TableComponent);
     return TableComponent;
 }());

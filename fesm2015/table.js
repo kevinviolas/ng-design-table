@@ -839,10 +839,11 @@ class CoreMatTable extends DataSource {
 }
 
 let TableComponent = class TableComponent {
-    constructor(router, route, service) {
+    constructor(router, route, service, detector) {
         this.router = router;
         this.route = route;
         this.service = service;
+        this.detector = detector;
         this.displayDetail = false;
         this.callFunction = new EventEmitter();
         this.filter = [];
@@ -883,6 +884,7 @@ let TableComponent = class TableComponent {
             this.service.updateHeader.subscribe((status) => {
                 if (status === true) {
                     this.columnDefinitions = this.service.displayColumn;
+                    console.log('Module table -> New column definitions', this.columnDefinitions);
                     this.buildHeaders().catch((err) => console.log('Error build table', err));
                 }
             });
@@ -897,6 +899,9 @@ let TableComponent = class TableComponent {
                     this.columnsToDisplay.push(k.key);
                 }
             }
+            this.detector.detectChanges();
+            console.log('Module Table New Update Column Definition', this.columnsToDisplay);
+            this.detector.markForCheck();
         });
     }
     generateClass(Class) {
@@ -953,7 +958,8 @@ let TableComponent = class TableComponent {
 TableComponent.ctorParameters = () => [
     { type: Router },
     { type: ActivatedRoute },
-    { type: TableService }
+    { type: TableService },
+    { type: ChangeDetectorRef }
 ];
 __decorate([
     ViewChild('MatPaginatorCurrent', { static: true }),
@@ -997,7 +1003,8 @@ TableComponent = __decorate([
     }),
     __metadata("design:paramtypes", [Router,
         ActivatedRoute,
-        TableService])
+        TableService,
+        ChangeDetectorRef])
 ], TableComponent);
 
 var TableModule_1;
