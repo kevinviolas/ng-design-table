@@ -40,6 +40,7 @@ declare class TableComponent implements OnInit, OnChanges {
     displayedColumns: any;
     expandedElement: any;
     index: number;
+    private PrivateColumnDefinitions;
     constructor(router: Router, route: ActivatedRoute, service: TableService, detector: ChangeDetectorRef);
     ngOnInit(): void;
     buildHeaders(): Promise<void>;

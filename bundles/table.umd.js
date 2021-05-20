@@ -1155,11 +1155,12 @@
                     this.data.fetch(currentPage);
                     this.data.number = currentPage;
                 }
+                this.PrivateColumnDefinitions = this.columnDefinitions;
                 this.buildHeaders().catch(function (err) { return console.log('Error build table', err); });
                 this.service.updateHeader.subscribe(function (status) {
                     if (status === true) {
-                        _this.columnDefinitions = _this.service.displayColumn;
-                        console.log('Module table -> New column definitions', _this.columnDefinitions);
+                        _this.PrivateColumnDefinitions = _this.service.displayColumn;
+                        console.log('Module table -> New column definitions', _this.PrivateColumnDefinitions);
                         _this.buildHeaders().catch(function (err) { return console.log('Error build table', err); });
                     }
                 });
@@ -1227,8 +1228,8 @@
                     compare = function (a, b) {
                         return (a.order < b.order ? -1 : (a.order > b.order ? 1 : 0));
                     };
-                    if (this.columnDefinitions) {
-                        return [2 /*return*/, this.columnDefinitions.sort(compare)];
+                    if (this.PrivateColumnDefinitions) {
+                        return [2 /*return*/, this.PrivateColumnDefinitions.sort(compare)];
                     }
                     return [2 /*return*/];
                 });

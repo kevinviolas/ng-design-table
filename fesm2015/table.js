@@ -880,11 +880,12 @@ let TableComponent = class TableComponent {
                 this.data.fetch(currentPage);
                 this.data.number = currentPage;
             }
+            this.PrivateColumnDefinitions = this.columnDefinitions;
             this.buildHeaders().catch((err) => console.log('Error build table', err));
             this.service.updateHeader.subscribe((status) => {
                 if (status === true) {
-                    this.columnDefinitions = this.service.displayColumn;
-                    console.log('Module table -> New column definitions', this.columnDefinitions);
+                    this.PrivateColumnDefinitions = this.service.displayColumn;
+                    console.log('Module table -> New column definitions', this.PrivateColumnDefinitions);
                     this.buildHeaders().catch((err) => console.log('Error build table', err));
                 }
             });
@@ -918,8 +919,8 @@ let TableComponent = class TableComponent {
             const compare = (a, b) => {
                 return (a.order < b.order ? -1 : (a.order > b.order ? 1 : 0));
             };
-            if (this.columnDefinitions) {
-                return this.columnDefinitions.sort(compare);
+            if (this.PrivateColumnDefinitions) {
+                return this.PrivateColumnDefinitions.sort(compare);
             }
         });
     }
