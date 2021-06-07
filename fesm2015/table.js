@@ -568,7 +568,9 @@ let PriorityComponent = class PriorityComponent {
             "label": "1 - Basse",
             "data": "assets/icons/nowteam/basse.png"
         }];*/
+        console.log(this.icon);
         const data = list.filter((e) => {
+            console.log(e);
             return this.icon.includes(e.label);
         });
         if (data && data.length) {

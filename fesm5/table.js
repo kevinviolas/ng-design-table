@@ -589,7 +589,9 @@ var PriorityComponent = /** @class */ (function () {
             "label": "1 - Basse",
             "data": "assets/icons/nowteam/basse.png"
         }];*/
+        console.log(this.icon);
         var data = list.filter(function (e) {
+            console.log(e);
             return _this.icon.includes(e.label);
         });
         if (data && data.length) {
