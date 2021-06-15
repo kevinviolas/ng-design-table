@@ -21,5 +21,6 @@ export interface DesignTableInterface {
     origin?: OriginPriorityInterfacee[];
     priority?: OriginPriorityInterfacee[];
     yesNo?: YesNoInterface;
+    languague?: string;
 }
 export {};
