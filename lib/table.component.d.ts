@@ -5,6 +5,7 @@ import { MatPaginator } from "@angular/material/paginator";
 import { CoreMatTable, CoreMatTableInterface, FilterDateInterface, Page, PageRequest, Sort } from "./core-data-table";
 import { ActivatedRoute, Router } from "@angular/router";
 import { TableService } from "./table.service";
+import { TranslateService } from './translate.service';
 interface displayColumnsConfig {
     sizeIcon?: number;
     displayYes?: boolean;
@@ -28,12 +29,14 @@ declare class TableComponent implements OnInit, OnChanges {
     private route;
     private service;
     private detector;
+    private translate;
     paginatorCurrent: MatPaginator;
     sortCurrent: MatSort;
     columnDefinitions: [displayedColumnsInterface];
     displayDetail: boolean;
     displayComponent: string;
     data: CoreMatTableInterface;
+    lang: string;
     callFunction: EventEmitter<any>;
     columnsToDisplay: string[];
     filter: Array<string>;
@@ -41,7 +44,11 @@ declare class TableComponent implements OnInit, OnChanges {
     expandedElement: any;
     index: number;
     private PrivateColumnDefinitions;
-    constructor(router: Router, route: ActivatedRoute, service: TableService, detector: ChangeDetectorRef);
+    open: string;
+    search: string;
+    cancelSearch: string;
+    noResult: string;
+    constructor(router: Router, route: ActivatedRoute, service: TableService, detector: ChangeDetectorRef, translate: TranslateService);
     ngOnInit(): void;
     buildHeaders(): Promise<void>;
     generateClass(Class: string[]): string[];
