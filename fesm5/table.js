@@ -962,6 +962,7 @@ var TableComponent = /** @class */ (function () {
         this.search = this.translate.translate(this.lang, 'SEARCH');
         this.cancelSearch = this.translate.translate(this.lang, 'CANCEL_SEARCH');
         this.noResult = this.translate.translate(this.lang, 'NO_RESULT');
+        console.log(this.lang);
         if (this.data) {
             this.expandedElement = false;
             this.data.paginator = this.paginatorCurrent;
