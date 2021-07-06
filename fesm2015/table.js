@@ -105,9 +105,9 @@ let DateFormatComponent = class DateFormatComponent {
     run(date) {
         if (date) {
             let t = date.split(' ');
-            return `<span class="time-badge">
+            return `<span class="">
                     <span class="hour">${t[0]}</span>
-                    <span class="minute">${t[1]}</span>
+                    <!--<span class="minute">${t[1]}</span>-->
                 </span>`;
         }
         else {

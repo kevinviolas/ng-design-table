@@ -328,7 +328,7 @@
         DateFormatComponent.prototype.run = function (date) {
             if (date) {
                 var t = date.split(' ');
-                return "<span class=\"time-badge\">\n                    <span class=\"hour\">" + t[0] + "</span>\n                    <span class=\"minute\">" + t[1] + "</span>\n                </span>";
+                return "<span class=\"\">\n                    <span class=\"hour\">" + t[0] + "</span>\n                    <!--<span class=\"minute\">" + t[1] + "</span>-->\n                </span>";
             }
             else {
                 return "<span class=\"time-badge\">\n                    <span class=\"hour\">-</span>\n                    <span class=\"minute\"></span>\n                </span>";
