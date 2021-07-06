@@ -832,7 +832,7 @@
         PriorityComponent = __decorate([
             core.Component({
                 selector: 'icon-priority',
-                template: "<!--<png-icon matTooltip=\"{{this.iconLabel}}\" [src]=\"this.iconSrc\"></png-icon>-->\n<!--<png-icon [src]=\"this.iconSrc\"></png-icon>-->\n<span class=\"now-{{this.iconSrc}}\">\n    {{this.iconSrc}}\n</span>",
+                template: "<!--<png-icon matTooltip=\"{{this.iconLabel}}\" [src]=\"this.iconSrc\"></png-icon>-->\n<!--<png-icon [src]=\"this.iconSrc\"></png-icon>-->\n<span class=\"now-{{this.icon}}\">\n    {{this.icon}}\n</span>",
                 styles: [""]
             }),
             __metadata("design:paramtypes", [TableService])
