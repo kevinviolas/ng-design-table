@@ -5,6 +5,7 @@ export declare class PriorityComponent implements OnInit, OnChanges {
     icon: string;
     iconLabel: string;
     iconSrc: string;
+    label: string;
     constructor(service: TableService);
     ngOnInit(): void;
     ngOnChanges(changes: SimpleChanges): void;
