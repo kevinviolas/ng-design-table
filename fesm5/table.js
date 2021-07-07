@@ -594,6 +594,9 @@ var PriorityComponent = /** @class */ (function () {
         if (!this.iconLabel) {
             this.iconLabel = '';
         }
+        else {
+            this.iconLabel = this.iconLabel.split('-')[1];
+        }
         switch (this.icon) {
             case 'Bleu':
                 this.iconSrc = 'now-low';
