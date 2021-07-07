@@ -568,6 +568,8 @@ let PriorityComponent = class PriorityComponent {
             "label": "1 - Basse",
             "data": "assets/icons/nowteam/basse.png"
         }];*/
+        console.log(this.icon);
+        console.log(this.iconLabel);
         this.iconSrc = "assets/icons/nowteam/" + this.icon + ".png";
         if (!this.iconLabel) {
             this.iconLabel = '';
