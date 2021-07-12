@@ -337,7 +337,7 @@ IsMatIconComponent = __decorate([
 let NameAvatarComponent = class NameAvatarComponent {
     constructor(service) {
         this.service = service;
-        this.fontSize = '24px';
+        this.fontSize = '44px';
         this._padding = '4px';
         this._display = 'flex';
         this._borderRadius = '50px';
