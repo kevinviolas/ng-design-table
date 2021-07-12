@@ -582,7 +582,8 @@
                 this.icon.nativeElement.style.fontSize = (parseInt(this.fontSize, 0) / 2) + 'px';
                 this.icon.nativeElement.style.padding = (parseInt(this.icon.nativeElement.style.fontSize, 0) / 3) + 'px';
                 this.icon.nativeElement.style.fontWeight = '900';
-                this.icon.nativeElement.style.color = 'white';
+                this.icon.nativeElement.style.font = "normal normal 900 14px/20px 'nexa'";
+                this.icon.nativeElement.style.color = '#171F26';
                 var tmp = this.src.split(' ');
                 this.letter = (tmp[0][0] + (tmp[1] && tmp[1][0] ? tmp[1][0] : tmp[0][1])).toUpperCase();
             }
