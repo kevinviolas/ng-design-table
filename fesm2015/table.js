@@ -349,8 +349,9 @@ let NameAvatarComponent = class NameAvatarComponent {
     ngOnInit() {
         if (this.src) {
             let deg = Math.random() * (10 - 360) + 10;
-            this.icon.nativeElement.style.backgroundImage = this.service.settingConfig.nameAvatarBackgroundColor; /*`linear-gradient(${deg}deg, #9d107d,
+            /*this.icon.nativeElement.style.backgroundImage = this.service.settingConfig.nameAvatarBackgroundColor; /*`linear-gradient(${deg}deg, #9d107d,
                                                              #8b3391, #7647a0, #5f56a8, #4862ab)`;*/
+            this.icon.nativeElement.style.backgroundColor = 'background: #C2C8D5 0% 0% no-repeat padding-box';
             this.icon.nativeElement.style.borderRadius = this._borderRadius;
             this.icon.nativeElement.style.marginLeft = '16px';
             this.icon.nativeElement.style.display = this._display;
