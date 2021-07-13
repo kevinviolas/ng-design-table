@@ -350,6 +350,7 @@ var NameAvatarComponent = /** @class */ (function () {
     function NameAvatarComponent(service) {
         this.service = service;
         this.fontSize = '44px';
+        this.textSize = '14px';
         this._padding = '4px';
         this._display = 'flex';
         this._borderRadius = '50px';
@@ -372,7 +373,7 @@ var NameAvatarComponent = /** @class */ (function () {
             this.icon.nativeElement.style.fontSize = (parseInt(this.fontSize, 0) / 2) + 'px';
             this.icon.nativeElement.style.padding = (parseInt(this.icon.nativeElement.style.fontSize, 0) / 3) + 'px';
             this.icon.nativeElement.style.fontWeight = '900';
-            this.icon.nativeElement.style.font = "normal normal 900 14px/20px 'nexa'";
+            this.icon.nativeElement.style.font = "normal normal 900 " + this.textSize + "/20px 'nexa'";
             this.icon.nativeElement.style.color = '#171F26';
             var tmp = this.src.split(' ');
             this.letter = (tmp[0][0] + (tmp[1] && tmp[1][0] ? tmp[1][0] : tmp[0][1])).toUpperCase();
@@ -399,6 +400,10 @@ var NameAvatarComponent = /** @class */ (function () {
         Input(),
         __metadata("design:type", Object)
     ], NameAvatarComponent.prototype, "fontSize", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Object)
+    ], NameAvatarComponent.prototype, "textSize", void 0);
     __decorate([
         ViewChild('avatar', { static: true }),
         __metadata("design:type", ElementRef)
