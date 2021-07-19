@@ -497,7 +497,7 @@ PhoneDisplayComponent = __decorate([
 let PngIconComponent = class PngIconComponent {
     constructor() {
         this.fontSize = '24px';
-        this._padding = '5px';
+        this._padding = '5px 13px';
         this._display = 'inline-flex';
         this._size = 'cover';
     }

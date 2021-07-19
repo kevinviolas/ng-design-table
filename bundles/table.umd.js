@@ -723,7 +723,7 @@
     var PngIconComponent = /** @class */ (function () {
         function PngIconComponent() {
             this.fontSize = '24px';
-            this._padding = '5px';
+            this._padding = '5px 13px';
             this._display = 'inline-flex';
             this._size = 'cover';
         }
