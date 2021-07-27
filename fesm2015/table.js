@@ -702,6 +702,7 @@ YesNoComponent = __decorate([
 var CellsComponentList;
 (function (CellsComponentList) {
     CellsComponentList["ButtonLink"] = "button-link";
+    CellsComponentList["ButtonLinkText"] = "button-link-text";
     CellsComponentList["ButtonClick"] = "button-click";
     CellsComponentList["Priority"] = "priority";
     CellsComponentList["Origin"] = "origin";
