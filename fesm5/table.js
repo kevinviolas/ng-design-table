@@ -1085,7 +1085,6 @@ var TableComponent = /** @class */ (function () {
                             }
                             this.columnsToDisplay = __spread(tmp);
                         }
-                        console.log('Module Table New Update Column Definition', this.columnsToDisplay);
                         return [2 /*return*/];
                 }
             });
@@ -1155,6 +1154,12 @@ var TableComponent = /** @class */ (function () {
     TableComponent.prototype.expandShow = function (template) {
     };
     TableComponent.prototype.ngOnChanges = function (changes) {
+        console.log(this.inputSearch);
+        console.log(this.data.filter(this.inputSearch));
+        if ((this.inputSearch.length > 1 || this.inputSearch.length === 0)
+            && this.inputSearch.length < 200) {
+            this.data.filter(this.inputSearch);
+        }
         this.ngOnInit();
     };
     TableComponent.ctorParameters = function () { return [
