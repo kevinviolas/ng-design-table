@@ -859,10 +859,14 @@ class CoreMatTable extends DataSource {
         this.pageSort.next(sortidea);
     }
     filter(myFilter) {
-        if (!myFilter.target.value || !myFilter.target.value.trim()) {
+        if (!myFilter || !myFilter.trim()) {
             this.totalElements = this.data.length;
         }
-        this.pageFilter.next(myFilter.target.value);
+        this.pageFilter.next(myFilter);
+        /*if (!myFilter.target.value || !myFilter.target.value.trim()) {
+          this.totalElements = this.data.length;
+        }
+        this.pageFilter.next(myFilter.target.value);*/
     }
     filterDate(dateFilter) {
         this.pageFilterDate.next(dateFilter);

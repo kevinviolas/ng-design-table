@@ -1128,10 +1128,14 @@
             this.pageSort.next(sortidea);
         };
         CoreMatTable.prototype.filter = function (myFilter) {
-            if (!myFilter.target.value || !myFilter.target.value.trim()) {
+            if (!myFilter || !myFilter.trim()) {
                 this.totalElements = this.data.length;
             }
-            this.pageFilter.next(myFilter.target.value);
+            this.pageFilter.next(myFilter);
+            /*if (!myFilter.target.value || !myFilter.target.value.trim()) {
+              this.totalElements = this.data.length;
+            }
+            this.pageFilter.next(myFilter.target.value);*/
         };
         CoreMatTable.prototype.filterDate = function (dateFilter) {
             this.pageFilterDate.next(dateFilter);
