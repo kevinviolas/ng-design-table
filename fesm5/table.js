@@ -999,7 +999,12 @@ var TableComponent = /** @class */ (function () {
         this.details = '';
     }
     TableComponent.prototype.onChange = function (event) {
-        console.log(event);
+        console.log(this.inputSearch);
+        console.log(this.data.filter(this.inputSearch));
+        if ((this.inputSearch.length > 1 || this.inputSearch.length === 0)
+            && this.inputSearch.length < 200) {
+            this.data.filter(this.inputSearch);
+        }
     };
     TableComponent.prototype.ngOnInit = function () {
         var _this = this;
