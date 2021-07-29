@@ -1128,11 +1128,11 @@
             this.pageSort.next(sortidea);
         };
         CoreMatTable.prototype.filter = function (myFilter) {
-            console.log(myFilter);
+            console.log(!myFilter || !myFilter.trim());
             if (!myFilter || !myFilter.trim()) {
                 this.totalElements = this.data.length;
             }
-            this.pageFilter.next(myFilter);
+            this.pageFilter.next(myFilter.toString());
             /*if (!myFilter.target.value || !myFilter.target.value.trim()) {
               this.totalElements = this.data.length;
             }
