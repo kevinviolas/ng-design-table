@@ -930,6 +930,7 @@ let TableComponent = class TableComponent {
         this.displayDetail = false;
         this.btnOverride = false;
         this.callFunction = new EventEmitter();
+        this.inputSearch = '';
         this.filter = [];
         this.index = 0;
         this.open = '';
@@ -1101,7 +1102,7 @@ __decorate([
 ], TableComponent.prototype, "callFunction", void 0);
 __decorate([
     Input(),
-    __metadata("design:type", String)
+    __metadata("design:type", Object)
 ], TableComponent.prototype, "inputSearch", void 0);
 TableComponent = __decorate([
     Component({
