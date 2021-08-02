@@ -730,6 +730,7 @@ class CoreMatTable extends DataSource {
         this.backUpData = [...data];
         this.totalElements = data.length;
         this.emptyRow = emptyRow;
+        console.log(this.emptyRow);
         this.pageSort = new BehaviorSubject(sortRules);
         this.pageFilterDate = new BehaviorSubject(null);
         this.pageFilter = new BehaviorSubject('');
@@ -959,6 +960,7 @@ let TableComponent = class TableComponent {
     }
     ngOnInit() {
         this.service.emptyRow = this.EmptyRow;
+        console.log(this.service.emptyRow);
         this.open = this.translate.translate(this.lang, 'OPEN');
         this.search = this.translate.translate(this.lang, 'SEARCH');
         this.cancelSearch = this.translate.translate(this.lang, 'CANCEL_SEARCH');

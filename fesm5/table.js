@@ -756,6 +756,7 @@ var CoreMatTable = /** @class */ (function (_super) {
         _this.backUpData = __spread(data);
         _this.totalElements = data.length;
         _this.emptyRow = emptyRow;
+        console.log(_this.emptyRow);
         _this.pageSort = new BehaviorSubject(sortRules);
         _this.pageFilterDate = new BehaviorSubject(null);
         _this.pageFilter = new BehaviorSubject('');
@@ -1025,6 +1026,7 @@ var TableComponent = /** @class */ (function () {
     TableComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.service.emptyRow = this.EmptyRow;
+        console.log(this.service.emptyRow);
         this.open = this.translate.translate(this.lang, 'OPEN');
         this.search = this.translate.translate(this.lang, 'SEARCH');
         this.cancelSearch = this.translate.translate(this.lang, 'CANCEL_SEARCH');

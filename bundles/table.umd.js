@@ -966,6 +966,7 @@
             _this.backUpData = __spread(data);
             _this.totalElements = data.length;
             _this.emptyRow = emptyRow;
+            console.log(_this.emptyRow);
             _this.pageSort = new rxjs.BehaviorSubject(sortRules);
             _this.pageFilterDate = new rxjs.BehaviorSubject(null);
             _this.pageFilter = new rxjs.BehaviorSubject('');
@@ -1235,6 +1236,7 @@
         TableComponent.prototype.ngOnInit = function () {
             var _this = this;
             this.service.emptyRow = this.EmptyRow;
+            console.log(this.service.emptyRow);
             this.open = this.translate.translate(this.lang, 'OPEN');
             this.search = this.translate.translate(this.lang, 'SEARCH');
             this.cancelSearch = this.translate.translate(this.lang, 'CANCEL_SEARCH');
