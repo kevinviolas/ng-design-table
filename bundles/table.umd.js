@@ -1216,6 +1216,7 @@
         }
         TableComponent.prototype.ngOnInit = function () {
             var _this = this;
+            console.log(this.EmptyRow);
             this.open = this.translate.translate(this.lang, 'OPEN');
             this.search = this.translate.translate(this.lang, 'SEARCH');
             this.cancelSearch = this.translate.translate(this.lang, 'CANCEL_SEARCH');
