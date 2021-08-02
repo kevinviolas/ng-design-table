@@ -38,8 +38,10 @@ declare class TableComponent implements OnInit, OnChanges {
     data: CoreMatTableInterface;
     lang: string;
     btnOverride: boolean;
+    x: any;
     callFunction: EventEmitter<any>;
     inputSearch: string;
+    EmptyRow: boolean;
     columnsToDisplay: string[];
     filter: Array<string>;
     displayedColumns: any;
