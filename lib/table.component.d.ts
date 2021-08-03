@@ -41,6 +41,7 @@ declare class TableComponent implements OnInit, OnChanges {
     callFunction: EventEmitter<any>;
     inputSearch: string;
     EmptyRow: boolean;
+    blockDetails: boolean;
     columnsToDisplay: string[];
     filter: Array<string>;
     displayedColumns: any;
