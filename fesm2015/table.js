@@ -854,7 +854,8 @@ class CoreMatTable extends DataSource {
                 const dataRaw = JSON.stringify(e).toLowerCase()
                     .replace(/[^a-zA-Z0-9 ]/g, " ");
                 console.log(e);
-                filter.keys().forEach(f => {
+                Object.keys(filter).forEach(key => {
+                    console.log(e[key], filter[key]);
                 });
             }
             return result.filter((e => e.pond)).sort((a, b) => a > b ? 1 : (a < b ? -1 : 0));

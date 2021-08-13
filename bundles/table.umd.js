@@ -1120,15 +1120,19 @@
             }
             var result = [];
             if (filter && filter !== {}) {
+                var _loop_1 = function (e) {
+                    e.pond = 0;
+                    var dataRaw = JSON.stringify(e).toLowerCase()
+                        .replace(/[^a-zA-Z0-9 ]/g, " ");
+                    console.log(e);
+                    Object.keys(filter).forEach(function (key) {
+                        console.log(e[key], filter[key]);
+                    });
+                };
                 try {
                     for (var data_2 = __values(data), data_2_1 = data_2.next(); !data_2_1.done; data_2_1 = data_2.next()) {
                         var e = data_2_1.value;
-                        e.pond = 0;
-                        var dataRaw = JSON.stringify(e).toLowerCase()
-                            .replace(/[^a-zA-Z0-9 ]/g, " ");
-                        console.log(e);
-                        filter.keys().forEach(function (f) {
-                        });
+                        _loop_1(e);
                     }
                 }
                 catch (e_4_1) { e_4 = { error: e_4_1 }; }
