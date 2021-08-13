@@ -728,6 +728,7 @@ class CoreMatTable extends DataSource {
         this.filterTable = {};
         this.size = size;
         this.data = [...data];
+        this.dataAfterSearch = [];
         this.backUpData = [...data];
         this.totalElements = data.length;
         this.emptyRow = emptyRow;
@@ -739,9 +740,10 @@ class CoreMatTable extends DataSource {
         this.page$ = this.pageSort.pipe(switchMap(sortAction => this.pageFilter.pipe(debounceTime(500))
             .pipe(switchMap(filter => this.pageFilterDate.pipe(switchMap(range => this.pageNumber.pipe(switchMap(page => from([{
                 content: this.slice(this.sortData(this.filterData(this.filterDateRange(this.data, range), filter), sortAction), page, this.size, detailRaws)
-            }])), share()))))))).pipe(switchMap(sortAction => this.pageFilter.pipe(debounceTime(500))
+            }])), share())))))));
+        this.page$ = this.page$.pipe(switchMap(sortAction => this.pageFilter.pipe(debounceTime(500))
             .pipe(switchMap(filter => this.pageFilterDate.pipe(switchMap(range => this.pageNumber.pipe(switchMap(page => from([{
-                content: this.slice(this.sortData(this.filterDataObject(this.filterDateRange(this.data, range), this.filterTable), sortAction), page, this.size, detailRaws)
+                content: this.slice(this.sortData(this.filterDataObject(this.filterDateRange(this.dataAfterSearch, range), this.filterTable), sortAction), page, this.size, detailRaws)
             }])), share())))))));
         /*
     
@@ -835,9 +837,11 @@ class CoreMatTable extends DataSource {
                     result.push(e);
                 }
             }
+            this.dataAfterSearch = result.filter((e => e.pond)).sort((a, b) => a > b ? 1 : (a < b ? -1 : 0));
             return result.filter((e => e.pond)).sort((a, b) => a > b ? 1 : (a < b ? -1 : 0));
         }
         else {
+            this.dataAfterSearch = data;
             return data;
         }
     }

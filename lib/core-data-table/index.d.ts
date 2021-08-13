@@ -52,6 +52,7 @@ export declare class CoreMatTable extends DataSource<Element> {
     private backUpData;
     private emptyRow;
     private filterTable;
+    private dataAfterSearch;
     constructor(data: any, sortRules: Sort, rangeRules: FilterDateInterface, size?: number, detailRaws?: boolean, emptyRow?: boolean, filter?: any);
     filterDateRange(data: any, range: FilterDateInterface): any;
     ponderation(str: string, searchKey: string): number;

@@ -965,6 +965,7 @@
             _this.filterTable = {};
             _this.size = size;
             _this.data = __spread(data);
+            _this.dataAfterSearch = [];
             _this.backUpData = __spread(data);
             _this.totalElements = data.length;
             _this.emptyRow = emptyRow;
@@ -976,9 +977,10 @@
             _this.page$ = _this.pageSort.pipe(operators.switchMap(function (sortAction) { return _this.pageFilter.pipe(operators.debounceTime(500))
                 .pipe(operators.switchMap(function (filter) { return _this.pageFilterDate.pipe(operators.switchMap(function (range) { return _this.pageNumber.pipe(operators.switchMap(function (page) { return rxjs.from([{
                     content: _this.slice(_this.sortData(_this.filterData(_this.filterDateRange(_this.data, range), filter), sortAction), page, _this.size, detailRaws)
-                }]); }), operators.share()); })); })); })).pipe(operators.switchMap(function (sortAction) { return _this.pageFilter.pipe(operators.debounceTime(500))
+                }]); }), operators.share()); })); })); }));
+            _this.page$ = _this.page$.pipe(operators.switchMap(function (sortAction) { return _this.pageFilter.pipe(operators.debounceTime(500))
                 .pipe(operators.switchMap(function (filter) { return _this.pageFilterDate.pipe(operators.switchMap(function (range) { return _this.pageNumber.pipe(operators.switchMap(function (page) { return rxjs.from([{
-                    content: _this.slice(_this.sortData(_this.filterDataObject(_this.filterDateRange(_this.data, range), _this.filterTable), sortAction), page, _this.size, detailRaws)
+                    content: _this.slice(_this.sortData(_this.filterDataObject(_this.filterDateRange(_this.dataAfterSearch, range), _this.filterTable), sortAction), page, _this.size, detailRaws)
                 }]); }), operators.share()); })); })); }));
             return _this;
             /*
@@ -1105,9 +1107,11 @@
                     }
                     finally { if (e_2) throw e_2.error; }
                 }
+                this.dataAfterSearch = result.filter((function (e) { return e.pond; })).sort(function (a, b) { return a > b ? 1 : (a < b ? -1 : 0); });
                 return result.filter((function (e) { return e.pond; })).sort(function (a, b) { return a > b ? 1 : (a < b ? -1 : 0); });
             }
             else {
+                this.dataAfterSearch = data;
                 return data;
             }
         };

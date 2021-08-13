@@ -755,6 +755,7 @@ var CoreMatTable = /** @class */ (function (_super) {
         _this.filterTable = {};
         _this.size = size;
         _this.data = __spread(data);
+        _this.dataAfterSearch = [];
         _this.backUpData = __spread(data);
         _this.totalElements = data.length;
         _this.emptyRow = emptyRow;
@@ -766,9 +767,10 @@ var CoreMatTable = /** @class */ (function (_super) {
         _this.page$ = _this.pageSort.pipe(switchMap(function (sortAction) { return _this.pageFilter.pipe(debounceTime(500))
             .pipe(switchMap(function (filter) { return _this.pageFilterDate.pipe(switchMap(function (range) { return _this.pageNumber.pipe(switchMap(function (page) { return from([{
                 content: _this.slice(_this.sortData(_this.filterData(_this.filterDateRange(_this.data, range), filter), sortAction), page, _this.size, detailRaws)
-            }]); }), share()); })); })); })).pipe(switchMap(function (sortAction) { return _this.pageFilter.pipe(debounceTime(500))
+            }]); }), share()); })); })); }));
+        _this.page$ = _this.page$.pipe(switchMap(function (sortAction) { return _this.pageFilter.pipe(debounceTime(500))
             .pipe(switchMap(function (filter) { return _this.pageFilterDate.pipe(switchMap(function (range) { return _this.pageNumber.pipe(switchMap(function (page) { return from([{
-                content: _this.slice(_this.sortData(_this.filterDataObject(_this.filterDateRange(_this.data, range), _this.filterTable), sortAction), page, _this.size, detailRaws)
+                content: _this.slice(_this.sortData(_this.filterDataObject(_this.filterDateRange(_this.dataAfterSearch, range), _this.filterTable), sortAction), page, _this.size, detailRaws)
             }]); }), share()); })); })); }));
         return _this;
         /*
@@ -895,9 +897,11 @@ var CoreMatTable = /** @class */ (function (_super) {
                 }
                 finally { if (e_2) throw e_2.error; }
             }
+            this.dataAfterSearch = result.filter((function (e) { return e.pond; })).sort(function (a, b) { return a > b ? 1 : (a < b ? -1 : 0); });
             return result.filter((function (e) { return e.pond; })).sort(function (a, b) { return a > b ? 1 : (a < b ? -1 : 0); });
         }
         else {
+            this.dataAfterSearch = data;
             return data;
         }
     };
