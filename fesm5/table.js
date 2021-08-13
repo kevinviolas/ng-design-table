@@ -770,7 +770,7 @@ var CoreMatTable = /** @class */ (function (_super) {
             }]); }), share()); })); })); }));
         _this.page$ = _this.pageSort.pipe(switchMap(function (sortAction) { return _this.pageFilter.pipe(debounceTime(500))
             .pipe(switchMap(function (filter) { return _this.pageFilterDate.pipe(switchMap(function (range) { return _this.pageNumber.pipe(switchMap(function (page) { return from([{
-                content: _this.slice(_this.sortData(_this.filterDataObject(_this.filterDateRange(_this.data, range), filter), sortAction), page, _this.size, detailRaws)
+                content: _this.slice(_this.sortData(_this.filterDataObject(_this.filterDateRange(_this.data, range), _this.filterTable), sortAction), page, _this.size, detailRaws)
             }]); }), share()); })); })); }));
         return _this;
         /*
