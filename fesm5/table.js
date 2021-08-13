@@ -916,8 +916,8 @@ var CoreMatTable = /** @class */ (function (_super) {
                     e.pond = 0;
                     var dataRaw = JSON.stringify(e).toLowerCase()
                         .replace(/[^a-zA-Z0-9 ]/g, " ");
-                    console.log(dataRaw);
-                    filter.forEach(function (f) {
+                    console.log(e);
+                    filter.keys().forEach(function (f) {
                     });
                 }
             }
