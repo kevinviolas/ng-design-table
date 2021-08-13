@@ -851,12 +851,19 @@ class CoreMatTable extends DataSource {
         if (filter && filter !== {}) {
             for (let e of data) {
                 e.pond = 0;
-                const dataRaw = JSON.stringify(e).toLowerCase()
-                    .replace(/[^a-zA-Z0-9 ]/g, " ");
                 console.log(e);
                 Object.keys(filter).forEach(key => {
                     console.log(e[key], filter[key]);
+                    if (e[key] == filter[key]) {
+                        e.pond += 1;
+                    }
+                    else {
+                        e.pond = 0;
+                    }
                 });
+                if (e.pond) {
+                    result.push(e);
+                }
             }
             return result.filter((e => e.pond)).sort((a, b) => a > b ? 1 : (a < b ? -1 : 0));
         }

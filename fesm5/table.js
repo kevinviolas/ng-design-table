@@ -912,12 +912,19 @@ var CoreMatTable = /** @class */ (function (_super) {
         if (filter && filter !== {}) {
             var _loop_1 = function (e) {
                 e.pond = 0;
-                var dataRaw = JSON.stringify(e).toLowerCase()
-                    .replace(/[^a-zA-Z0-9 ]/g, " ");
                 console.log(e);
                 Object.keys(filter).forEach(function (key) {
                     console.log(e[key], filter[key]);
+                    if (e[key] == filter[key]) {
+                        e.pond += 1;
+                    }
+                    else {
+                        e.pond = 0;
+                    }
                 });
+                if (e.pond) {
+                    result.push(e);
+                }
             };
             try {
                 for (var data_2 = __values(data), data_2_1 = data_2.next(); !data_2_1.done; data_2_1 = data_2.next()) {
