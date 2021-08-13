@@ -1125,7 +1125,7 @@
                     console.log(e);
                     Object.keys(filter).forEach(function (key) {
                         console.log(e[key], filter[key]);
-                        if (filter[key].inclides(e[key])) {
+                        if (filter[key].includes(e[key])) {
                             e.pond += 1;
                         }
                         else {
