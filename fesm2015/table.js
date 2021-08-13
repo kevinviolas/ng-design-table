@@ -854,7 +854,7 @@ class CoreMatTable extends DataSource {
                 console.log(e);
                 Object.keys(filter).forEach(key => {
                     console.log(e[key], filter[key]);
-                    if (e[key] == filter[key]) {
+                    if (filter[key].inclides(e[key])) {
                         e.pond += 1;
                     }
                     else {
