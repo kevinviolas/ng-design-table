@@ -1084,7 +1084,9 @@ let TableComponent = class TableComponent {
     ngOnChanges(changes) {
         if ((this.inputSearch.length > 1 || this.inputSearch.length === 0)
             && this.inputSearch.length < 200) {
-            this.data.filter(this.inputSearch);
+            if (this.data) {
+                this.data.filter(this.inputSearch);
+            }
         }
         this.ngOnInit();
     }
