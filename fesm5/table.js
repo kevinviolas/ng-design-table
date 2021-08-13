@@ -909,7 +909,7 @@ var CoreMatTable = /** @class */ (function (_super) {
             data = this.data;
         }
         var result = [];
-        if (filter && filter != {}) {
+        if (filter && Object.keys(filter).length > 0) {
             var _loop_1 = function (e) {
                 e.pond = 0;
                 console.log(e);

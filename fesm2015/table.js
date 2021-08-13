@@ -848,7 +848,7 @@ class CoreMatTable extends DataSource {
             data = this.data;
         }
         const result = [];
-        if (filter && filter != {}) {
+        if (filter && Object.keys(filter).length > 0) {
             for (let e of data) {
                 e.pond = 0;
                 console.log(e);
