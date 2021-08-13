@@ -953,10 +953,11 @@
 
     var CoreMatTable = /** @class */ (function (_super) {
         __extends(CoreMatTable, _super);
-        function CoreMatTable(data, sortRules, rangeRules, size, detailRaws, emptyRow) {
+        function CoreMatTable(data, sortRules, rangeRules, size, detailRaws, emptyRow, filter) {
             if (size === void 0) { size = 20; }
             if (detailRaws === void 0) { detailRaws = true; }
             if (emptyRow === void 0) { emptyRow = false; }
+            if (filter === void 0) { filter = {}; }
             var _this = _super.call(this) || this;
             _this.number = 0;
             _this.startWith = 0;
@@ -966,11 +967,11 @@
             _this.backUpData = __spread(data);
             _this.totalElements = data.length;
             _this.emptyRow = emptyRow;
-            console.log(_this.emptyRow);
             _this.pageSort = new rxjs.BehaviorSubject(sortRules);
             _this.pageFilterDate = new rxjs.BehaviorSubject(null);
             _this.pageFilter = new rxjs.BehaviorSubject('');
             _this.pageNumber = new rxjs.BehaviorSubject(_this.startWith);
+            console.log(filter);
             _this.page$ = _this.pageSort.pipe(operators.switchMap(function (sortAction) { return _this.pageFilter.pipe(operators.debounceTime(500))
                 .pipe(operators.switchMap(function (filter) { return _this.pageFilterDate.pipe(operators.switchMap(function (range) { return _this.pageNumber.pipe(operators.switchMap(function (page) { return rxjs.from([{
                     content: _this.slice(_this.sortData(_this.filterData(_this.filterDateRange(_this.data, range), filter), sortAction), page, _this.size, detailRaws)

@@ -720,7 +720,7 @@ var CellsComponentList;
 })(CellsComponentList || (CellsComponentList = {}));
 
 class CoreMatTable extends DataSource {
-    constructor(data, sortRules, rangeRules, size = 20, detailRaws = true, emptyRow = false) {
+    constructor(data, sortRules, rangeRules, size = 20, detailRaws = true, emptyRow = false, filter = {}) {
         super();
         this.number = 0;
         this.startWith = 0;
@@ -730,11 +730,11 @@ class CoreMatTable extends DataSource {
         this.backUpData = [...data];
         this.totalElements = data.length;
         this.emptyRow = emptyRow;
-        console.log(this.emptyRow);
         this.pageSort = new BehaviorSubject(sortRules);
         this.pageFilterDate = new BehaviorSubject(null);
         this.pageFilter = new BehaviorSubject('');
         this.pageNumber = new BehaviorSubject(this.startWith);
+        console.log(filter);
         this.page$ = this.pageSort.pipe(switchMap(sortAction => this.pageFilter.pipe(debounceTime(500))
             .pipe(switchMap(filter => this.pageFilterDate.pipe(switchMap(range => this.pageNumber.pipe(switchMap(page => from([{
                 content: this.slice(this.sortData(this.filterData(this.filterDateRange(this.data, range), filter), sortAction), page, this.size, detailRaws)
