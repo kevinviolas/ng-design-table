@@ -973,12 +973,11 @@
             _this.pageFilterDate = new rxjs.BehaviorSubject(null);
             _this.pageFilter = new rxjs.BehaviorSubject('');
             _this.pageNumber = new rxjs.BehaviorSubject(_this.startWith);
-            console.log(filter);
             _this.page$ = _this.pageSort.pipe(operators.switchMap(function (sortAction) { return _this.pageFilter.pipe(operators.debounceTime(500))
                 .pipe(operators.switchMap(function (filter) { return _this.pageFilterDate.pipe(operators.switchMap(function (range) { return _this.pageNumber.pipe(operators.switchMap(function (page) { return rxjs.from([{
                     content: _this.slice(_this.sortData(_this.filterData(_this.filterDateRange(_this.data, range), filter), sortAction), page, _this.size, detailRaws)
                 }]); }), operators.share()); })); })); }));
-            _this.page$ = _this.pageSort.pipe(operators.switchMap(function (sortAction) { return _this.pageFilter.pipe(operators.debounceTime(500))
+            _this.page$ = _this.page$.pipe(operators.switchMap(function (sortAction) { return _this.pageFilter.pipe(operators.debounceTime(500))
                 .pipe(operators.switchMap(function (filter) { return _this.pageFilterDate.pipe(operators.switchMap(function (range) { return _this.pageNumber.pipe(operators.switchMap(function (page) { return rxjs.from([{
                     content: _this.slice(_this.sortData(_this.filterDataObject(_this.filterDateRange(_this.data, range), _this.filterTable), sortAction), page, _this.size, detailRaws)
                 }]); }), operators.share()); })); })); }));
@@ -1122,9 +1121,7 @@
             if (filter && Object.keys(filter).length > 0) {
                 var _loop_1 = function (e) {
                     e.pond = 0;
-                    console.log(e);
                     Object.keys(filter).forEach(function (key) {
-                        console.log(e[key], filter[key]);
                         if (filter[key].includes(e[key])) {
                             e.pond += 1;
                         }
