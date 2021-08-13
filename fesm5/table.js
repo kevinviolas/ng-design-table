@@ -924,7 +924,7 @@ var CoreMatTable = /** @class */ (function (_super) {
         this.pageSort.next(sortidea);
     };
     CoreMatTable.prototype.filter = function (myFilter) {
-        if (!myFilter || !myFilter.trim()) {
+        if (!myFilter && this.data || !myFilter.trim() && this.data) {
             this.totalElements = this.data.length;
         }
         this.pageFilter.next(myFilter.toString());
