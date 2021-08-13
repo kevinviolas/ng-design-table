@@ -56,7 +56,7 @@ export declare class CoreMatTable extends DataSource<Element> {
     filterDateRange(data: any, range: FilterDateInterface): any;
     ponderation(str: string, searchKey: string): number;
     filterData(data: any, filter: any): any;
-    filterDataObject(data: any, filter: any): void;
+    filterDataObject(data: any, filter: any): any;
     sortData(data: any, sortAction: any): any;
     compare(a: number | string | any[], b: number | string | any[], isAsc: boolean): number;
     fetch(page: number): void;

@@ -743,7 +743,7 @@ class CoreMatTable extends DataSource {
             }])), share())))))));
         this.page$ = this.pageSort.pipe(switchMap(sortAction => this.pageFilter.pipe(debounceTime(500))
             .pipe(switchMap(filter => this.pageFilterDate.pipe(switchMap(range => this.pageNumber.pipe(switchMap(page => from([{
-                content: this.slice(this.sortData(this.filterData(this.filterDateRange(this.data, range), filter), sortAction), page, this.size, detailRaws)
+                content: this.slice(this.sortData(this.filterDataObject(this.filterDateRange(this.data, range), filter), sortAction), page, this.size, detailRaws)
             }])), share())))))));
         /*
     
@@ -820,7 +820,6 @@ class CoreMatTable extends DataSource {
                 e.pond = 0;
                 const dataRaw = JSON.stringify(e).toLowerCase()
                     .replace(/[^a-zA-Z0-9 ]/g, " ");
-                console.log(dataRaw);
                 const stack = filter.toLowerCase().replace(/[^a-zA-Z0-9 ]/g, " ")
                     .split(' ');
                 let combination = 0;
@@ -858,6 +857,10 @@ class CoreMatTable extends DataSource {
                 filter.forEach(f => {
                 });
             }
+            return result.filter((e => e.pond)).sort((a, b) => a > b ? 1 : (a < b ? -1 : 0));
+        }
+        else {
+            return data;
         }
     }
     sortData(data, sortAction) {
