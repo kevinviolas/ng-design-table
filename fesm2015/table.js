@@ -725,11 +725,13 @@ class CoreMatTable extends DataSource {
         this.number = 0;
         this.startWith = 0;
         this.emptyRow = false;
+        this.filterTable = {};
         this.size = size;
         this.data = [...data];
         this.backUpData = [...data];
         this.totalElements = data.length;
         this.emptyRow = emptyRow;
+        this.filterTable = filter;
         this.pageSort = new BehaviorSubject(sortRules);
         this.pageFilterDate = new BehaviorSubject(null);
         this.pageFilter = new BehaviorSubject('');
@@ -738,6 +740,10 @@ class CoreMatTable extends DataSource {
         this.page$ = this.pageSort.pipe(switchMap(sortAction => this.pageFilter.pipe(debounceTime(500))
             .pipe(switchMap(filter => this.pageFilterDate.pipe(switchMap(range => this.pageNumber.pipe(switchMap(page => from([{
                 content: this.slice(this.sortData(this.filterData(this.filterDateRange(this.data, range), filter), sortAction), page, this.size, detailRaws)
+            }])), share())))))));
+        this.page$ = this.pageSort.pipe(switchMap(sortAction => this.pageFilter.pipe(debounceTime(500))
+            .pipe(switchMap(filter => this.pageFilterDate.pipe(switchMap(range => this.pageNumber.pipe(switchMap(page => from([{
+                content: this.slice(this.sortData(this.filterDataObject(this.filterDateRange(this.data, range), filter), sortAction), page, this.size, detailRaws)
             }])), share())))))));
         /*
     
@@ -835,6 +841,22 @@ class CoreMatTable extends DataSource {
         }
         else {
             return data;
+        }
+    }
+    filterDataObject(data, filter) {
+        if (data.length === 0 && this.data) {
+            data = this.data;
+        }
+        const result = [];
+        if (filter && filter !== {}) {
+            for (let e of data) {
+                e.pond = 0;
+                const dataRaw = JSON.stringify(e).toLowerCase()
+                    .replace(/[^a-zA-Z0-9 ]/g, " ");
+                console.log(dataRaw);
+                filter.forEach(f => {
+                });
+            }
         }
     }
     sortData(data, sortAction) {

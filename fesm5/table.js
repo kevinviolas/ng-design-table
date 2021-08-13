@@ -752,11 +752,13 @@ var CoreMatTable = /** @class */ (function (_super) {
         _this.number = 0;
         _this.startWith = 0;
         _this.emptyRow = false;
+        _this.filterTable = {};
         _this.size = size;
         _this.data = __spread(data);
         _this.backUpData = __spread(data);
         _this.totalElements = data.length;
         _this.emptyRow = emptyRow;
+        _this.filterTable = filter;
         _this.pageSort = new BehaviorSubject(sortRules);
         _this.pageFilterDate = new BehaviorSubject(null);
         _this.pageFilter = new BehaviorSubject('');
@@ -765,6 +767,10 @@ var CoreMatTable = /** @class */ (function (_super) {
         _this.page$ = _this.pageSort.pipe(switchMap(function (sortAction) { return _this.pageFilter.pipe(debounceTime(500))
             .pipe(switchMap(function (filter) { return _this.pageFilterDate.pipe(switchMap(function (range) { return _this.pageNumber.pipe(switchMap(function (page) { return from([{
                 content: _this.slice(_this.sortData(_this.filterData(_this.filterDateRange(_this.data, range), filter), sortAction), page, _this.size, detailRaws)
+            }]); }), share()); })); })); }));
+        _this.page$ = _this.pageSort.pipe(switchMap(function (sortAction) { return _this.pageFilter.pipe(debounceTime(500))
+            .pipe(switchMap(function (filter) { return _this.pageFilterDate.pipe(switchMap(function (range) { return _this.pageNumber.pipe(switchMap(function (page) { return from([{
+                content: _this.slice(_this.sortData(_this.filterDataObject(_this.filterDateRange(_this.data, range), filter), sortAction), page, _this.size, detailRaws)
             }]); }), share()); })); })); }));
         return _this;
         /*
@@ -895,6 +901,33 @@ var CoreMatTable = /** @class */ (function (_super) {
         }
         else {
             return data;
+        }
+    };
+    CoreMatTable.prototype.filterDataObject = function (data, filter) {
+        var e_4, _a;
+        if (data.length === 0 && this.data) {
+            data = this.data;
+        }
+        var result = [];
+        if (filter && filter !== {}) {
+            try {
+                for (var data_2 = __values(data), data_2_1 = data_2.next(); !data_2_1.done; data_2_1 = data_2.next()) {
+                    var e = data_2_1.value;
+                    e.pond = 0;
+                    var dataRaw = JSON.stringify(e).toLowerCase()
+                        .replace(/[^a-zA-Z0-9 ]/g, " ");
+                    console.log(dataRaw);
+                    filter.forEach(function (f) {
+                    });
+                }
+            }
+            catch (e_4_1) { e_4 = { error: e_4_1 }; }
+            finally {
+                try {
+                    if (data_2_1 && !data_2_1.done && (_a = data_2.return)) _a.call(data_2);
+                }
+                finally { if (e_4) throw e_4.error; }
+            }
         }
     };
     CoreMatTable.prototype.sortData = function (data, sortAction) {
