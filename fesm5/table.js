@@ -995,6 +995,7 @@ var CoreMatTable = /** @class */ (function (_super) {
         if (detailRow === void 0) { detailRow = true; }
         var rows = [];
         this.totalElements = data.length;
+        console.log(this.totalElements);
         if (this.totalElements) {
             data = data.slice(start * end, (start * end) + end);
             if (this.emptyRow) {
