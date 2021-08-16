@@ -947,7 +947,6 @@ var CoreMatTable = /** @class */ (function (_super) {
     };
     CoreMatTable.prototype.sortData = function (data, sortAction) {
         var _this = this;
-        console.log(sortAction);
         if (sortAction.direction !== '') {
             return data.sort(function (a, b) {
                 return _this.compare(a[sortAction.active], b[sortAction.active], sortAction.direction === 'asc');
@@ -997,10 +996,7 @@ var CoreMatTable = /** @class */ (function (_super) {
         var rows = [];
         this.totalElements = data.length;
         if (this.totalElements) {
-            console.log(start * end, (start * end) + end);
-            console.log(data);
             data = data.slice(start * end, (start * end) + end);
-            console.log(data);
             if (this.emptyRow) {
                 data.forEach(function (d) {
                     rows.push('empty');

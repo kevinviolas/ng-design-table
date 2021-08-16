@@ -872,7 +872,6 @@ class CoreMatTable extends DataSource {
         }
     }
     sortData(data, sortAction) {
-        console.log(sortAction);
         if (sortAction.direction !== '') {
             return data.sort((a, b) => {
                 return this.compare(a[sortAction.active], b[sortAction.active], sortAction.direction === 'asc');
@@ -919,10 +918,7 @@ class CoreMatTable extends DataSource {
         const rows = [];
         this.totalElements = data.length;
         if (this.totalElements) {
-            console.log(start * end, (start * end) + end);
-            console.log(data);
             data = data.slice(start * end, (start * end) + end);
-            console.log(data);
             if (this.emptyRow) {
                 data.forEach((d) => {
                     rows.push('empty');
