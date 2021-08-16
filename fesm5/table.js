@@ -1007,6 +1007,7 @@ var CoreMatTable = /** @class */ (function (_super) {
             return data;
         }
         else {
+            data = data.slice(start * end, (start * end) + end);
             if (this.emptyRow) {
                 data.forEach(function (d) {
                     rows.push('empty');

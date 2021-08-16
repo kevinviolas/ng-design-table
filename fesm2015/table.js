@@ -929,6 +929,7 @@ class CoreMatTable extends DataSource {
             return data;
         }
         else {
+            data = data.slice(start * end, (start * end) + end);
             if (this.emptyRow) {
                 data.forEach((d) => {
                     rows.push('empty');
