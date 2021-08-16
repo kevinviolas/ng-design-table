@@ -1167,6 +1167,7 @@
             }
         };
         CoreMatTable.prototype.compare = function (a, b, isAsc) {
+            console.log(isAsc);
             if (!a) {
                 a = null;
             }

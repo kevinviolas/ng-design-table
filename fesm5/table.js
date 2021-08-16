@@ -957,6 +957,7 @@ var CoreMatTable = /** @class */ (function (_super) {
         }
     };
     CoreMatTable.prototype.compare = function (a, b, isAsc) {
+        console.log(isAsc);
         if (!a) {
             a = null;
         }
