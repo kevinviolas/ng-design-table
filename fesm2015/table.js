@@ -917,9 +917,9 @@ class CoreMatTable extends DataSource {
     slice(data, start = 0, end = 20, detailRow = true) {
         const rows = [];
         this.totalElements = data.length;
-        console.log(this.totalElements);
         if (this.totalElements) {
             data = data.slice(start * end, (start * end) + end);
+            console.log(data);
             if (this.emptyRow) {
                 data.forEach((d) => {
                     rows.push('empty');
