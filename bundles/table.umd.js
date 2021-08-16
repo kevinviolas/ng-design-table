@@ -1157,6 +1157,7 @@
         };
         CoreMatTable.prototype.sortData = function (data, sortAction) {
             var _this = this;
+            console.log(data);
             if (sortAction.direction !== '') {
                 return data.sort(function (a, b) {
                     return _this.compare(a[sortAction.active], b[sortAction.active], sortAction.direction === 'asc');
@@ -1167,7 +1168,7 @@
             }
         };
         CoreMatTable.prototype.compare = function (a, b, isAsc) {
-            console.log(isAsc, a, b);
+            console.log(isAsc);
             if (!a) {
                 a = null;
             }
