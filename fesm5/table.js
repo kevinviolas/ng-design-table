@@ -947,7 +947,7 @@ var CoreMatTable = /** @class */ (function (_super) {
     };
     CoreMatTable.prototype.sortData = function (data, sortAction) {
         var _this = this;
-        console.log(sortAction.direction);
+        console.log(sortAction);
         if (sortAction.direction !== '') {
             return data.sort(function (a, b) {
                 return _this.compare(a[sortAction.active], b[sortAction.active], sortAction.direction === 'asc');
