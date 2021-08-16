@@ -974,7 +974,6 @@
             _this.pageFilterDate = new rxjs.BehaviorSubject(null);
             _this.pageFilter = new rxjs.BehaviorSubject('');
             _this.pageNumber = new rxjs.BehaviorSubject(_this.startWith);
-            console.log(sortRules);
             _this.page$ = _this.pageSort.pipe(operators.switchMap(function (sortAction) { return _this.pageFilter.pipe(operators.debounceTime(500))
                 .pipe(operators.switchMap(function (filter) { return _this.pageFilterDate.pipe(operators.switchMap(function (range) { return _this.pageNumber.pipe(operators.switchMap(function (page) { return rxjs.from([{
                     content: _this.slice(_this.sortData(_this.filterData(_this.filterDateRange(_this.data, range), filter), sortAction), page, _this.size, detailRaws)
@@ -1158,6 +1157,7 @@
         };
         CoreMatTable.prototype.sortData = function (data, sortAction) {
             var _this = this;
+            console.log(sortAction.direction);
             if (sortAction.direction !== '') {
                 return data.sort(function (a, b) {
                     return _this.compare(a[sortAction.active], b[sortAction.active], sortAction.direction === 'asc');

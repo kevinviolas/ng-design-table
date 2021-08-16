@@ -737,7 +737,6 @@ class CoreMatTable extends DataSource {
         this.pageFilterDate = new BehaviorSubject(null);
         this.pageFilter = new BehaviorSubject('');
         this.pageNumber = new BehaviorSubject(this.startWith);
-        console.log(sortRules);
         this.page$ = this.pageSort.pipe(switchMap(sortAction => this.pageFilter.pipe(debounceTime(500))
             .pipe(switchMap(filter => this.pageFilterDate.pipe(switchMap(range => this.pageNumber.pipe(switchMap(page => from([{
                 content: this.slice(this.sortData(this.filterData(this.filterDateRange(this.data, range), filter), sortAction), page, this.size, detailRaws)
@@ -873,6 +872,7 @@ class CoreMatTable extends DataSource {
         }
     }
     sortData(data, sortAction) {
+        console.log(sortAction.direction);
         if (sortAction.direction !== '') {
             return data.sort((a, b) => {
                 return this.compare(a[sortAction.active], b[sortAction.active], sortAction.direction === 'asc');
