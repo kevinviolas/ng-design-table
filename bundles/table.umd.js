@@ -978,9 +978,9 @@
                 .pipe(operators.switchMap(function (filter) { return _this.pageFilterDate.pipe(operators.switchMap(function (range) { return _this.pageNumber.pipe(operators.switchMap(function (page) { return rxjs.from([{
                     content: _this.slice(_this.sortData(_this.filterData(_this.filterDateRange(_this.data, range), filter), sortAction), page, _this.size, detailRaws)
                 }]); }), operators.share()); })); })); }));
-            _this.page$ = _this.page$.pipe(operators.switchMap(function (sortAction) { return _this.pageFilter.pipe(operators.debounceTime(500))
+            _this.page$ = _this.page$.pipe(operators.switchMap(function (sortAction2) { return _this.pageFilter.pipe(operators.debounceTime(500))
                 .pipe(operators.switchMap(function (filter) { return _this.pageFilterDate.pipe(operators.switchMap(function (range) { return _this.pageNumber.pipe(operators.switchMap(function (page) { return rxjs.from([{
-                    content: _this.slice(_this.sortData(_this.filterDataObject(_this.filterDateRange(_this.dataAfterSearch, range), _this.filterTable), sortAction), page, _this.size, detailRaws)
+                    content: _this.slice(_this.sortData(_this.filterDataObject(_this.filterDateRange(_this.dataAfterSearch, range), _this.filterTable), sortAction2), page, _this.size, detailRaws)
                 }]); }), operators.share()); })); })); }));
             return _this;
             /*
