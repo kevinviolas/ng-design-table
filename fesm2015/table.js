@@ -888,7 +888,7 @@ class CoreMatTable extends DataSource {
         if (!b) {
             b = null;
         }
-        return (((Array.isArray(a) ? a.length : a) > ((Array.isArray(b) ? b.length : b)) ? 1 : 0) * (isAsc ? 1 : 0));
+        return (((Array.isArray(a) ? a.length : a) > ((Array.isArray(b) ? b.length : b)) ? -1 : 1) * (isAsc ? 1 : 0));
     }
     fetch(page) {
         this.pageNumber.next(page);
