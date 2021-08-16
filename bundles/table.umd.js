@@ -979,8 +979,8 @@
                     content: _this.slice(_this.sortData(_this.filterData(_this.filterDateRange(_this.data, range), filter), sortAction), page, _this.size, detailRaws)
                 }]); }), operators.share()); })); })); }));
             _this.page$ = _this.page$.pipe(operators.switchMap(function (sortAction2) { return _this.pageFilter.pipe(operators.debounceTime(500))
-                .pipe(operators.switchMap(function (filter) { return _this.pageFilterDate.pipe(operators.switchMap(function (range) { return _this.pageNumber.pipe(operators.switchMap(function (page) { return rxjs.from([{
-                    content: _this.slice(_this.sortData(_this.filterDataObject(_this.filterDateRange(_this.dataAfterSearch, range), _this.filterTable), sortAction2), page, _this.size, detailRaws)
+                .pipe(operators.switchMap(function (filter) { return _this.pageFilterDate.pipe(operators.switchMap(function (range2) { return _this.pageNumber.pipe(operators.switchMap(function (page2) { return rxjs.from([{
+                    content: _this.slice(_this.sortData(_this.filterDataObject(_this.filterDateRange(_this.dataAfterSearch, range2), _this.filterTable), sortAction2), page2, _this.size, detailRaws)
                 }]); }), operators.share()); })); })); }));
             return _this;
             /*
@@ -1158,7 +1158,6 @@
         CoreMatTable.prototype.sortData = function (data, sortAction) {
             var _this = this;
             console.log(sortAction);
-            console.log(data);
             if (sortAction.direction !== '') {
                 return data.sort(function (a, b) {
                     return _this.compare(a[sortAction.active], b[sortAction.active], sortAction.direction === 'asc');

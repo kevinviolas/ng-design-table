@@ -742,8 +742,8 @@ class CoreMatTable extends DataSource {
                 content: this.slice(this.sortData(this.filterData(this.filterDateRange(this.data, range), filter), sortAction), page, this.size, detailRaws)
             }])), share())))))));
         this.page$ = this.page$.pipe(switchMap(sortAction2 => this.pageFilter.pipe(debounceTime(500))
-            .pipe(switchMap(filter => this.pageFilterDate.pipe(switchMap(range => this.pageNumber.pipe(switchMap(page => from([{
-                content: this.slice(this.sortData(this.filterDataObject(this.filterDateRange(this.dataAfterSearch, range), this.filterTable), sortAction2), page, this.size, detailRaws)
+            .pipe(switchMap(filter => this.pageFilterDate.pipe(switchMap(range2 => this.pageNumber.pipe(switchMap(page2 => from([{
+                content: this.slice(this.sortData(this.filterDataObject(this.filterDateRange(this.dataAfterSearch, range2), this.filterTable), sortAction2), page2, this.size, detailRaws)
             }])), share())))))));
         /*
     
@@ -873,7 +873,6 @@ class CoreMatTable extends DataSource {
     }
     sortData(data, sortAction) {
         console.log(sortAction);
-        console.log(data);
         if (sortAction.direction !== '') {
             return data.sort((a, b) => {
                 return this.compare(a[sortAction.active], b[sortAction.active], sortAction.direction === 'asc');
