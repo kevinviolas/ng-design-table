@@ -885,7 +885,7 @@ class CoreMatTable extends DataSource {
         }
     }
     compare(a, b, isAsc) {
-        console.log(isAsc);
+        console.log(isAsc, a, b);
         if (!a) {
             a = null;
         }
