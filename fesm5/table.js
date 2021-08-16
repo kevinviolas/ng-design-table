@@ -768,10 +768,12 @@ var CoreMatTable = /** @class */ (function (_super) {
             .pipe(switchMap(function (filter) { return _this.pageFilterDate.pipe(switchMap(function (range) { return _this.pageNumber.pipe(switchMap(function (page) { return from([{
                 content: _this.slice(_this.sortData(_this.filterData(_this.filterDateRange(_this.data, range), filter), sortAction), page, _this.size, detailRaws)
             }]); }), share()); })); })); }));
-        _this.page$ = _this.page$.pipe(switchMap(function (sortAction2) { return _this.pageFilter.pipe(debounceTime(500))
-            .pipe(switchMap(function (filter) { return _this.pageFilterDate.pipe(switchMap(function (range2) { return _this.pageNumber.pipe(switchMap(function (page2) { return from([{
-                content: _this.slice(_this.sortData(_this.filterDataObject(_this.filterDateRange(_this.dataAfterSearch, range2), _this.filterTable), sortAction2), page2, _this.size, detailRaws)
-            }]); }), share()); })); })); }));
+        if (Object.keys(_this.filterTable).length > 0) {
+            _this.page$ = _this.pageSort.pipe(switchMap(function (sortAction2) { return _this.pageFilter.pipe(debounceTime(500))
+                .pipe(switchMap(function (filter) { return _this.pageFilterDate.pipe(switchMap(function (range2) { return _this.pageNumber.pipe(switchMap(function (page2) { return from([{
+                    content: _this.slice(_this.sortData(_this.filterDataObject(_this.filterDateRange(_this.dataAfterSearch, range2), _this.filterTable), sortAction2), page2, _this.size, detailRaws)
+                }]); }), share()); })); })); }));
+        }
         return _this;
         /*
     
