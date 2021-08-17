@@ -967,7 +967,7 @@ var CoreMatTable = /** @class */ (function (_super) {
         if (!b) {
             b = null;
         }
-        return (((Array.isArray(a) ? a.length : a) > ((Array.isArray(b) ? b.length : b)) ? -1 : ((Array.isArray(b) ? b.length : b)) > ((Array.isArray(a) ? a.length : a)) ? 1 : 0) * (isAsc ? 1 : 0));
+        return (((Array.isArray(a) ? a.length : a) > ((Array.isArray(b) ? b.length : b)) ? 0 : 1) * (isAsc ? -1 : 1));
     };
     CoreMatTable.prototype.fetch = function (page) {
         this.pageNumber.next(page);
