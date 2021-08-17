@@ -1067,6 +1067,7 @@
                 data = this.data;
             }
             var result = [];
+            console.log(filter);
             if (filter && filter.replace(/[^a-zA-Z ]/g, " ")) {
                 try {
                     for (var data_1 = __values(data), data_1_1 = data_1.next(); !data_1_1.done; data_1_1 = data_1.next()) {
