@@ -876,7 +876,6 @@ class CoreMatTable extends DataSource {
     sortData(data, sortAction) {
         if (sortAction.direction !== '') {
             return data.sort((a, b) => {
-                console.log(this.compare(a[sortAction.active], b[sortAction.active], sortAction.direction === 'asc'));
                 return this.compare(a[sortAction.active], b[sortAction.active], sortAction.direction === 'asc');
             });
         }
@@ -885,7 +884,6 @@ class CoreMatTable extends DataSource {
         }
     }
     compare(a, b, isAsc) {
-        console.log(isAsc, a, b);
         if (!a) {
             a = null;
         }
