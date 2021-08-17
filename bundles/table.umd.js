@@ -953,11 +953,11 @@
 
     var CoreMatTable = /** @class */ (function (_super) {
         __extends(CoreMatTable, _super);
-        function CoreMatTable(data, sortRules, rangeRules, size, detailRaws, emptyRow, filter) {
+        function CoreMatTable(data, sortRules, rangeRules, size, detailRaws, emptyRow, filterT) {
             if (size === void 0) { size = 20; }
             if (detailRaws === void 0) { detailRaws = true; }
             if (emptyRow === void 0) { emptyRow = false; }
-            if (filter === void 0) { filter = {}; }
+            if (filterT === void 0) { filterT = {}; }
             var _this = _super.call(this) || this;
             _this.number = 0;
             _this.startWith = 0;
@@ -969,7 +969,7 @@
             _this.backUpData = __spread(data);
             _this.totalElements = data.length;
             _this.emptyRow = emptyRow;
-            _this.filterTable = filter;
+            _this.filterTable = filterT;
             _this.pageSort = new rxjs.BehaviorSubject(sortRules);
             _this.pageFilterDate = new rxjs.BehaviorSubject(null);
             _this.pageFilter = new rxjs.BehaviorSubject('');
@@ -1067,7 +1067,6 @@
                 data = this.data;
             }
             var result = [];
-            console.log(filter);
             if (filter && filter.replace(/[^a-zA-Z ]/g, " ")) {
                 try {
                     for (var data_1 = __values(data), data_1_1 = data_1.next(); !data_1_1.done; data_1_1 = data_1.next()) {

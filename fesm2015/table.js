@@ -720,7 +720,7 @@ var CellsComponentList;
 })(CellsComponentList || (CellsComponentList = {}));
 
 class CoreMatTable extends DataSource {
-    constructor(data, sortRules, rangeRules, size = 20, detailRaws = true, emptyRow = false, filter = {}) {
+    constructor(data, sortRules, rangeRules, size = 20, detailRaws = true, emptyRow = false, filterT = {}) {
         super();
         this.number = 0;
         this.startWith = 0;
@@ -732,7 +732,7 @@ class CoreMatTable extends DataSource {
         this.backUpData = [...data];
         this.totalElements = data.length;
         this.emptyRow = emptyRow;
-        this.filterTable = filter;
+        this.filterTable = filterT;
         this.pageSort = new BehaviorSubject(sortRules);
         this.pageFilterDate = new BehaviorSubject(null);
         this.pageFilter = new BehaviorSubject('');
@@ -817,7 +817,6 @@ class CoreMatTable extends DataSource {
             data = this.data;
         }
         const result = [];
-        console.log(filter);
         if (filter && filter.replace(/[^a-zA-Z ]/g, " ")) {
             for (let e of data) {
                 e.pond = 0;
