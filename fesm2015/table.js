@@ -817,7 +817,6 @@ class CoreMatTable extends DataSource {
             data = this.data;
         }
         const result = [];
-        console.log(filter);
         if (filter && filter.replace(/[^a-zA-Z ]/g, " ")) {
             for (let e of data) {
                 e.pond = 0;
