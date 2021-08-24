@@ -1140,7 +1140,7 @@ var TableComponent = /** @class */ (function () {
             });
         }
     };
-    TableComponent.prototype.ngAfterInit = function () {
+    TableComponent.prototype.ngAfterViewInit = function () {
         this.showTable = true;
     };
     TableComponent.prototype.buildHeaders = function () {
