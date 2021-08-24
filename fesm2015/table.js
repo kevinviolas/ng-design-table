@@ -1059,7 +1059,7 @@ let TableComponent = class TableComponent {
             });
         }
     }
-    ngAfterViewInit() {
+    ngAfterViewChecked() {
         this.showTable = true;
     }
     buildHeaders() {
