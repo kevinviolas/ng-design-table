@@ -53,9 +53,11 @@ declare class TableComponent implements OnInit, OnChanges {
     cancelSearch: string;
     noResult: string;
     details: string;
+    showTable: boolean;
     constructor(router: Router, route: ActivatedRoute, service: TableService, detector: ChangeDetectorRef, translate: TranslateService);
     expand(element: any): void;
     ngOnInit(): void;
+    ngAfterInit(): void;
     buildHeaders(): Promise<void>;
     generateClass(Class: string[]): string[];
     sort(): Promise<displayedColumnsInterface[]>;
