@@ -1015,6 +1015,7 @@ let TableComponent = class TableComponent {
         this.cancelSearch = this.translate.translate(this.lang, 'CANCEL_SEARCH');
         this.noResult = this.translate.translate(this.lang, 'NO_RESULT');
         this.details = this.translate.translate(this.lang, 'DETAILS');
+        console.log(this.displayDetail);
         if (this.data) {
             this.expandedElement = false;
             this.data.paginator = this.paginatorCurrent;
