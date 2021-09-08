@@ -194,7 +194,7 @@ var EquipementStatusComponent = /** @class */ (function () {
     EquipementStatusComponent = __decorate([
         Component({
             selector: 'app-equipement-status',
-            template: "<span [style]=\"css\" matTooltip=\"{{type}}\">\n    <img [src]=\"icon\" [style]=\"css\">\n</span>",
+            template: "<span [style]=\"css\" matTooltip=\"{{type}}\">\n    <img [src]=\"icon\" [style]=\"css\" class=\"equipement-status\">\n</span>",
             styles: [""]
         }),
         __metadata("design:paramtypes", [ChangeDetectorRef, TableService])
