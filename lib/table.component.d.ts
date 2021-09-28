@@ -59,7 +59,7 @@ declare class TableComponent implements OnInit, OnChanges {
     ngOnInit(): void;
     ngAfterViewChecked(): void;
     buildHeaders(): Promise<void>;
-    generateClass(Class: string[]): string[];
+    generateClass(Class: string[], column?: string): string[];
     sort(): Promise<displayedColumnsInterface[]>;
     buildLink(override: string[], element: any): string;
     Join(elem: any, override: string[], joinKey?: string): string;
