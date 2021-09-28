@@ -1010,6 +1010,7 @@ let TableComponent = class TableComponent {
         else {
             this.expandedElement = element;
         }
+        console.log(this.expandedElement);
     }
     ngOnInit() {
         this.service.emptyRow = this.EmptyRow;

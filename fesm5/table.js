@@ -1090,6 +1090,7 @@ var TableComponent = /** @class */ (function () {
         else {
             this.expandedElement = element;
         }
+        console.log(this.expandedElement);
     };
     TableComponent.prototype.ngOnInit = function () {
         var _this = this;
