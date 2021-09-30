@@ -1001,6 +1001,7 @@ let TableComponent = class TableComponent {
         this.showTable = false;
     }
     expand(element) {
+        console.log(element);
         if (this.blockDetails) {
             return;
         }

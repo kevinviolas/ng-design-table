@@ -1081,6 +1081,7 @@ var TableComponent = /** @class */ (function () {
         this.showTable = false;
     }
     TableComponent.prototype.expand = function (element) {
+        console.log(element);
         if (this.blockDetails) {
             return;
         }
