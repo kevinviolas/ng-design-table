@@ -24,10 +24,7 @@ interface displayedColumnsInterface {
     sort?: boolean;
     clickable?: boolean;
     statement?: boolean;
-    valueStatement?: {
-        true: string;
-        false: string;
-    };
+    valueStatement?: string[];
     config?: displayColumnsConfig;
 }
 declare class TableComponent implements OnInit, OnChanges {
