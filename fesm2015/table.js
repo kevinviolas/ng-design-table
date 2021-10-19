@@ -311,6 +311,9 @@ let IsMatIconComponent = class IsMatIconComponent {
     constructor() {
         this.isIcon = false;
     }
+    ngOnChanges(changes) {
+        this.ngOnInit();
+    }
     ngOnInit() {
         if (this.input && this.input.indexOf(('icon.')) > -1) {
             this.isIcon = true;

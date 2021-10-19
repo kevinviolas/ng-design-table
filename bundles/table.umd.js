@@ -532,6 +532,9 @@
         function IsMatIconComponent() {
             this.isIcon = false;
         }
+        IsMatIconComponent.prototype.ngOnChanges = function (changes) {
+            this.ngOnInit();
+        };
         IsMatIconComponent.prototype.ngOnInit = function () {
             if (this.input && this.input.indexOf(('icon.')) > -1) {
                 this.isIcon = true;
