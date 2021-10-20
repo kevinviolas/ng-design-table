@@ -26,7 +26,7 @@ interface displayedColumnsInterface {
     statement?: boolean;
     valueStatement?: string[];
     config?: displayColumnsConfig;
-    valueOverride: {
+    valueOverride?: {
         [key: string]: string;
     };
 }
