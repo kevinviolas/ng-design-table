@@ -26,6 +26,9 @@ interface displayedColumnsInterface {
     statement?: boolean;
     valueStatement?: string[];
     config?: displayColumnsConfig;
+    valueOverride: {
+        [key: string]: string;
+    };
 }
 declare class TableComponent implements OnInit, OnChanges {
     private router;
