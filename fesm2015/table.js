@@ -943,7 +943,7 @@ class CoreMatTable extends DataSource {
     }
     slice(data, start = 0, end = 20, detailRow = true) {
         const rows = [];
-        //this._totalElements.next(data.length);
+        this._totalElements.next(data.length);
         if (data.length) {
             data = data.slice(start * end, (start * end) + end);
             if (this.emptyRow) {

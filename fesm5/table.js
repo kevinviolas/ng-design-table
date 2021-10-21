@@ -1021,7 +1021,7 @@ var CoreMatTable = /** @class */ (function (_super) {
         if (end === void 0) { end = 20; }
         if (detailRow === void 0) { detailRow = true; }
         var rows = [];
-        //this._totalElements.next(data.length);
+        this._totalElements.next(data.length);
         if (data.length) {
             data = data.slice(start * end, (start * end) + end);
             if (this.emptyRow) {
