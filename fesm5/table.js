@@ -760,7 +760,7 @@ var CoreMatTable = /** @class */ (function (_super) {
         _this.data = __spread(data);
         _this.dataAfterSearch = [];
         _this.backUpData = __spread(data);
-        _this.totalElements = data.length;
+        //this.totalElements = data.length;
         _this.emptyRow = emptyRow;
         _this.filterTable = filterT;
         _this.pageSort = new BehaviorSubject(sortRules);
@@ -790,38 +790,39 @@ var CoreMatTable = /** @class */ (function (_super) {
                      }])), share())
                    ))
                  ))));
-         }*/
-        /*
-    
-        (likes: any[]) => {
-           return likes.length === 0 ?
-             Observable.of(likes) :
-             Observable.combineLatest(
-               likes.map(like => this.af.database.object("/citations/" + like.$key))
-           )
          }
-    
-        this.page$ = this.pageFilterDate.pipe(
-           startWith(rangeRules),
-           switchMap(range => this.pageFilter.pipe(debounceTime(500)).pipe(
-             startWith(''),
-             switchMap(filter => this.pageSort.pipe(
-               startWith(sortRules),
-               switchMap(sortAction => this.pageNumber.pipe(
-                 startWith(this.startWith),
-                 switchMap(page => from([{
-                   content: this.slice(
-                     this.sortData(
-                       this.filterData(
-                         this.filterDateRange(
-                           this.data, range
-                         ), filter
-                       ), sortAction
-                     ), page, this.size, detailRaws)
-                 }])),
-                 share()
-               ))))
-           )));*/
+     
+         /*
+     
+         (likes: any[]) => {
+            return likes.length === 0 ?
+              Observable.of(likes) :
+              Observable.combineLatest(
+                likes.map(like => this.af.database.object("/citations/" + like.$key))
+            )
+          }
+     
+         this.page$ = this.pageFilterDate.pipe(
+            startWith(rangeRules),
+            switchMap(range => this.pageFilter.pipe(debounceTime(500)).pipe(
+              startWith(''),
+              switchMap(filter => this.pageSort.pipe(
+                startWith(sortRules),
+                switchMap(sortAction => this.pageNumber.pipe(
+                  startWith(this.startWith),
+                  switchMap(page => from([{
+                    content: this.slice(
+                      this.sortData(
+                        this.filterData(
+                          this.filterDateRange(
+                            this.data, range
+                          ), filter
+                        ), sortAction
+                      ), page, this.size, detailRaws)
+                  }])),
+                  share()
+                ))))
+            )));*/
     }
     CoreMatTable.prototype.filterDateRange = function (data, range) {
         if (!range || (!range.valueStart && !range.valueEnd)) {
