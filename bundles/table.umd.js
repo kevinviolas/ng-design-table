@@ -1471,11 +1471,7 @@
             return value.join(joinKey);
         };
         TableComponent.prototype.reset = function () {
-            this.data.filter({
-                target: {
-                    value: ''
-                }
-            });
+            this.data.filter('');
             return true;
         };
         TableComponent.prototype.expandShow = function (template) {

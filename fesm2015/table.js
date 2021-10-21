@@ -1144,11 +1144,7 @@ let TableComponent = class TableComponent {
         return value.join(joinKey);
     }
     reset() {
-        this.data.filter({
-            target: {
-                value: ''
-            }
-        });
+        this.data.filter('');
         return true;
     }
     expandShow(template) {
