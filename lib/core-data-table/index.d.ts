@@ -27,6 +27,7 @@ export interface CoreMatTableInterface {
     sort: MatSort;
     sortIt: (sortidea: any) => void;
     filter: (myFilter: any) => void;
+    filterData: (data: any, filter: any) => void;
     filterDate: (dateFilter: FilterDateInterface) => void;
     pageNumber: Subject<number>;
     startWith: number;

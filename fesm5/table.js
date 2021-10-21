@@ -876,7 +876,10 @@ var CoreMatTable = /** @class */ (function (_super) {
             data = this.data;
         }
         var result = [];
-        if (filter && filter.replace(/[^a-zA-Z ]/g, " ")) {
+        if (typeof filter === "object") {
+            return this.filterDataObject(data, filter);
+        }
+        else if (filter && filter.replace(/[^a-zA-Z ]/g, " ")) {
             try {
                 for (var data_1 = __values(data), data_1_1 = data_1.next(); !data_1_1.done; data_1_1 = data_1.next()) {
                     var e = data_1_1.value;

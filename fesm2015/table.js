@@ -836,7 +836,10 @@ class CoreMatTable extends DataSource {
             data = this.data;
         }
         const result = [];
-        if (filter && filter.replace(/[^a-zA-Z ]/g, " ")) {
+        if (typeof filter === "object") {
+            return this.filterDataObject(data, filter);
+        }
+        else if (filter && filter.replace(/[^a-zA-Z ]/g, " ")) {
             for (let e of data) {
                 e.pond = 0;
                 const dataRaw = JSON.stringify(e).toLowerCase()
