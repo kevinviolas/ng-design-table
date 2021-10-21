@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { BehaviorSubject, from } from 'rxjs';
-import { switchMap, debounceTime, share, pluck } from 'rxjs/operators';
+import { debounceTime, switchMap, share, pluck } from 'rxjs/operators';
 import { DataSource } from '@angular/cdk/collections';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { Router, ActivatedRoute, RouterModule } from '@angular/router';
@@ -740,6 +740,7 @@ class CoreMatTable extends DataSource {
         this.pageFilterDate = new BehaviorSubject(null);
         this.pageFilter = new BehaviorSubject('');
         this.pageNumber = new BehaviorSubject(this.startWith);
+        this._totalElements.pipe((debounceTime(1000))).subscribe((page) => this.totalElements = page);
         this.page$ = this.pageSort.pipe(switchMap(sortAction => this.pageFilter.pipe(debounceTime(500))
             .pipe(switchMap(filter => this.pageFilterDate.pipe(switchMap(range => this.pageNumber.pipe(switchMap(page => from([{
                 content: this.slice(this.sortData(this.filterDataObject(this.filterData(this.filterDateRange(this.data, range), filter), this.filterTable), sortAction), page, this.size, detailRaws)
@@ -920,7 +921,7 @@ class CoreMatTable extends DataSource {
     }
     filter(myFilter) {
         if (!myFilter && this.data || !myFilter.trim() && this.data) {
-            this.totalElements = this.data.length;
+            this._totalElements.next(this.data.length);
         }
         this.pageFilter.next(myFilter.toString());
         /*if (!myFilter.target.value || !myFilter.target.value.trim()) {
@@ -938,8 +939,8 @@ class CoreMatTable extends DataSource {
     }
     slice(data, start = 0, end = 20, detailRow = true) {
         const rows = [];
-        this.totalElements = data.length;
-        if (this.totalElements) {
+        this._totalElements.next(data.length);
+        if (data.length) {
             data = data.slice(start * end, (start * end) + end);
             if (this.emptyRow) {
                 data.forEach((d) => {

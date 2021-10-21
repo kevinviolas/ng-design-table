@@ -977,6 +977,7 @@
             _this.pageFilterDate = new rxjs.BehaviorSubject(null);
             _this.pageFilter = new rxjs.BehaviorSubject('');
             _this.pageNumber = new rxjs.BehaviorSubject(_this.startWith);
+            _this._totalElements.pipe((operators.debounceTime(1000))).subscribe(function (page) { return _this.totalElements = page; });
             _this.page$ = _this.pageSort.pipe(operators.switchMap(function (sortAction) { return _this.pageFilter.pipe(operators.debounceTime(500))
                 .pipe(operators.switchMap(function (filter) { return _this.pageFilterDate.pipe(operators.switchMap(function (range) { return _this.pageNumber.pipe(operators.switchMap(function (page) { return rxjs.from([{
                     content: _this.slice(_this.sortData(_this.filterDataObject(_this.filterData(_this.filterDateRange(_this.data, range), filter), _this.filterTable), sortAction), page, _this.size, detailRaws)
@@ -1205,7 +1206,7 @@
         };
         CoreMatTable.prototype.filter = function (myFilter) {
             if (!myFilter && this.data || !myFilter.trim() && this.data) {
-                this.totalElements = this.data.length;
+                this._totalElements.next(this.data.length);
             }
             this.pageFilter.next(myFilter.toString());
             /*if (!myFilter.target.value || !myFilter.target.value.trim()) {
@@ -1226,8 +1227,8 @@
             if (end === void 0) { end = 20; }
             if (detailRow === void 0) { detailRow = true; }
             var rows = [];
-            this.totalElements = data.length;
-            if (this.totalElements) {
+            this._totalElements.next(data.length);
+            if (data.length) {
                 data = data.slice(start * end, (start * end) + end);
                 if (this.emptyRow) {
                     data.forEach(function (d) {
