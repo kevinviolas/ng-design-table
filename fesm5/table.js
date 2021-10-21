@@ -768,7 +768,7 @@ var CoreMatTable = /** @class */ (function (_super) {
         _this.pageFilterDate = new BehaviorSubject(null);
         _this.pageFilter = new BehaviorSubject('');
         _this.pageNumber = new BehaviorSubject(_this.startWith);
-        _this._totalElements.pipe((debounceTime(1000))).subscribe(function (page) { return _this.totalElements = page; });
+        _this._totalElements.pipe((debounceTime(2000))).subscribe(function (page) { return _this.totalElements = page; });
         _this.page$ = _this.pageSort.pipe(switchMap(function (sortAction) { return _this.pageFilter.pipe(debounceTime(500))
             .pipe(switchMap(function (filter) { return _this.pageFilterDate.pipe(switchMap(function (range) { return _this.pageNumber.pipe(switchMap(function (page) { return from([{
                 content: _this.slice(_this.sortData(_this.filterDataObject(_this.filterData(_this.filterDateRange(_this.data, range), filter), _this.filterTable), sortAction), page, _this.size, detailRaws)
