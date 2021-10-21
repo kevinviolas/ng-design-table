@@ -981,9 +981,7 @@
             _this._totalElements.pipe((operators.debounceTime(1000))).subscribe(function (page) { return _this.totalElements = page; });
             _this.page$ = _this.pageSort.pipe(operators.switchMap(function (sortAction) { return _this.pageFilter.pipe(operators.debounceTime(500))
                 .pipe(operators.switchMap(function (filter) { return _this.pageFilterDate.pipe(operators.switchMap(function (range) { return _this.pageNumber.pipe(operators.switchMap(function (page) { return rxjs.from([{
-                    content: _this.slice(_this.sortData(
-                    //  this.filterDataObject(
-                    _this.filterData(_this.filterDateRange(_this.data, range), filter), sortAction), page, _this.size, detailRaws)
+                    content: _this.slice(_this.sortData(_this.filterDataObject(_this.filterData(_this.filterDateRange(_this.data, range), filter), _this.filterTable), sortAction), page, _this.size, detailRaws)
                 }]); }), operators.share()); })); })); }));
             return _this;
             /* if (Object.keys(this.filterTable).length > 0) {
@@ -1233,7 +1231,7 @@
             if (end === void 0) { end = 20; }
             if (detailRow === void 0) { detailRow = true; }
             var rows = [];
-            this._totalElements.next(data.length);
+            //this._totalElements.next(data.length);
             if (data.length) {
                 data = data.slice(start * end, (start * end) + end);
                 if (this.emptyRow) {
@@ -1268,14 +1266,16 @@
                     'OPEN': 'Ouvrir',
                     'CANCEL_SEARCH': 'Annuler la recherche',
                     'NO_RESULT': 'Aucun résultat correspondant',
-                    'DETAILS': 'Détails'
+                    'DETAILS': 'Détails',
+                    'CANCEL_FILTER': 'Annuler les filtres'
                 },
                 'en': {
                     'SEARCH': "Search...",
                     'OPEN': 'Open',
                     'CANCEL_SEARCH': 'Cancel search',
                     'NO_RESULT': 'No corresponding result',
-                    'DETAILS': 'Details'
+                    'DETAILS': 'Details',
+                    'CANCEL_FILTER': 'Cancel filters'
                 }
             };
         }

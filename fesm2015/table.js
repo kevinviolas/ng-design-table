@@ -744,9 +744,7 @@ class CoreMatTable extends DataSource {
         this._totalElements.pipe((debounceTime(1000))).subscribe((page) => this.totalElements = page);
         this.page$ = this.pageSort.pipe(switchMap(sortAction => this.pageFilter.pipe(debounceTime(500))
             .pipe(switchMap(filter => this.pageFilterDate.pipe(switchMap(range => this.pageNumber.pipe(switchMap(page => from([{
-                content: this.slice(this.sortData(
-                //  this.filterDataObject(
-                this.filterData(this.filterDateRange(this.data, range), filter), sortAction), page, this.size, detailRaws)
+                content: this.slice(this.sortData(this.filterDataObject(this.filterData(this.filterDateRange(this.data, range), filter), this.filterTable), sortAction), page, this.size, detailRaws)
             }])), share())))))));
         /* if (Object.keys(this.filterTable).length > 0) {
            this.page$ = this.page$.pipe(
@@ -945,7 +943,7 @@ class CoreMatTable extends DataSource {
     }
     slice(data, start = 0, end = 20, detailRow = true) {
         const rows = [];
-        this._totalElements.next(data.length);
+        //this._totalElements.next(data.length);
         if (data.length) {
             data = data.slice(start * end, (start * end) + end);
             if (this.emptyRow) {
@@ -979,14 +977,16 @@ let TranslateService = class TranslateService {
                 'OPEN': 'Ouvrir',
                 'CANCEL_SEARCH': 'Annuler la recherche',
                 'NO_RESULT': 'Aucun résultat correspondant',
-                'DETAILS': 'Détails'
+                'DETAILS': 'Détails',
+                'CANCEL_FILTER': 'Annuler les filtres'
             },
             'en': {
                 'SEARCH': `Search...`,
                 'OPEN': 'Open',
                 'CANCEL_SEARCH': 'Cancel search',
                 'NO_RESULT': 'No corresponding result',
-                'DETAILS': 'Details'
+                'DETAILS': 'Details',
+                'CANCEL_FILTER': 'Cancel filters'
             }
         };
     }
