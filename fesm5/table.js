@@ -754,6 +754,7 @@ var CoreMatTable = /** @class */ (function (_super) {
         var _this = _super.call(this) || this;
         _this.number = 0;
         _this.startWith = 0;
+        _this._totalElements = new BehaviorSubject(0);
         _this.emptyRow = false;
         _this.filterTable = {};
         _this.size = size;

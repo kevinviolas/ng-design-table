@@ -727,6 +727,7 @@ class CoreMatTable extends DataSource {
         super();
         this.number = 0;
         this.startWith = 0;
+        this._totalElements = new BehaviorSubject(0);
         this.emptyRow = false;
         this.filterTable = {};
         this.size = size;
