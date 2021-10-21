@@ -1461,8 +1461,8 @@
             if ((this.inputSearch.length > 1 || this.inputSearch.length === 0)
                 && this.inputSearch.length < 200) {
                 if (this.data) {
-                    //console.log(this.columnsToDisplay);
-                    console.log(this.data);
+                    console.log(this.columnsToDisplay);
+                    //console.log(this.data);
                     this.data.filter(this.inputSearch);
                 }
             }
