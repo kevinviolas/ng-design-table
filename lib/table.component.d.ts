@@ -63,6 +63,7 @@ declare class TableComponent implements OnInit, OnChanges {
     noResult: string;
     details: string;
     showTable: boolean;
+    cancelFilters: string;
     private PrivateColumnDefinitions;
     constructor(router: Router, route: ActivatedRoute, service: TableService, detector: ChangeDetectorRef, translate: TranslateService);
     expand(element: any): void;
