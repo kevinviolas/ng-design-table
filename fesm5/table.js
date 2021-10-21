@@ -1252,7 +1252,7 @@ var TableComponent = /** @class */ (function () {
             && this.inputSearch.length < 200) {
             if (this.data) {
                 //console.log(this.columnsToDisplay);
-                //console.log(this.data);
+                console.log(this.data);
                 this.data.filter(this.inputSearch);
             }
         }
