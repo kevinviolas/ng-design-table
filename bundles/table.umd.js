@@ -981,7 +981,9 @@
             _this._totalElements.pipe((operators.debounceTime(1000))).subscribe(function (page) { return _this.totalElements = page; });
             _this.page$ = _this.pageSort.pipe(operators.switchMap(function (sortAction) { return _this.pageFilter.pipe(operators.debounceTime(500))
                 .pipe(operators.switchMap(function (filter) { return _this.pageFilterDate.pipe(operators.switchMap(function (range) { return _this.pageNumber.pipe(operators.switchMap(function (page) { return rxjs.from([{
-                    content: _this.slice(_this.sortData(_this.filterDataObject(_this.filterData(_this.filterDateRange(_this.data, range), filter), _this.filterTable), sortAction), page, _this.size, detailRaws)
+                    content: _this.slice(_this.sortData(
+                    //  this.filterDataObject(
+                    _this.filterData(_this.filterDateRange(_this.data, range), filter), sortAction), page, _this.size, detailRaws)
                 }]); }), operators.share()); })); })); }));
             return _this;
             /* if (Object.keys(this.filterTable).length > 0) {
