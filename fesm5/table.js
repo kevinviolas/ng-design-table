@@ -770,7 +770,7 @@ var CoreMatTable = /** @class */ (function (_super) {
         _this.page$ = _this.pageSort.pipe(switchMap(function (sortAction) { return _this.pageFilter.pipe(debounceTime(500))
             .pipe(switchMap(function (filter) { return _this.pageFilterDate.pipe(switchMap(function (range) { return _this.pageNumber.pipe(switchMap(function (page) { return from([{
                 content: _this.slice(_this.sortData(_this.filterDataObject(_this.filterData(_this.filterDateRange(_this.data, range), filter), _this.filterTable), sortAction), page, _this.size, detailRaws)
-            }]); }), share()); })); })); }));
+            }]); }), share()); })); })); })).pipe(debounceTime(500));
         return _this;
         /* if (Object.keys(this.filterTable).length > 0) {
            this.page$ = this.page$.pipe(

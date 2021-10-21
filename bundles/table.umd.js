@@ -980,7 +980,7 @@
             _this.page$ = _this.pageSort.pipe(operators.switchMap(function (sortAction) { return _this.pageFilter.pipe(operators.debounceTime(500))
                 .pipe(operators.switchMap(function (filter) { return _this.pageFilterDate.pipe(operators.switchMap(function (range) { return _this.pageNumber.pipe(operators.switchMap(function (page) { return rxjs.from([{
                     content: _this.slice(_this.sortData(_this.filterDataObject(_this.filterData(_this.filterDateRange(_this.data, range), filter), _this.filterTable), sortAction), page, _this.size, detailRaws)
-                }]); }), operators.share()); })); })); }));
+                }]); }), operators.share()); })); })); })).pipe(operators.debounceTime(500));
             return _this;
             /* if (Object.keys(this.filterTable).length > 0) {
                this.page$ = this.page$.pipe(
