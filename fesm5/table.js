@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { BehaviorSubject, from } from 'rxjs';
-import { debounceTime, switchMap, share, pluck } from 'rxjs/operators';
+import { switchMap, debounceTime, share, pluck } from 'rxjs/operators';
 import { DataSource } from '@angular/cdk/collections';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { Router, ActivatedRoute, RouterModule } from '@angular/router';
@@ -769,7 +769,7 @@ var CoreMatTable = /** @class */ (function (_super) {
         _this.pageFilterDate = new BehaviorSubject(null);
         _this.pageFilter = new BehaviorSubject('');
         _this.pageNumber = new BehaviorSubject(_this.startWith);
-        _this._totalElements.pipe((debounceTime(1000))).subscribe(function (page) { return _this.totalElements = page; });
+        _this._totalElements.subscribe(function (page) { return _this.totalElements = page; });
         _this.page$ = _this.pageSort.pipe(switchMap(function (sortAction) { return _this.pageFilter.pipe(debounceTime(500))
             .pipe(switchMap(function (filter) { return _this.pageFilterDate.pipe(switchMap(function (range) { return _this.pageNumber.pipe(switchMap(function (page) { return from([{
                 content: _this.slice(_this.sortData(_this.filterDataObject(_this.filterData(_this.filterDateRange(_this.data, range), filter), _this.filterTable), sortAction), page, _this.size, detailRaws)
