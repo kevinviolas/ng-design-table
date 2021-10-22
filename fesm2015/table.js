@@ -725,6 +725,7 @@ var CellsComponentList;
 class CoreMatTable extends DataSource {
     constructor(data, sortRules, rangeRules, size = 20, detailRaws = true, emptyRow = false, filterT = {}) {
         super();
+        this.totalElements = 0;
         this.number = 0;
         this.startWith = 0;
         this._totalElements = new BehaviorSubject(0);

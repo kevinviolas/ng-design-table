@@ -962,6 +962,7 @@
             if (emptyRow === void 0) { emptyRow = false; }
             if (filterT === void 0) { filterT = {}; }
             var _this = _super.call(this) || this;
+            _this.totalElements = 0;
             _this.number = 0;
             _this.startWith = 0;
             _this._totalElements = new rxjs.BehaviorSubject(0);
