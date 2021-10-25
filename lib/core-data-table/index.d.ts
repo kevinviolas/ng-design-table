@@ -50,7 +50,7 @@ export declare class CoreMatTable extends DataSource<Element> {
     private pageSort;
     private pageFilter;
     private pageFilterDate;
-    _totalElements: BehaviorSubject<number>;
+    private _totalElements;
     private backUpData;
     private emptyRow;
     private filterTable;
