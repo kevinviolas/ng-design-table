@@ -1133,7 +1133,7 @@
                     finally { if (e_2) throw e_2.error; }
                 }
                 this.dataAfterSearch = result.filter((function (e) { return e.pond; })).sort(function (a, b) { return a > b ? 1 : (a < b ? -1 : 0); });
-                //this.pageNumber.next(1);
+                this.pageNumber.next(1);
                 return result.filter((function (e) { return e.pond; })).sort(function (a, b) { return a > b ? 1 : (a < b ? -1 : 0); });
             }
             else {
