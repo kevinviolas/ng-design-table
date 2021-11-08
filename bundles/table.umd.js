@@ -1484,6 +1484,7 @@
                 && this.inputSearch.length < 200) {
                 if (this.data) {
                     this.data.filter(this.inputSearch);
+                    this.data.pageNumber.next(0);
                 }
             }
             this.ngOnInit();
