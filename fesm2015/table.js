@@ -1157,6 +1157,9 @@ let TableComponent = class TableComponent {
             && this.inputSearch.length < 200) {
             if (this.data) {
                 this.data.filter(this.inputSearch);
+                this.data.startWith = 1;
+                this.data.fetch(1);
+                this.data.number = 1;
             }
         }
         this.ngOnInit();
