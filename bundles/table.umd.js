@@ -1152,7 +1152,7 @@
                 var _loop_1 = function (e) {
                     e.pond = 0;
                     Object.keys(filter).forEach(function (key) {
-                        console.log(key);
+                        console.log(filter[key], e[key]);
                         if (filter[key].includes(e[key])) {
                             e.pond += 1;
                         }
