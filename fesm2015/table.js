@@ -881,6 +881,7 @@ class CoreMatTable extends DataSource {
             for (let e of data) {
                 e.pond = 0;
                 Object.keys(filter).forEach(key => {
+                    console.log(key);
                     if (filter[key].includes(e[key])) {
                         e.pond += 1;
                     }
@@ -892,6 +893,7 @@ class CoreMatTable extends DataSource {
                     result.push(e);
                 }
             }
+            console.log(result.filter((e => e.pond)).sort((a, b) => a > b ? 1 : (a < b ? -1 : 0)));
             return result.filter((e => e.pond)).sort((a, b) => a > b ? 1 : (a < b ? -1 : 0));
         }
         else {
