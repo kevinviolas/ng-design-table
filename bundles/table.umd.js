@@ -1150,17 +1150,20 @@
             var result = [];
             if (filter && Object.keys(filter).length > 0) {
                 var _loop_1 = function (e) {
+                    var ok = true;
                     e.pond = 0;
                     Object.keys(filter).forEach(function (key) {
                         console.log(filter[key], e[key]);
                         if (filter[key].includes(e[key])) {
-                            e.pond += 1;
+                            //e.pond += 1;
                         }
                         else {
-                            e.pond = 0;
+                            //e.pond = 0;
+                            ok = false;
                         }
                     });
-                    if (e.pond) {
+                    //if (e.pond) {
+                    if (ok) {
                         result.push(e);
                     }
                 };
@@ -1177,8 +1180,9 @@
                     }
                     finally { if (e_4) throw e_4.error; }
                 }
-                console.log(result.filter((function (e) { return e.pond; })).sort(function (a, b) { return a > b ? 1 : (a < b ? -1 : 0); }));
-                return result.filter((function (e) { return e.pond; })).sort(function (a, b) { return a > b ? 1 : (a < b ? -1 : 0); });
+                console.log(result);
+                return result;
+                //return result.filter((e => e.pond)).sort((a, b) => a > b ? 1 : (a < b ? -1 : 0));
             }
             else {
                 return data;
