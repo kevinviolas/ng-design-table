@@ -943,7 +943,6 @@ var CoreMatTable = /** @class */ (function (_super) {
                 var ok = true;
                 e.pond = 0;
                 Object.keys(filter).forEach(function (key) {
-                    console.log(filter[key], e[key]);
                     if (filter[key].includes(e[key])) {
                         //e.pond += 1;
                     }
@@ -970,7 +969,6 @@ var CoreMatTable = /** @class */ (function (_super) {
                 }
                 finally { if (e_4) throw e_4.error; }
             }
-            console.log(result);
             return result;
             //return result.filter((e => e.pond)).sort((a, b) => a > b ? 1 : (a < b ? -1 : 0));
         }
