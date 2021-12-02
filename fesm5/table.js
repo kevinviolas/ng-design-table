@@ -923,16 +923,12 @@ var CoreMatTable = /** @class */ (function (_super) {
                 finally { if (e_2) throw e_2.error; }
             }
             this.dataAfterSearch = result.filter((function (e) { return e.pond; })).sort(function (a, b) { return a > b ? 1 : (a < b ? -1 : 0); });
-            this.data.pageNumber.next(0);
-            this.data.fetch(0);
-            this.data.number = 0;
+            //this.pageNumber.next(1);
             return result.filter((function (e) { return e.pond; })).sort(function (a, b) { return a > b ? 1 : (a < b ? -1 : 0); });
         }
         else {
             this.dataAfterSearch = data;
-            this.data.pageNumber.next(0);
-            this.data.fetch(0);
-            this.data.number = 0;
+            //this.pageNumber.next(1);
             return data;
         }
     };
