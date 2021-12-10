@@ -876,7 +876,6 @@ var CoreMatTable = /** @class */ (function (_super) {
         if (this.pageNumber.getValue() > 0) {
             this.pageNumber.next(0);
             this.number = 0;
-            this.paginator.firstPage();
         }
         /*if (data.length === 0 && this.data) {
           data = this.data;
@@ -940,7 +939,6 @@ var CoreMatTable = /** @class */ (function (_super) {
         if (this.pageNumber.getValue() > 0) {
             this.pageNumber.next(0);
             this.number = 0;
-            this.paginator.firstPage();
         }
         if (data.length === 0 && this.data) {
             //data = this.data;
@@ -1158,6 +1156,7 @@ var TableComponent = /** @class */ (function () {
                         queryParams: { page: null },
                         queryParamsHandling: 'merge',
                     });
+                    _this.data.paginator.firstPage();
                 }
                 if (_this.data && _this.data.paginator && _this.data.paginator.pageIndex !== newpage) {
                     _this.data.paginator.pageIndex = newpage;
