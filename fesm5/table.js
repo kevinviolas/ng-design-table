@@ -1295,7 +1295,8 @@ var TableComponent = /** @class */ (function () {
                 this.data.pageNumber.next(0);
                 this.data.fetch(0);
                 this.data.number = 0;
-                this.paginatorCurrent.firstPage();
+                this.paginatorCurrent.pageIndex = 0;
+                this.changeDetectorRef.markForCheck();
             }
         }
         this.ngOnInit();
