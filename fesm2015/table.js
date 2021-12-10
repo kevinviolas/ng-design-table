@@ -836,6 +836,7 @@ class CoreMatTable extends DataSource {
         if (this.pageNumber.getValue() > 0) {
             this.pageNumber.next(0);
             this.number = 0;
+            this.paginator.firstPage();
         }
         /*if (data.length === 0 && this.data) {
           data = this.data;
@@ -878,6 +879,7 @@ class CoreMatTable extends DataSource {
         if (this.pageNumber.getValue() > 0) {
             this.pageNumber.next(0);
             this.number = 0;
+            this.paginator.firstPage();
         }
         if (data.length === 0 && this.data) {
             //data = this.data;
@@ -1076,7 +1078,7 @@ let TableComponent = class TableComponent {
                         queryParamsHandling: 'merge',
                     });
                 }
-                if (this.data && this.data.paginator) {
+                if (this.data && this.data.paginator && this.data.paginator.pageIndex !== newpage) {
                     this.data.paginator.pageIndex = newpage;
                 }
             });

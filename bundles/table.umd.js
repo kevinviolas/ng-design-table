@@ -1086,6 +1086,7 @@
             if (this.pageNumber.getValue() > 0) {
                 this.pageNumber.next(0);
                 this.number = 0;
+                this.paginator.firstPage();
             }
             /*if (data.length === 0 && this.data) {
               data = this.data;
@@ -1149,6 +1150,7 @@
             if (this.pageNumber.getValue() > 0) {
                 this.pageNumber.next(0);
                 this.number = 0;
+                this.paginator.firstPage();
             }
             if (data.length === 0 && this.data) {
                 //data = this.data;
@@ -1367,7 +1369,7 @@
                             queryParamsHandling: 'merge',
                         });
                     }
-                    if (_this.data && _this.data.paginator) {
+                    if (_this.data && _this.data.paginator && _this.data.paginator.pageIndex !== newpage) {
                         _this.data.paginator.pageIndex = newpage;
                     }
                 });
