@@ -833,6 +833,9 @@ class CoreMatTable extends DataSource {
         return pond;
     }
     filterData(data, filter) {
+        if (this.pageNumber.getValue() > 0) {
+            this.pageNumber.next(0);
+        }
         if (data.length === 0 && this.data) {
             data = this.data;
         }
