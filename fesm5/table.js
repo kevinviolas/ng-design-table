@@ -876,6 +876,7 @@ var CoreMatTable = /** @class */ (function (_super) {
         if (this.pageNumber.getValue() > 0) {
             this.pageNumber.next(0);
             this.number = 0;
+            console.log('filterData log');
         }
         /*if (data.length === 0 && this.data) {
           data = this.data;
@@ -939,6 +940,7 @@ var CoreMatTable = /** @class */ (function (_super) {
         if (this.pageNumber.getValue() > 0) {
             this.pageNumber.next(0);
             this.number = 0;
+            console.log('filterDataObject log');
         }
         if (data.length === 0 && this.data) {
             //data = this.data;
@@ -1157,7 +1159,7 @@ var TableComponent = /** @class */ (function () {
                         queryParams: { page: null },
                         queryParamsHandling: 'merge',
                     });
-                    _this.data.paginator.pageIndex = 0;
+                    _this.data.paginator.ngOnInit();
                     _this.changeDetectorRef.markForCheck();
                     console.log('on passe dans la ligne 142');
                 }
@@ -1295,7 +1297,6 @@ var TableComponent = /** @class */ (function () {
                 this.data.pageNumber.next(0);
                 this.data.fetch(0);
                 this.data.number = 0;
-                this.paginatorCurrent.pageIndex = 0;
                 this.changeDetectorRef.markForCheck();
             }
         }

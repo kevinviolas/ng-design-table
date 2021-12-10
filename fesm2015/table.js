@@ -836,6 +836,7 @@ class CoreMatTable extends DataSource {
         if (this.pageNumber.getValue() > 0) {
             this.pageNumber.next(0);
             this.number = 0;
+            console.log('filterData log');
         }
         /*if (data.length === 0 && this.data) {
           data = this.data;
@@ -878,6 +879,7 @@ class CoreMatTable extends DataSource {
         if (this.pageNumber.getValue() > 0) {
             this.pageNumber.next(0);
             this.number = 0;
+            console.log('filterDataObject log');
         }
         if (data.length === 0 && this.data) {
             //data = this.data;
@@ -1076,7 +1078,7 @@ let TableComponent = class TableComponent {
                         queryParams: { page: null },
                         queryParamsHandling: 'merge',
                     });
-                    this.data.paginator.pageIndex = 0;
+                    this.data.paginator.ngOnInit();
                     this.changeDetectorRef.markForCheck();
                     console.log('on passe dans la ligne 142');
                 }
@@ -1178,7 +1180,6 @@ let TableComponent = class TableComponent {
                 this.data.pageNumber.next(0);
                 this.data.fetch(0);
                 this.data.number = 0;
-                this.paginatorCurrent.pageIndex = 0;
                 this.changeDetectorRef.markForCheck();
             }
         }
