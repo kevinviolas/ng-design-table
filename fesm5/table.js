@@ -923,19 +923,18 @@ var CoreMatTable = /** @class */ (function (_super) {
                 finally { if (e_2) throw e_2.error; }
             }
             this.dataAfterSearch = result.filter((function (e) { return e.pond; })).sort(function (a, b) { return a > b ? 1 : (a < b ? -1 : 0); });
-            //this.pageNumber.next(1);
             return result.filter((function (e) { return e.pond; })).sort(function (a, b) { return a > b ? 1 : (a < b ? -1 : 0); });
         }
         else {
             this.dataAfterSearch = data;
-            //this.pageNumber.next(1);
             return data;
         }
     };
     CoreMatTable.prototype.filterDataObject = function (data, filter) {
         var e_4, _a;
         if (data.length === 0 && this.data) {
-            data = this.data;
+            //data = this.data;
+            return data;
         }
         var result = [];
         if (filter && Object.keys(filter).length > 0) {

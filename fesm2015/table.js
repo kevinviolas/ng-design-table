@@ -863,18 +863,17 @@ class CoreMatTable extends DataSource {
                 }
             }
             this.dataAfterSearch = result.filter((e => e.pond)).sort((a, b) => a > b ? 1 : (a < b ? -1 : 0));
-            //this.pageNumber.next(1);
             return result.filter((e => e.pond)).sort((a, b) => a > b ? 1 : (a < b ? -1 : 0));
         }
         else {
             this.dataAfterSearch = data;
-            //this.pageNumber.next(1);
             return data;
         }
     }
     filterDataObject(data, filter) {
         if (data.length === 0 && this.data) {
-            data = this.data;
+            //data = this.data;
+            return data;
         }
         const result = [];
         if (filter && Object.keys(filter).length > 0) {
