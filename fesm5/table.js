@@ -1156,7 +1156,7 @@ var TableComponent = /** @class */ (function () {
                         queryParams: { page: null },
                         queryParamsHandling: 'merge',
                     });
-                    _this.data.paginator.firstPage();
+                    _this.paginatorCurrent.firstPage();
                 }
                 if (_this.data && _this.data.paginator && _this.data.paginator.pageIndex !== newpage) {
                     _this.data.paginator.pageIndex = newpage;
@@ -1290,6 +1290,7 @@ var TableComponent = /** @class */ (function () {
                 this.data.pageNumber.next(0);
                 this.data.fetch(0);
                 this.data.number = 0;
+                this.paginatorCurrent.firstPage();
             }
         }
         this.ngOnInit();

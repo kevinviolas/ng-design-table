@@ -1075,7 +1075,7 @@ let TableComponent = class TableComponent {
                         queryParams: { page: null },
                         queryParamsHandling: 'merge',
                     });
-                    this.data.paginator.firstPage();
+                    this.paginatorCurrent.firstPage();
                 }
                 if (this.data && this.data.paginator && this.data.paginator.pageIndex !== newpage) {
                     this.data.paginator.pageIndex = newpage;
@@ -1173,6 +1173,7 @@ let TableComponent = class TableComponent {
                 this.data.pageNumber.next(0);
                 this.data.fetch(0);
                 this.data.number = 0;
+                this.paginatorCurrent.firstPage();
             }
         }
         this.ngOnInit();
