@@ -1085,6 +1085,7 @@
             var e_2, _a, e_3, _b;
             if (this.pageNumber.getValue() > 0) {
                 this.pageNumber.next(0);
+                this.number = 0;
             }
             if (data.length === 0 && this.data) {
                 data = this.data;
