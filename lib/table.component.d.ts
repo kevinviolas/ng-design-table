@@ -36,6 +36,7 @@ declare class TableComponent implements OnInit, OnChanges {
     private service;
     private detector;
     private translate;
+    private changeDetectorRef;
     paginatorCurrent: MatPaginator;
     sortCurrent: MatSort;
     columnDefinitions: [displayedColumnsInterface];
@@ -64,7 +65,7 @@ declare class TableComponent implements OnInit, OnChanges {
     details: string;
     showTable: boolean;
     private PrivateColumnDefinitions;
-    constructor(router: Router, route: ActivatedRoute, service: TableService, detector: ChangeDetectorRef, translate: TranslateService);
+    constructor(router: Router, route: ActivatedRoute, service: TableService, detector: ChangeDetectorRef, translate: TranslateService, changeDetectorRef: ChangeDetectorRef);
     expand(element: any): void;
     ngOnInit(): void;
     ngAfterViewChecked(): void;

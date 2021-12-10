@@ -1095,12 +1095,13 @@ var TranslateService = /** @class */ (function () {
 }());
 
 var TableComponent = /** @class */ (function () {
-    function TableComponent(router, route, service, detector, translate) {
+    function TableComponent(router, route, service, detector, translate, changeDetectorRef) {
         this.router = router;
         this.route = route;
         this.service = service;
         this.detector = detector;
         this.translate = translate;
+        this.changeDetectorRef = changeDetectorRef;
         this.displayDetail = false;
         this.btnOverride = false;
         this.callFunction = new EventEmitter();
@@ -1156,10 +1157,14 @@ var TableComponent = /** @class */ (function () {
                         queryParams: { page: null },
                         queryParamsHandling: 'merge',
                     });
-                    _this.paginatorCurrent.firstPage();
+                    _this.data.paginator.pageIndex = 0;
+                    _this.changeDetectorRef.markForCheck();
+                    console.log('on passe dans la ligne 142');
                 }
                 if (_this.data && _this.data.paginator && _this.data.paginator.pageIndex !== newpage) {
                     _this.data.paginator.pageIndex = newpage;
+                    _this.changeDetectorRef.markForCheck();
+                    console.log('on passe dans la ligne 146');
                 }
             });
             var page = this.route.snapshot.queryParams["page"];
@@ -1300,7 +1305,8 @@ var TableComponent = /** @class */ (function () {
         { type: ActivatedRoute },
         { type: TableService },
         { type: ChangeDetectorRef },
-        { type: TranslateService }
+        { type: TranslateService },
+        { type: ChangeDetectorRef }
     ]; };
     __decorate([
         ViewChild('MatPaginatorCurrent', { static: true }),
@@ -1370,7 +1376,8 @@ var TableComponent = /** @class */ (function () {
             ActivatedRoute,
             TableService,
             ChangeDetectorRef,
-            TranslateService])
+            TranslateService,
+            ChangeDetectorRef])
     ], TableComponent);
     return TableComponent;
 }());

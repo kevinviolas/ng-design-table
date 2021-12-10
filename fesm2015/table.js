@@ -1015,12 +1015,13 @@ TranslateService = __decorate([
 ], TranslateService);
 
 let TableComponent = class TableComponent {
-    constructor(router, route, service, detector, translate) {
+    constructor(router, route, service, detector, translate, changeDetectorRef) {
         this.router = router;
         this.route = route;
         this.service = service;
         this.detector = detector;
         this.translate = translate;
+        this.changeDetectorRef = changeDetectorRef;
         this.displayDetail = false;
         this.btnOverride = false;
         this.callFunction = new EventEmitter();
@@ -1075,10 +1076,14 @@ let TableComponent = class TableComponent {
                         queryParams: { page: null },
                         queryParamsHandling: 'merge',
                     });
-                    this.paginatorCurrent.firstPage();
+                    this.data.paginator.pageIndex = 0;
+                    this.changeDetectorRef.markForCheck();
+                    console.log('on passe dans la ligne 142');
                 }
                 if (this.data && this.data.paginator && this.data.paginator.pageIndex !== newpage) {
                     this.data.paginator.pageIndex = newpage;
+                    this.changeDetectorRef.markForCheck();
+                    console.log('on passe dans la ligne 146');
                 }
             });
             const page = this.route.snapshot.queryParams["page"];
@@ -1184,7 +1189,8 @@ TableComponent.ctorParameters = () => [
     { type: ActivatedRoute },
     { type: TableService },
     { type: ChangeDetectorRef },
-    { type: TranslateService }
+    { type: TranslateService },
+    { type: ChangeDetectorRef }
 ];
 __decorate([
     ViewChild('MatPaginatorCurrent', { static: true }),
@@ -1254,7 +1260,8 @@ TableComponent = __decorate([
         ActivatedRoute,
         TableService,
         ChangeDetectorRef,
-        TranslateService])
+        TranslateService,
+        ChangeDetectorRef])
 ], TableComponent);
 
 var TableModule_1;
