@@ -1087,9 +1087,9 @@
                 this.pageNumber.next(0);
                 this.number = 0;
             }
-            if (data.length === 0 && this.data) {
-                data = this.data;
-            }
+            /*if (data.length === 0 && this.data) {
+              data = this.data;
+            }*/
             var result = [];
             if (typeof filter === "object") {
                 return this.filterDataObject(data, filter);
@@ -1146,6 +1146,10 @@
         };
         CoreMatTable.prototype.filterDataObject = function (data, filter) {
             var e_4, _a;
+            if (this.pageNumber.getValue() > 0) {
+                this.pageNumber.next(0);
+                this.number = 0;
+            }
             if (data.length === 0 && this.data) {
                 //data = this.data;
                 return data;
@@ -1348,6 +1352,7 @@
                 this.data.paginator = this.paginatorCurrent;
                 this.data.sort = this.sortCurrent;
                 this.data.pageNumber.subscribe(function (newpage) {
+                    console.log('newpage console : ', newpage);
                     if (newpage > 0) {
                         _this.router.navigate([], {
                             relativeTo: _this.route,
@@ -1362,7 +1367,7 @@
                             queryParamsHandling: 'merge',
                         });
                     }
-                    if (_this.data && _this.data.paginator && _this.data.paginator.pageIndex !== newpage) {
+                    if (_this.data && _this.data.paginator) {
                         _this.data.paginator.pageIndex = newpage;
                     }
                 });

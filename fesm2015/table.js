@@ -837,9 +837,9 @@ class CoreMatTable extends DataSource {
             this.pageNumber.next(0);
             this.number = 0;
         }
-        if (data.length === 0 && this.data) {
-            data = this.data;
-        }
+        /*if (data.length === 0 && this.data) {
+          data = this.data;
+        }*/
         const result = [];
         if (typeof filter === "object") {
             return this.filterDataObject(data, filter);
@@ -875,6 +875,10 @@ class CoreMatTable extends DataSource {
         }
     }
     filterDataObject(data, filter) {
+        if (this.pageNumber.getValue() > 0) {
+            this.pageNumber.next(0);
+            this.number = 0;
+        }
         if (data.length === 0 && this.data) {
             //data = this.data;
             return data;
@@ -1057,6 +1061,7 @@ let TableComponent = class TableComponent {
             this.data.paginator = this.paginatorCurrent;
             this.data.sort = this.sortCurrent;
             this.data.pageNumber.subscribe((newpage) => {
+                console.log('newpage console : ', newpage);
                 if (newpage > 0) {
                     this.router.navigate([], {
                         relativeTo: this.route,
@@ -1071,7 +1076,7 @@ let TableComponent = class TableComponent {
                         queryParamsHandling: 'merge',
                     });
                 }
-                if (this.data && this.data.paginator && this.data.paginator.pageIndex !== newpage) {
+                if (this.data && this.data.paginator) {
                     this.data.paginator.pageIndex = newpage;
                 }
             });
