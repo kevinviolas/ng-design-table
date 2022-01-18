@@ -704,11 +704,12 @@
                 if (str.length === 13 && str.includes('+')) {
                     var tmp = str.slice(0, 3);
                     var end = str.slice(3, str.length);
-                    str = tmp + '0' + end;
+                    str = '0' + end;
                 }
                 console.log(str);
                 //console.log(str.replace(/(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/, "(+) $1.$2.$3.$4.$5"), "(+$1) $1.$2.$3.$4.$5");
                 //return str.replace(/(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/, "(+$1) $2.$3.$4.$5.$6");
+                console.log(str.replace(/(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/, "(+$1) $2.$3.$4.$5.$6"));
                 return str.replace(/(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/, "(+33) $1.$2.$3.$4.$5");
             }
             return null;
