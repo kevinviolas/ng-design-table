@@ -491,11 +491,11 @@ var PhoneDisplayComponent = /** @class */ (function () {
             if (str.length === 11) {
                 //str = '0'+str;
             }
-            if (str.includes('+')) {
-                var tmp = str.slice(2, 3);
-                var end = str.slice(3, str.length);
-                str = '0' + tmp + end;
-            }
+            //if ( str.length === 13 && str.includes('+')) {
+            var tmp = str.slice(2, 3);
+            var end = str.slice(3, str.length);
+            str = '0' + tmp + end;
+            //}
             console.log(str);
             //console.log(str.replace(/(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/, "(+) $1.$2.$3.$4.$5"), "(+$1) $1.$2.$3.$4.$5");
             //return str.replace(/(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/, "(+$1) $2.$3.$4.$5.$6");
