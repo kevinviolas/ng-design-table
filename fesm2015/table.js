@@ -475,11 +475,11 @@ let PhoneDisplayComponent = class PhoneDisplayComponent {
             if (str.length === 11) {
                 str = '0' + str;
             }
-            if (str.length === 13 && str.includes('+')) {
+            /*if ( str.length === 13 && str.includes('+')) {
                 let tmp = str.slice(0, 3);
                 let end = str.slice(3, str.length);
                 str = tmp + '0' + end;
-            }
+            }*/
             console.log(str);
             console.log(str.replace(/(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/, "(+33) $1.$2.$3.$4.$5"), "(+$1) $1.$2.$3.$4.$5");
             return str.replace(/(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/, "(+$1) $2.$3.$4.$5.$6");
