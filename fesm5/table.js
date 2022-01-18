@@ -484,6 +484,7 @@ var PhoneDisplayComponent = /** @class */ (function () {
         str = (str || '').replace(/[^\d]/g, "");
         if (str.length == 10) {
             //reformat and return phone number
+            console.log(str.replace(/(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/, "(+33) $1.$2.$3.$4.$5"), "(+33) $1.$2.$3.$4.$5");
             return str.replace(/(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/, "(+33) $1.$2.$3.$4.$5");
         }
         else if (str.length > 10 && str.length <= 13) {
@@ -495,6 +496,7 @@ var PhoneDisplayComponent = /** @class */ (function () {
                 var end = str.slice(3, str.length);
                 str = tmp + '0' + end;
             }
+            console.log(str.replace(/(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/, "(+33) $1.$2.$3.$4.$5"), "(+$1) $1.$2.$3.$4.$5");
             return str.replace(/(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/, "(+$1) $2.$3.$4.$5.$6");
         }
         return null;
