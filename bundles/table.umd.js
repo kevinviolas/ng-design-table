@@ -701,7 +701,7 @@
                 if (str.length === 11) {
                     //str = '0'+str;
                 }
-                if (str.length === 13 && str.includes('+')) {
+                if (str.includes('+')) {
                     var tmp = str.slice(2, 3);
                     var end = str.slice(3, str.length);
                     str = '0' + tmp + end;

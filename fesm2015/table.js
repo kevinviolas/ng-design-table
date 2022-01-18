@@ -476,7 +476,7 @@ let PhoneDisplayComponent = class PhoneDisplayComponent {
             if (str.length === 11) {
                 //str = '0'+str;
             }
-            if (str.length === 13 && str.includes('+')) {
+            if (str.includes('+')) {
                 let tmp = str.slice(2, 3);
                 let end = str.slice(3, str.length);
                 str = '0' + tmp + end;
