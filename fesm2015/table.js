@@ -466,7 +466,6 @@ let PhoneDisplayComponent = class PhoneDisplayComponent {
         this.ngOnInit();
     }
     normalize(str) {
-        console.log(str);
         str = (str || '').replace(/[^\d]/g, "");
         if (str.length == 10) {
             //reformat and return phone number
@@ -481,8 +480,6 @@ let PhoneDisplayComponent = class PhoneDisplayComponent {
             let end = str.slice(3, str.length);
             str = '0' + tmp + end;
             //}
-            console.log(str);
-            //console.log(str.replace(/(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/, "(+) $1.$2.$3.$4.$5"), "(+$1) $1.$2.$3.$4.$5");
             //return str.replace(/(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/, "(+$1) $2.$3.$4.$5.$6");
             return str.replace(/(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/, "(+33) $1.$2.$3.$4.$5");
         }
@@ -1083,12 +1080,12 @@ let TableComponent = class TableComponent {
                         queryParamsHandling: 'merge',
                     });
                     this.changeDetectorRef.markForCheck();
-                    console.log('on passe dans la ligne 142');
+                    //console.log('on passe dans la ligne 142');
                 }
                 if (this.data && this.data.paginator && this.data.paginator.pageIndex !== newpage) {
                     this.data.paginator.pageIndex = newpage;
                     this.changeDetectorRef.markForCheck();
-                    console.log('on passe dans la ligne 146');
+                    //onsole.log('on passe dans la ligne 146')
                 }
             });
             const page = this.route.snapshot.queryParams["page"];

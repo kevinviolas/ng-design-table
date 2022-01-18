@@ -691,7 +691,6 @@
             this.ngOnInit();
         };
         PhoneDisplayComponent.prototype.normalize = function (str) {
-            console.log(str);
             str = (str || '').replace(/[^\d]/g, "");
             if (str.length == 10) {
                 //reformat and return phone number
@@ -706,8 +705,6 @@
                 var end = str.slice(3, str.length);
                 str = '0' + tmp + end;
                 //}
-                console.log(str);
-                //console.log(str.replace(/(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/, "(+) $1.$2.$3.$4.$5"), "(+$1) $1.$2.$3.$4.$5");
                 //return str.replace(/(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/, "(+$1) $2.$3.$4.$5.$6");
                 return str.replace(/(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/, "(+33) $1.$2.$3.$4.$5");
             }
@@ -1374,12 +1371,12 @@
                             queryParamsHandling: 'merge',
                         });
                         _this.changeDetectorRef.markForCheck();
-                        console.log('on passe dans la ligne 142');
+                        //console.log('on passe dans la ligne 142');
                     }
                     if (_this.data && _this.data.paginator && _this.data.paginator.pageIndex !== newpage) {
                         _this.data.paginator.pageIndex = newpage;
                         _this.changeDetectorRef.markForCheck();
-                        console.log('on passe dans la ligne 146');
+                        //onsole.log('on passe dans la ligne 146')
                     }
                 });
                 var page = this.route.snapshot.queryParams["page"];
