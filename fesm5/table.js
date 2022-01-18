@@ -481,6 +481,7 @@ var PhoneDisplayComponent = /** @class */ (function () {
         this.ngOnInit();
     };
     PhoneDisplayComponent.prototype.normalize = function (str) {
+        console.log(str);
         str = (str || '').replace(/[^\d]/g, "");
         if (str.length == 10) {
             //reformat and return phone number
