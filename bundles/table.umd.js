@@ -695,7 +695,9 @@
             this.ngOnInit();
         };
         PhoneDisplayComponent.prototype.normalize = function (str) {
+            console.log(str);
             if (str && libphonenumberJs.isValidPhoneNumber(str)) {
+                console.log(libphonenumberJs.parsePhoneNumber(str).formatNational());
                 return libphonenumberJs.parsePhoneNumber(str).formatNational();
             }
             else {
@@ -2431,6 +2433,7 @@
                 height: this.getFormat() == FORMAT.NONE ? Math.floor(this.getSize() / 1.5) + "px" : this.getSize() + "px",
                 backgroundImage: "url(\"" + this.imageUrl + "\")",
             };
+            console.log(this.style);
         };
         NgxFlagsComponent.prototype.getSize = function () {
             return isNaN(+this.size) ? +SIZE[this.size.toUpperCase()] : this.size;
@@ -2463,7 +2466,7 @@
         NgxFlagsComponent = __decorate([
             core.Component({
                 selector: 'flag',
-                template: "<div *ngIf=\"this.countryCode\" [style]=\"this.style\" [ngClass]=\"['ngx-flag', this.class]\"></div>",
+                template: "<div *ngIf=\"this.country\" [style]=\"this.style\" [ngClass]=\"['ngx-flag', this.class]\"></div>",
                 styles: ["\n      .ngx-flag {\n        display: inline-block;\n        background-repeat: no-repeat;\n        background-position: center;\n        background-size: cover;\n      }\n    "]
             }),
             __metadata("design:paramtypes", [])

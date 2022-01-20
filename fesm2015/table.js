@@ -472,7 +472,9 @@ let PhoneDisplayComponent = class PhoneDisplayComponent {
         this.ngOnInit();
     }
     normalize(str) {
+        console.log(str);
         if (str && isValidPhoneNumber(str)) {
+            console.log(parsePhoneNumber(str).formatNational());
             return parsePhoneNumber(str).formatNational();
         }
         else {
@@ -2105,6 +2107,7 @@ let NgxFlagsComponent = class NgxFlagsComponent {
             height: this.getFormat() == FORMAT.NONE ? `${Math.floor(this.getSize() / 1.5)}px` : `${this.getSize()}px`,
             backgroundImage: `url("${this.imageUrl}")`,
         };
+        console.log(this.style);
     }
     getSize() {
         return isNaN(+this.size) ? +SIZE[this.size.toUpperCase()] : this.size;
@@ -2138,7 +2141,7 @@ __decorate([
 NgxFlagsComponent = __decorate([
     Component({
         selector: 'flag',
-        template: `<div *ngIf="this.countryCode" [style]="this.style" [ngClass]="['ngx-flag', this.class]"></div>`,
+        template: `<div *ngIf="this.country" [style]="this.style" [ngClass]="['ngx-flag', this.class]"></div>`,
         styles: [`
       .ngx-flag {
         display: inline-block;
