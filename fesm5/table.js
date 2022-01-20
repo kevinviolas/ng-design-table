@@ -531,7 +531,7 @@ var PhoneDisplayComponent = /** @class */ (function () {
     PhoneDisplayComponent = __decorate([
         Component({
             selector: 'app-phone-display',
-            template: "<flag country=\"flag\"></flag> <strong>{{display || '-'}}</strong>\n",
+            template: "<flag [country]=\"flag\"></flag> <strong>{{display || '-'}}</strong>\n",
             styles: [""]
         }),
         __metadata("design:paramtypes", [FormBuilder])
