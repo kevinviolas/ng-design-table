@@ -901,7 +901,7 @@ var CoreMatTable = /** @class */ (function (_super) {
         if (this.pageNumber.getValue() > 0) {
             this.pageNumber.next(0);
             this.number = 0;
-            console.log('filterData log');
+            //console.log('filterData log');
         }
         /*if (data.length === 0 && this.data) {
           data = this.data;
@@ -965,7 +965,7 @@ var CoreMatTable = /** @class */ (function (_super) {
         if (this.pageNumber.getValue() > 0) {
             this.pageNumber.next(0);
             this.number = 0;
-            console.log('filterDataObject log');
+            //console.log('filterDataObject log')
         }
         if (data.length === 0 && this.data) {
             //data = this.data;
@@ -2225,7 +2225,6 @@ var NgxFlagsComponent = /** @class */ (function () {
         this.setImage();
     };
     NgxFlagsComponent.prototype.setImage = function () {
-        console.log(this.getCode());
         this.imageUrl = "assets/flags/" + this.getFlag(this.getCode()) + ".svg";
         this.style = {
             borderRadius: this.getFormat() == FORMAT.ROUND ? '9999px' : '0%',
@@ -2234,7 +2233,6 @@ var NgxFlagsComponent = /** @class */ (function () {
             marginRight: '5px',
             backgroundImage: "url(\"" + this.imageUrl + "\")",
         };
-        console.log(this.style);
     };
     NgxFlagsComponent.prototype.getSize = function () {
         return isNaN(+this.size) ? +SIZE[this.size.toUpperCase()] : this.size;
