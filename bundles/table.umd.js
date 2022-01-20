@@ -689,7 +689,7 @@
         PhoneDisplayComponent.prototype.ngOnInit = function () {
             this.display = this.normalize(this.number);
             this.flag = (this.number && this.number != '' && libphonenumberJs.isValidPhoneNumber(this.number) ? libphonenumberJs.parsePhoneNumber(this.number).country : 'FR');
-            console.log(this.flag);
+            this.flag = !this.number ? '' : this.flag;
         };
         PhoneDisplayComponent.prototype.ngOnChanges = function (changes) {
             this.ngOnInit();
