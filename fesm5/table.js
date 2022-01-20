@@ -2,6 +2,7 @@ import { __decorate, __param, __metadata, __values, __extends, __spread, __await
 import { EventEmitter, Inject, ɵɵdefineInjectable, ɵɵinject, Injectable, ChangeDetectorRef, Input, Component, ViewChild, ElementRef, NgModule, Output, ViewEncapsulation, Optional, SkipSelf } from '@angular/core';
 import { CountryISO, NgxIntlTelInputModule } from 'ngx-intl-tel-input';
 import { isValidPhoneNumber, parsePhoneNumber } from 'libphonenumber-js';
+import { FormGroup, FormControl } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
@@ -478,6 +479,9 @@ var PhoneDisplayComponent = /** @class */ (function () {
     }
     PhoneDisplayComponent.prototype.ngOnInit = function () {
         this.display = this.normalize(this.number);
+        this.phoneForm = new FormGroup({
+            phone: new FormControl(this.number, [])
+        });
         this.flag = (this.number && isValidPhoneNumber(this.number) ? parsePhoneNumber(this.number).country : CountryISO.France);
     };
     PhoneDisplayComponent.prototype.ngOnChanges = function (changes) {
@@ -510,7 +514,7 @@ var PhoneDisplayComponent = /** @class */ (function () {
     PhoneDisplayComponent = __decorate([
         Component({
             selector: 'app-phone-display',
-            template: "<!--<strong>{{display || '-'}}</strong>-->\n\n<ngx-intl-tel-input\n    [cssClass]=\"'phone-collab'\"\n    [enableAutoCountrySelect]=\"false\"\n    [enablePlaceholder]=\"false\"\n    [selectFirstCountry]=\"false\"\n    [selectedCountryISO]=\"flag\"\n    [maxLength]=\"15\"\n    [phoneValidation]=\"true\"\n    value=\"display\"\n>\n</ngx-intl-tel-input>",
+            template: "<!--<strong>{{display || '-'}}</strong>-->\n\n<ngx-intl-tel-input\n    [cssClass]=\"'phone-collab'\"\n    [enableAutoCountrySelect]=\"false\"\n    [enablePlaceholder]=\"false\"\n    [selectFirstCountry]=\"false\"\n    [selectedCountryISO]=\"flag\"\n    [maxLength]=\"15\"\n    [phoneValidation]=\"true\"\n    formControlName=\"phone\"\n    disabled\n>\n</ngx-intl-tel-input>",
             styles: [""]
         }),
         __metadata("design:paramtypes", [])
