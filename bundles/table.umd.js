@@ -695,7 +695,7 @@
             this.ngOnInit();
         };
         PhoneDisplayComponent.prototype.normalize = function (str) {
-            if (libphonenumberJs.isValidPhoneNumber(str)) {
+            if (str && libphonenumberJs.isValidPhoneNumber(str)) {
                 return libphonenumberJs.parsePhoneNumber(str).formatNational();
             }
             else {

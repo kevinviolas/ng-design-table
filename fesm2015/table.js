@@ -472,7 +472,7 @@ let PhoneDisplayComponent = class PhoneDisplayComponent {
         this.ngOnInit();
     }
     normalize(str) {
-        if (isValidPhoneNumber(str)) {
+        if (str && isValidPhoneNumber(str)) {
             return parsePhoneNumber(str).formatNational();
         }
         else {
