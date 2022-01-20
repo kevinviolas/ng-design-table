@@ -492,6 +492,15 @@ var PhoneDisplayComponent = /** @class */ (function () {
             console.log(parsePhoneNumber(str).formatNational());
             return parsePhoneNumber(str).formatNational();
         }
+        else if (str) {
+            var phone = parsePhoneNumber(str, 'FR');
+            if (phone.isValid()) {
+                return phone.formatNational();
+            }
+            else {
+                return '';
+            }
+        }
         else {
             return '';
         }

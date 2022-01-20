@@ -477,6 +477,15 @@ let PhoneDisplayComponent = class PhoneDisplayComponent {
             console.log(parsePhoneNumber(str).formatNational());
             return parsePhoneNumber(str).formatNational();
         }
+        else if (str) {
+            const phone = parsePhoneNumber(str, 'FR');
+            if (phone.isValid()) {
+                return phone.formatNational();
+            }
+            else {
+                return '';
+            }
+        }
         else {
             return '';
         }

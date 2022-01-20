@@ -700,6 +700,15 @@
                 console.log(libphonenumberJs.parsePhoneNumber(str).formatNational());
                 return libphonenumberJs.parsePhoneNumber(str).formatNational();
             }
+            else if (str) {
+                var phone = libphonenumberJs.parsePhoneNumber(str, 'FR');
+                if (phone.isValid()) {
+                    return phone.formatNational();
+                }
+                else {
+                    return '';
+                }
+            }
             else {
                 return '';
             }
