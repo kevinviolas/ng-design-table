@@ -2229,8 +2229,9 @@ var NgxFlagsComponent = /** @class */ (function () {
         this.imageUrl = "assets/flags/" + this.getFlag(this.getCode()) + ".svg";
         this.style = {
             borderRadius: this.getFormat() == FORMAT.ROUND ? '9999px' : '0%',
-            width: this.getSize() + "px",
-            height: this.getFormat() == FORMAT.NONE ? Math.floor(this.getSize() / 1.5) + "px" : this.getSize() + "px",
+            width: "10px",
+            height: '10px',
+            marginRight: '5px',
             backgroundImage: "url(\"" + this.imageUrl + "\")",
         };
         console.log(this.style);
