@@ -472,9 +472,7 @@ let PhoneDisplayComponent = class PhoneDisplayComponent {
         this.ngOnInit();
     }
     normalize(str) {
-        console.log(str);
         if (str && isValidPhoneNumber(str)) {
-            console.log(parsePhoneNumber(str).formatNational());
             return parsePhoneNumber(str).formatNational();
         }
         else if (str) {
@@ -2109,6 +2107,7 @@ let NgxFlagsComponent = class NgxFlagsComponent {
         this.setImage();
     }
     setImage() {
+        console.log(this.getCode());
         this.imageUrl = `assets/flags/${this.getFlag(this.getCode())}.svg`;
         this.style = {
             borderRadius: this.getFormat() == FORMAT.ROUND ? '9999px' : '0%',

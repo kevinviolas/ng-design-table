@@ -695,9 +695,7 @@
             this.ngOnInit();
         };
         PhoneDisplayComponent.prototype.normalize = function (str) {
-            console.log(str);
             if (str && libphonenumberJs.isValidPhoneNumber(str)) {
-                console.log(libphonenumberJs.parsePhoneNumber(str).formatNational());
                 return libphonenumberJs.parsePhoneNumber(str).formatNational();
             }
             else if (str) {
@@ -2435,6 +2433,7 @@
             this.setImage();
         };
         NgxFlagsComponent.prototype.setImage = function () {
+            console.log(this.getCode());
             this.imageUrl = "assets/flags/" + this.getFlag(this.getCode()) + ".svg";
             this.style = {
                 borderRadius: this.getFormat() == FORMAT.ROUND ? '9999px' : '0%',
