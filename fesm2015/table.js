@@ -1,6 +1,5 @@
 import { __decorate, __param, __metadata, __awaiter } from 'tslib';
 import { EventEmitter, Inject, ɵɵdefineInjectable, ɵɵinject, Injectable, ChangeDetectorRef, Input, Component, ViewChild, ElementRef, NgModule, Output, ViewEncapsulation, Optional, SkipSelf } from '@angular/core';
-import { CountryISO, NgxIntlTelInputModule } from 'ngx-intl-tel-input';
 import { isValidPhoneNumber, parsePhoneNumber } from 'libphonenumber-js';
 import { FormBuilder } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -15,6 +14,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatIconModule } from '@angular/material/icon';
 import { MatBadgeModule } from '@angular/material/badge';
+import { NgxIntlTelInputModule } from 'ngx-intl-tel-input';
 
 let TableService = class TableService {
     constructor(settingConfig) {
@@ -462,13 +462,12 @@ OriginComponent = __decorate([
 let PhoneDisplayComponent = class PhoneDisplayComponent {
     constructor(fb) {
         this.fb = fb;
+        this.flag = '';
     }
     ngOnInit() {
         this.display = this.normalize(this.number);
-        this.phoneForm = this.fb.group({
-            phone: [this.number, []]
-        });
-        this.flag = (this.number && isValidPhoneNumber(this.number) ? parsePhoneNumber(this.number).country : CountryISO.France);
+        this.flag = (this.number && isValidPhoneNumber(this.number) ? parsePhoneNumber(this.number).country : 'fr');
+        console.log(this.flag);
     }
     ngOnChanges(changes) {
         this.ngOnInit();
@@ -504,7 +503,7 @@ __decorate([
 PhoneDisplayComponent = __decorate([
     Component({
         selector: 'app-phone-display',
-        template: "<!--<strong>{{display || '-'}}</strong>-->\n\n<ngx-intl-tel-input\n    [cssClass]=\"'phone-collab'\"\n    [enableAutoCountrySelect]=\"false\"\n    [enablePlaceholder]=\"false\"\n    [selectFirstCountry]=\"false\"\n    [selectedCountryISO]=\"flag\"\n    [maxLength]=\"15\"\n    [phoneValidation]=\"true\"\n    formControlName=\"phone\"\n    disabled\n>\n</ngx-intl-tel-input>",
+        template: "<strong>{{display || '-'}}</strong>\n",
         styles: [""]
     }),
     __metadata("design:paramtypes", [FormBuilder])

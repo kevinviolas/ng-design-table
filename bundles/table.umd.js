@@ -1,8 +1,8 @@
 (function (global, factory) {
-    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('ngx-intl-tel-input'), require('libphonenumber-js'), require('@angular/forms'), require('@angular/common'), require('@angular/material/sort'), require('@angular/material/paginator'), require('rxjs'), require('rxjs/operators'), require('@angular/cdk/collections'), require('@angular/animations'), require('@angular/router'), require('@angular/material/table'), require('@angular/material/tooltip'), require('@angular/material/icon'), require('@angular/material/badge')) :
-    typeof define === 'function' && define.amd ? define('table', ['exports', '@angular/core', 'ngx-intl-tel-input', 'libphonenumber-js', '@angular/forms', '@angular/common', '@angular/material/sort', '@angular/material/paginator', 'rxjs', 'rxjs/operators', '@angular/cdk/collections', '@angular/animations', '@angular/router', '@angular/material/table', '@angular/material/tooltip', '@angular/material/icon', '@angular/material/badge'], factory) :
-    (global = global || self, factory(global.table = {}, global.ng.core, global.ngxIntlTelInput, global.libphonenumberJs, global.ng.forms, global.ng.common, global.ng.material.sort, global.ng.material.paginator, global.rxjs, global.rxjs.operators, global.ng.cdk.collections, global.ng.animations, global.ng.router, global.ng.material.table, global.ng.material.tooltip, global.ng.material.icon, global.ng.material.badge));
-}(this, (function (exports, core, ngxIntlTelInput, libphonenumberJs, forms, common, sort, paginator, rxjs, operators, collections, animations, router, table, tooltip, icon, badge) { 'use strict';
+    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('libphonenumber-js'), require('@angular/forms'), require('@angular/common'), require('@angular/material/sort'), require('@angular/material/paginator'), require('rxjs'), require('rxjs/operators'), require('@angular/cdk/collections'), require('@angular/animations'), require('@angular/router'), require('@angular/material/table'), require('@angular/material/tooltip'), require('@angular/material/icon'), require('@angular/material/badge'), require('ngx-intl-tel-input')) :
+    typeof define === 'function' && define.amd ? define('table', ['exports', '@angular/core', 'libphonenumber-js', '@angular/forms', '@angular/common', '@angular/material/sort', '@angular/material/paginator', 'rxjs', 'rxjs/operators', '@angular/cdk/collections', '@angular/animations', '@angular/router', '@angular/material/table', '@angular/material/tooltip', '@angular/material/icon', '@angular/material/badge', 'ngx-intl-tel-input'], factory) :
+    (global = global || self, factory(global.table = {}, global.ng.core, global.libphonenumberJs, global.ng.forms, global.ng.common, global.ng.material.sort, global.ng.material.paginator, global.rxjs, global.rxjs.operators, global.ng.cdk.collections, global.ng.animations, global.ng.router, global.ng.material.table, global.ng.material.tooltip, global.ng.material.icon, global.ng.material.badge, global.ngxIntlTelInput));
+}(this, (function (exports, core, libphonenumberJs, forms, common, sort, paginator, rxjs, operators, collections, animations, router, table, tooltip, icon, badge, ngxIntlTelInput) { 'use strict';
 
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation.
@@ -684,13 +684,12 @@
     var PhoneDisplayComponent = /** @class */ (function () {
         function PhoneDisplayComponent(fb) {
             this.fb = fb;
+            this.flag = '';
         }
         PhoneDisplayComponent.prototype.ngOnInit = function () {
             this.display = this.normalize(this.number);
-            this.phoneForm = this.fb.group({
-                phone: [this.number, []]
-            });
-            this.flag = (this.number && libphonenumberJs.isValidPhoneNumber(this.number) ? libphonenumberJs.parsePhoneNumber(this.number).country : ngxIntlTelInput.CountryISO.France);
+            this.flag = (this.number && libphonenumberJs.isValidPhoneNumber(this.number) ? libphonenumberJs.parsePhoneNumber(this.number).country : 'fr');
+            console.log(this.flag);
         };
         PhoneDisplayComponent.prototype.ngOnChanges = function (changes) {
             this.ngOnInit();
@@ -725,7 +724,7 @@
         PhoneDisplayComponent = __decorate([
             core.Component({
                 selector: 'app-phone-display',
-                template: "<!--<strong>{{display || '-'}}</strong>-->\n\n<ngx-intl-tel-input\n    [cssClass]=\"'phone-collab'\"\n    [enableAutoCountrySelect]=\"false\"\n    [enablePlaceholder]=\"false\"\n    [selectFirstCountry]=\"false\"\n    [selectedCountryISO]=\"flag\"\n    [maxLength]=\"15\"\n    [phoneValidation]=\"true\"\n    formControlName=\"phone\"\n    disabled\n>\n</ngx-intl-tel-input>",
+                template: "<strong>{{display || '-'}}</strong>\n",
                 styles: [""]
             }),
             __metadata("design:paramtypes", [forms.FormBuilder])
