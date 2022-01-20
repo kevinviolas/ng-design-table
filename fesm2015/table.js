@@ -465,7 +465,7 @@ let PhoneDisplayComponent = class PhoneDisplayComponent {
     }
     ngOnInit() {
         this.display = this.normalize(this.number);
-        this.flag = (this.number && isValidPhoneNumber(this.number) ? parsePhoneNumber(this.number).country : '');
+        this.flag = (this.display && isValidPhoneNumber(this.display) ? parsePhoneNumber(this.display).country : '');
         console.log(this.flag);
     }
     ngOnChanges(changes) {

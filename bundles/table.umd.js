@@ -688,7 +688,7 @@
         }
         PhoneDisplayComponent.prototype.ngOnInit = function () {
             this.display = this.normalize(this.number);
-            this.flag = (this.number && libphonenumberJs.isValidPhoneNumber(this.number) ? libphonenumberJs.parsePhoneNumber(this.number).country : '');
+            this.flag = (this.display && libphonenumberJs.isValidPhoneNumber(this.display) ? libphonenumberJs.parsePhoneNumber(this.display).country : '');
             console.log(this.flag);
         };
         PhoneDisplayComponent.prototype.ngOnChanges = function (changes) {
