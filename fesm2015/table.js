@@ -2,7 +2,7 @@ import { __decorate, __param, __metadata, __awaiter } from 'tslib';
 import { EventEmitter, Inject, ɵɵdefineInjectable, ɵɵinject, Injectable, ChangeDetectorRef, Input, Component, ViewChild, ElementRef, NgModule, Output, ViewEncapsulation, Optional, SkipSelf } from '@angular/core';
 import { CountryISO, NgxIntlTelInputModule } from 'ngx-intl-tel-input';
 import { isValidPhoneNumber, parsePhoneNumber } from 'libphonenumber-js';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
@@ -460,12 +460,13 @@ OriginComponent = __decorate([
 ], OriginComponent);
 
 let PhoneDisplayComponent = class PhoneDisplayComponent {
-    constructor() {
+    constructor(fb) {
+        this.fb = fb;
     }
     ngOnInit() {
         this.display = this.normalize(this.number);
-        this.phoneForm = new FormGroup({
-            phone: new FormControl(this.number, [])
+        this.phoneForm = this.fb.group({
+            phone: [this.number, []]
         });
         this.flag = (this.number && isValidPhoneNumber(this.number) ? parsePhoneNumber(this.number).country : CountryISO.France);
     }
@@ -493,6 +494,9 @@ let PhoneDisplayComponent = class PhoneDisplayComponent {
         return null;
     }
 };
+PhoneDisplayComponent.ctorParameters = () => [
+    { type: FormBuilder }
+];
 __decorate([
     Input(),
     __metadata("design:type", String)
@@ -503,7 +507,7 @@ PhoneDisplayComponent = __decorate([
         template: "<!--<strong>{{display || '-'}}</strong>-->\n\n<ngx-intl-tel-input\n    [cssClass]=\"'phone-collab'\"\n    [enableAutoCountrySelect]=\"false\"\n    [enablePlaceholder]=\"false\"\n    [selectFirstCountry]=\"false\"\n    [selectedCountryISO]=\"flag\"\n    [maxLength]=\"15\"\n    [phoneValidation]=\"true\"\n    formControlName=\"phone\"\n    disabled\n>\n</ngx-intl-tel-input>",
         styles: [""]
     }),
-    __metadata("design:paramtypes", [])
+    __metadata("design:paramtypes", [FormBuilder])
 ], PhoneDisplayComponent);
 
 let PngIconComponent = class PngIconComponent {

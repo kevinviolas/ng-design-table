@@ -682,12 +682,13 @@
     }());
 
     var PhoneDisplayComponent = /** @class */ (function () {
-        function PhoneDisplayComponent() {
+        function PhoneDisplayComponent(fb) {
+            this.fb = fb;
         }
         PhoneDisplayComponent.prototype.ngOnInit = function () {
             this.display = this.normalize(this.number);
-            this.phoneForm = new forms.FormGroup({
-                phone: new forms.FormControl(this.number, [])
+            this.phoneForm = this.fb.group({
+                phone: [this.number, []]
             });
             this.flag = (this.number && libphonenumberJs.isValidPhoneNumber(this.number) ? libphonenumberJs.parsePhoneNumber(this.number).country : ngxIntlTelInput.CountryISO.France);
         };
@@ -714,6 +715,9 @@
             }
             return null;
         };
+        PhoneDisplayComponent.ctorParameters = function () { return [
+            { type: forms.FormBuilder }
+        ]; };
         __decorate([
             core.Input(),
             __metadata("design:type", String)
@@ -724,7 +728,7 @@
                 template: "<!--<strong>{{display || '-'}}</strong>-->\n\n<ngx-intl-tel-input\n    [cssClass]=\"'phone-collab'\"\n    [enableAutoCountrySelect]=\"false\"\n    [enablePlaceholder]=\"false\"\n    [selectFirstCountry]=\"false\"\n    [selectedCountryISO]=\"flag\"\n    [maxLength]=\"15\"\n    [phoneValidation]=\"true\"\n    formControlName=\"phone\"\n    disabled\n>\n</ngx-intl-tel-input>",
                 styles: [""]
             }),
-            __metadata("design:paramtypes", [])
+            __metadata("design:paramtypes", [forms.FormBuilder])
         ], PhoneDisplayComponent);
         return PhoneDisplayComponent;
     }());
