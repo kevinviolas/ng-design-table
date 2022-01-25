@@ -745,6 +745,7 @@ var CellsComponentList;
     CellsComponentList["ItCategory"] = "it-category";
     CellsComponentList["ItStatus"] = "it-status";
     CellsComponentList["CustomIcon"] = "custom-icon";
+    CellsComponentList["PngIcon"] = "png-icon";
 })(CellsComponentList || (CellsComponentList = {}));
 
 class CoreMatTable extends DataSource {

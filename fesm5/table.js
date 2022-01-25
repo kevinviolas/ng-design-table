@@ -767,6 +767,7 @@ var CellsComponentList;
     CellsComponentList["ItCategory"] = "it-category";
     CellsComponentList["ItStatus"] = "it-status";
     CellsComponentList["CustomIcon"] = "custom-icon";
+    CellsComponentList["PngIcon"] = "png-icon";
 })(CellsComponentList || (CellsComponentList = {}));
 
 var CoreMatTable = /** @class */ (function (_super) {
