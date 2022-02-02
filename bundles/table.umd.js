@@ -593,7 +593,7 @@
                 this.letter = (tmp[0][0] + (tmp[1] && tmp[1][0] ? tmp[1][0] : tmp[0][1])).toUpperCase();
             }
             else if (this.src && this.src.includes('assets')) {
-                this.icon.nativeElement.style.backgroundImage = this.src;
+                //this.icon.nativeElement.style.backgroundImage = this.src;
                 this.icon.nativeElement.style.borderRadius = this._borderRadius;
                 this.icon.nativeElement.style.marginLeft = '16px';
                 this.icon.nativeElement.style.display = this._display;
@@ -634,7 +634,7 @@
         NameAvatarComponent = __decorate([
             core.Component({
                 selector: 'name-avatar',
-                template: "<div #avatar>\n    {{letter}}\n</div>\n",
+                template: "<div *ngIf=\"src && !src.includes('assets')\" #avatar>\n    {{letter}}\n</div>\n\n<img src=\"src\" *ngIf=\"src && src.includes('assets')\" #avatar/>",
                 styles: ["div{align-items:center;justify-content:center;padding:0!important}"]
             }),
             __metadata("design:paramtypes", [TableService])
