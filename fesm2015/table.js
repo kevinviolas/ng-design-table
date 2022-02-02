@@ -354,8 +354,7 @@ let NameAvatarComponent = class NameAvatarComponent {
         this.defaultDimension = 24;
     }
     ngOnInit() {
-        console.log(this.src);
-        if (this.src) {
+        if (this.src && !this.src.includes('assets')) {
             let deg = Math.random() * (10 - 360) + 10;
             /*this.icon.nativeElement.style.backgroundImage = this.service.settingConfig.nameAvatarBackgroundColor; /*`linear-gradient(${deg}deg, #9d107d,
                                                              #8b3391, #7647a0, #5f56a8, #4862ab)`;*/
@@ -372,6 +371,15 @@ let NameAvatarComponent = class NameAvatarComponent {
             this.icon.nativeElement.style.color = '#171F26';
             const tmp = this.src.split(' ');
             this.letter = (tmp[0][0] + (tmp[1] && tmp[1][0] ? tmp[1][0] : tmp[0][1])).toUpperCase();
+        }
+        else if (this.src && this.src.includes('assets')) {
+            this.icon.nativeElement.style.backgroundImage = this.src;
+            this.icon.nativeElement.style.borderRadius = this._borderRadius;
+            this.icon.nativeElement.style.marginLeft = '16px';
+            this.icon.nativeElement.style.display = this._display;
+            this.icon.nativeElement.style.width = this.fontSize;
+            this.icon.nativeElement.style.height = this.fontSize;
+            this.icon.nativeElement.style.padding = (parseInt(this.icon.nativeElement.style.fontSize, 0) / 3) + 'px';
         }
         else if (this.afterInit === false) {
             this.afterInit = true;
