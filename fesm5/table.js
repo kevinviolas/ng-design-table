@@ -426,7 +426,7 @@ var NameAvatarComponent = /** @class */ (function () {
     NameAvatarComponent = __decorate([
         Component({
             selector: 'name-avatar',
-            template: "<div  #avatar>\n    {{letter}}\n</div>\n\n<img [src]=\"src\" *ngIf=\"src && src.includes('assets')\" />",
+            template: "<div [ngStyle]=\"src.includes('assets') && {'display': 'none'}\" #avatar>\n    {{letter}}\n</div>\n\n<img [src]=\"src\" *ngIf=\"src && src.includes('assets')\" />",
             styles: ["div{align-items:center;justify-content:center;padding:0!important}"]
         }),
         __metadata("design:paramtypes", [TableService])
