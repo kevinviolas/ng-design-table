@@ -29,6 +29,7 @@ interface displayedColumnsInterface {
     valueOverride?: {
         [key: string]: string;
     };
+    fontSize?: string;
 }
 declare class TableComponent implements OnInit, OnChanges {
     private router;
