@@ -366,6 +366,7 @@ var NameAvatarComponent = /** @class */ (function () {
         this.defaultDimension = 24;
     }
     NameAvatarComponent.prototype.ngOnInit = function () {
+        console.log(this.src);
         if (this.src) {
             var deg = Math.random() * (10 - 360) + 10;
             /*this.icon.nativeElement.style.backgroundImage = this.service.settingConfig.nameAvatarBackgroundColor; /*`linear-gradient(${deg}deg, #9d107d,
