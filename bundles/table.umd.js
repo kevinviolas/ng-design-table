@@ -634,7 +634,7 @@
         NameAvatarComponent = __decorate([
             core.Component({
                 selector: 'name-avatar',
-                template: "<div *ngIf=\"src && !src.includes('assets')\" #avatar>\n    {{letter}}\n</div>\n\n<img [src]=\"src\" *ngIf=\"src && src.includes('assets')\" #avatar/>",
+                template: "<div *ngIf=\"src && !src.includes('assets')\" #avatar>\n    {{letter}}\n</div>\n\n<img [src]=\"src\" *ngIf=\"src && src.includes('assets')\" />",
                 styles: ["div{align-items:center;justify-content:center;padding:0!important}"]
             }),
             __metadata("design:paramtypes", [TableService])
