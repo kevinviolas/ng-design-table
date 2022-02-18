@@ -2256,7 +2256,8 @@ TableModule = TableModule_1 = __decorate([
             CommonModule,
             MatIconModule,
             RouterModule,
-            MatBadgeModule
+            MatBadgeModule,
+            NgxFlagsComponent
         ]
     }),
     __param(0, Optional()), __param(0, SkipSelf()),

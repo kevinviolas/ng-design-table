@@ -2576,7 +2576,8 @@
                     common.CommonModule,
                     icon.MatIconModule,
                     router.RouterModule,
-                    badge.MatBadgeModule
+                    badge.MatBadgeModule,
+                    NgxFlagsComponent
                 ]
             }),
             __param(0, core.Optional()), __param(0, core.SkipSelf()),

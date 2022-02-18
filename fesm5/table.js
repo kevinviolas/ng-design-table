@@ -2368,7 +2368,8 @@ var TableModule = /** @class */ (function () {
                 CommonModule,
                 MatIconModule,
                 RouterModule,
-                MatBadgeModule
+                MatBadgeModule,
+                NgxFlagsComponent
             ]
         }),
         __param(0, Optional()), __param(0, SkipSelf()),
