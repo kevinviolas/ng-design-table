@@ -9,7 +9,7 @@ export declare class NameAvatarComponent implements OnInit, AfterViewInit {
     letter: string;
     private _padding;
     private _display;
-    _borderRadius: string;
+    private _borderRadius;
     private _size;
     private afterInit;
     private defaultFontSize;
