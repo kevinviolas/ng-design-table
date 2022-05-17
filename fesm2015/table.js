@@ -1222,7 +1222,7 @@ __decorate([
 StatusComponent = __decorate([
     Component({
         selector: 'lib-status',
-        template: "<span class=\"custom-status\" [class]=\"class\">{{label}}</span>",
+        template: "<div class=\"custom-status\" [class]=\"class\">\n    <span>{{label}}</span>\n</div>",
         styles: [""]
     }),
     __metadata("design:paramtypes", [])
