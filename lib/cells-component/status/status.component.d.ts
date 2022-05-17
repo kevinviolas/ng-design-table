@@ -1,6 +1,7 @@
 import { OnInit } from '@angular/core';
 export declare class StatusComponent implements OnInit {
-    status: string;
+    label: string;
+    value: string;
     constructor();
     ngOnInit(): void;
 }
