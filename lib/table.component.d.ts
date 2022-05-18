@@ -26,6 +26,7 @@ interface displayedColumnsInterface {
     clickable?: boolean;
     statement?: boolean;
     valueStatement?: string[];
+    fontSize?: string;
     config?: displayColumnsConfig;
     valueOverride?: {
         [key: string]: string;
