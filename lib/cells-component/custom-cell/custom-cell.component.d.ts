@@ -1,6 +1,7 @@
 import { OnInit } from '@angular/core';
-export declare class StatusComponent implements OnInit {
-    label: string;
+export declare class CustomCellComponent implements OnInit {
+    title: string;
+    subTitle: string;
     class: string;
     constructor();
     ngOnInit(): void;
