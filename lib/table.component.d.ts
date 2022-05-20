@@ -17,6 +17,7 @@ interface displayedColumnsInterface {
     ratio?: number;
     order?: number;
     class?: string;
+    addClass?: string;
     category?: string;
     module?: CellsComponentList;
     override?: string | string[];
