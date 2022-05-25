@@ -1,4 +1,4 @@
-import { OnInit } from '@angular/core';
+import { EventEmitter, OnInit } from '@angular/core';
 import { TranslateService } from '../../translate.service';
 export declare class ButtonLinkTextComponent implements OnInit {
     private translate;
@@ -7,7 +7,10 @@ export declare class ButtonLinkTextComponent implements OnInit {
     text: string;
     class: string;
     id: string;
+    modal: string;
+    callHandler: EventEmitter<any>;
     open: string;
     constructor(translate: TranslateService);
     ngOnInit(): void;
+    action(): void;
 }
