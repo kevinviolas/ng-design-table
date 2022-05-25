@@ -2161,7 +2161,7 @@ __decorate([
 ButtonLinkTextComponent = __decorate([
     Component({
         selector: 'button-link-text',
-        template: "<a [matTooltip]=\"open\"\n    class=\"btn-link-text btn-xs\"\n    routerLink=\"routerLink\">\n    {{ text }}\n</a>",
+        template: "<a [matTooltip]=\"open\"\n    class=\"btn-link-text btn-xs\"\n    [routerLink]=\"routerLink\">\n    {{ text }}\n</a>",
         styles: [""]
     }),
     __metadata("design:paramtypes", [TranslateService])
