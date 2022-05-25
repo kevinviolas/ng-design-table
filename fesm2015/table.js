@@ -2138,10 +2138,9 @@ let ButtonLinkTextComponent = class ButtonLinkTextComponent {
     ngOnInit() {
         console.log(this.text);
         this.open = this.translate.translate(this.lang, 'OPEN');
-        if (this.text = '') {
+        if (this.text == '') {
             this.text = this.translate.translate(this.lang, 'DETAILS');
         }
-        console.log(this.text);
     }
 };
 ButtonLinkTextComponent.ctorParameters = () => [
