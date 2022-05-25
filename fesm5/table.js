@@ -2264,6 +2264,7 @@ var ButtonLinkTextComponent = /** @class */ (function () {
         if (this.text = '') {
             this.text = this.translate.translate(this.lang, 'DETAILS');
         }
+        console.log(this.text);
     };
     ButtonLinkTextComponent.ctorParameters = function () { return [
         { type: TranslateService }
