@@ -8,6 +8,7 @@ export declare class ButtonLinkTextComponent implements OnInit {
     class: string;
     id: string;
     modal: string;
+    element: any;
     callHandler: EventEmitter<any>;
     open: string;
     constructor(translate: TranslateService);
