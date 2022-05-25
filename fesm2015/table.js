@@ -3,13 +3,13 @@ import { EventEmitter, Inject, ɵɵdefineInjectable, ɵɵinject, Injectable, Cha
 import { isValidPhoneNumber, parsePhoneNumber } from 'libphonenumber-js';
 import { FormBuilder } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { MatSort, MatSortModule } from '@angular/material/sort';
-import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { Router, ActivatedRoute, RouterModule } from '@angular/router';
 import { BehaviorSubject, from } from 'rxjs';
-import { switchMap, debounceTime, share, pluck } from 'rxjs/operators';
+import { debounceTime, switchMap, share, pluck } from 'rxjs/operators';
 import { DataSource } from '@angular/cdk/collections';
 import { trigger, state, style, transition, animate } from '@angular/animations';
-import { Router, ActivatedRoute, RouterModule } from '@angular/router';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatIconModule } from '@angular/material/icon';
@@ -731,32 +731,6 @@ YesNoComponent = __decorate([
     __metadata("design:paramtypes", [TableService])
 ], YesNoComponent);
 
-/***********************************************************
- **  @project MS_Nowboard                              **
- **  @file ComponentRegistry                                         **
- **  @author Brice Daupiard <brice.daupiard@smartiiz.com>  **
- **  @Date 12/03/2021                                         **
- ***********************************************************/
-var CellsComponentList;
-(function (CellsComponentList) {
-    CellsComponentList["ButtonLink"] = "button-link";
-    CellsComponentList["ButtonLinkText"] = "button-link-text";
-    CellsComponentList["ButtonClick"] = "button-click";
-    CellsComponentList["Priority"] = "priority";
-    CellsComponentList["Origin"] = "origin";
-    CellsComponentList["NameAvatar"] = "name-avatar";
-    CellsComponentList["DateFormat"] = "date-format";
-    CellsComponentList["CountRow"] = "count-row";
-    CellsComponentList["Gender"] = "gender-avatar";
-    CellsComponentList["Phone"] = "phone-display";
-    CellsComponentList["YesNo"] = "yes-no-display";
-    CellsComponentList["CustomerRank"] = "customer-rank";
-    CellsComponentList["ItCategory"] = "it-category";
-    CellsComponentList["ItStatus"] = "it-status";
-    CellsComponentList["CustomIcon"] = "custom-icon";
-    CellsComponentList["PngIcon"] = "png-icon";
-})(CellsComponentList || (CellsComponentList = {}));
-
 class CoreMatTable extends DataSource {
     constructor(data, sortRules, rangeRules, size = 20, detailRaws = true, emptyRow = false, filterT = {}) {
         super();
@@ -777,62 +751,14 @@ class CoreMatTable extends DataSource {
         this.pageFilterDate = new BehaviorSubject(null);
         this.pageFilter = new BehaviorSubject('');
         this.pageNumber = new BehaviorSubject(this.startWith);
-        this._totalElements.subscribe((page) => this.totalElements = page);
+        this._totalElements.pipe(debounceTime(200)).subscribe((itemsLength) => {
+            console.log('_totalElements', itemsLength);
+            this.totalElements = itemsLength;
+        });
         this.page$ = this.pageSort.pipe(switchMap(sortAction => this.pageFilter.pipe(debounceTime(500))
             .pipe(switchMap(filter => this.pageFilterDate.pipe(switchMap(range => this.pageNumber.pipe(switchMap(page => from([{
                 content: this.slice(this.sortData(this.filterDataObject(this.filterData(this.filterDateRange(this.data, range), filter), this.filterTable), sortAction), page, this.size, detailRaws)
             }])), share())))))));
-        /* if (Object.keys(this.filterTable).length > 0) {
-           this.page$ = this.page$.pipe(
-             switchMap(sortAction2 => this.pageFilter.pipe(debounceTime(500))
-               .pipe(
-                 switchMap(filter => this.pageFilterDate.pipe(
-                   switchMap(range2 => this.pageNumber.pipe(
-                     switchMap(page2 => from([{
-                       content: this.slice(
-                         this.sortData(
-                           this.filterDataObject(
-                             this.filterDateRange(
-                               this.dataAfterSearch, range2
-                             ), this.filterTable
-                           ), sortAction2
-                         ), page2, this.size, detailRaws)
-                     }])), share())
-                   ))
-                 ))));
-         }
-     
-         /*
-     
-         (likes: any[]) => {
-            return likes.length === 0 ?
-              Observable.of(likes) :
-              Observable.combineLatest(
-                likes.map(like => this.af.database.object("/citations/" + like.$key))
-            )
-          }
-     
-         this.page$ = this.pageFilterDate.pipe(
-            startWith(rangeRules),
-            switchMap(range => this.pageFilter.pipe(debounceTime(500)).pipe(
-              startWith(''),
-              switchMap(filter => this.pageSort.pipe(
-                startWith(sortRules),
-                switchMap(sortAction => this.pageNumber.pipe(
-                  startWith(this.startWith),
-                  switchMap(page => from([{
-                    content: this.slice(
-                      this.sortData(
-                        this.filterData(
-                          this.filterDateRange(
-                            this.data, range
-                          ), filter
-                        ), sortAction
-                      ), page, this.size, detailRaws)
-                  }])),
-                  share()
-                ))))
-            )));*/
     }
     filterDateRange(data, range) {
         if (!range || (!range.valueStart && !range.valueEnd)) {
@@ -868,24 +794,19 @@ class CoreMatTable extends DataSource {
         return pond;
     }
     filterData(data, filter) {
-        if (this.pageNumber.getValue() > 0) {
-            this.pageNumber.next(0);
-            this.number = 0;
-            //console.log('filterData log');
+        if (data.length === 0 && this.data) {
+            data = this.data;
         }
-        /*if (data.length === 0 && this.data) {
-          data = this.data;
-        }*/
         const result = [];
-        if (typeof filter === "object") {
+        if (typeof filter === 'object') {
             return this.filterDataObject(data, filter);
         }
-        else if (filter && filter.replace(/[^a-zA-Z ]/g, " ")) {
+        else if (filter && filter.replace(/[^a-zA-Z ]/g, ' ')) {
             for (let e of data) {
                 e.pond = 0;
                 const dataRaw = JSON.stringify(e).toLowerCase()
-                    .replace(/[^a-zA-Z0-9 ]/g, " ");
-                const stack = filter.toLowerCase().replace(/[^a-zA-Z0-9 ]/g, " ")
+                    .replace(/[^a-zA-Z0-9 ]/g, ' ');
+                const stack = filter.toLowerCase().replace(/[^a-zA-Z0-9 ]/g, ' ')
                     .split(' ');
                 let combination = 0;
                 for (let k of stack) {
@@ -903,19 +824,16 @@ class CoreMatTable extends DataSource {
                 }
             }
             this.dataAfterSearch = result.filter((e => e.pond)).sort((a, b) => a > b ? 1 : (a < b ? -1 : 0));
+            this._totalElements.next(this.dataAfterSearch.length);
             return result.filter((e => e.pond)).sort((a, b) => a > b ? 1 : (a < b ? -1 : 0));
         }
         else {
             this.dataAfterSearch = data;
+            this._totalElements.next(this.dataAfterSearch.length);
             return data;
         }
     }
     filterDataObject(data, filter) {
-        if (this.pageNumber.getValue() > 0) {
-            this.pageNumber.next(0);
-            this.number = 0;
-            //console.log('filterDataObject log')
-        }
         if (data.length === 0 && this.data) {
             //data = this.data;
             return data;
@@ -939,6 +857,8 @@ class CoreMatTable extends DataSource {
                     result.push(e);
                 }
             }
+            this.dataAfterSearch = result;
+            this._totalElements.next(this.dataAfterSearch.length);
             return result;
             //return result.filter((e => e.pond)).sort((a, b) => a > b ? 1 : (a < b ? -1 : 0));
         }
@@ -970,9 +890,10 @@ class CoreMatTable extends DataSource {
     }
     fetch(page) {
         this.pageNumber.next(page);
+        this.number = page;
     }
-    sortIt(sortidea) {
-        this.pageSort.next(sortidea);
+    sortIt(sortIdea) {
+        this.pageSort.next(sortIdea);
     }
     filter(myFilter) {
         if (!myFilter && this.data || !myFilter.trim() && this.data) {
@@ -994,31 +915,55 @@ class CoreMatTable extends DataSource {
     }
     slice(data, start = 0, end = 20, detailRow = true) {
         const rows = [];
-        this._totalElements.next(data.length);
         if (data.length) {
             data = data.slice(start * end, (start * end) + end);
+            let cursor = 1;
             if (this.emptyRow) {
-                data.forEach((d) => {
-                    rows.push('empty');
+                for (const d of data) {
+                    if (rows[cursor - 1] !== 'empty') {
+                        rows.push('empty');
+                    }
                     rows.push(d);
-                });
+                    cursor++;
+                }
                 return rows;
             }
-            return data;
+            this._totalElements.next(this.dataAfterSearch.length);
+            return rows;
         }
         else {
-            data = data.slice(start * end, (start * end) + end);
-            if (this.emptyRow) {
-                data.forEach((d) => {
-                    rows.push('empty');
-                    rows.push(d);
-                });
-                return rows;
-            }
-            return rows;
+            this._totalElements.next(this.dataAfterSearch.length);
+            return data;
         }
     }
 }
+
+/***********************************************************
+ **  @project MS_Nowboard                              **
+ **  @file ComponentRegistry                                         **
+ **  @author Brice Daupiard <brice.daupiard@smartiiz.com>  **
+ **  @Date 12/03/2021                                         **
+ ***********************************************************/
+var CellsComponentList;
+(function (CellsComponentList) {
+    CellsComponentList["ButtonLink"] = "button-link";
+    CellsComponentList["ButtonLinkText"] = "button-link-text";
+    CellsComponentList["ButtonClick"] = "button-click";
+    CellsComponentList["Priority"] = "priority";
+    CellsComponentList["Origin"] = "origin";
+    CellsComponentList["NameAvatar"] = "name-avatar";
+    CellsComponentList["DateFormat"] = "date-format";
+    CellsComponentList["CountRow"] = "count-row";
+    CellsComponentList["Gender"] = "gender-avatar";
+    CellsComponentList["Phone"] = "phone-display";
+    CellsComponentList["YesNo"] = "yes-no-display";
+    CellsComponentList["CustomerRank"] = "customer-rank";
+    CellsComponentList["ItCategory"] = "it-category";
+    CellsComponentList["ItStatus"] = "it-status";
+    CellsComponentList["CustomIcon"] = "custom-icon";
+    CellsComponentList["PngIcon"] = "png-icon";
+    CellsComponentList["CustomCell"] = "custom-cell";
+})(CellsComponentList || (CellsComponentList = {}));
 
 let TranslateService = class TranslateService {
     constructor() {
@@ -1099,7 +1044,6 @@ let TableComponent = class TableComponent {
             this.data.paginator = this.paginatorCurrent;
             this.data.sort = this.sortCurrent;
             this.data.pageNumber.subscribe((newpage) => {
-                console.log('newpage console : ', newpage);
                 if (newpage > 0) {
                     this.router.navigate([], {
                         relativeTo: this.route,
@@ -1113,16 +1057,14 @@ let TableComponent = class TableComponent {
                         queryParams: { page: null },
                         queryParamsHandling: 'merge',
                     });
-                    this.changeDetectorRef.markForCheck();
-                    //console.log('on passe dans la ligne 142');
                 }
                 if (this.data && this.data.paginator && this.data.paginator.pageIndex !== newpage) {
-                    this.data.paginator.pageIndex = newpage;
-                    this.changeDetectorRef.markForCheck();
-                    //onsole.log('on passe dans la ligne 146')
+                    // this.data.paginator.pageIndex = newpage;
+                    console.log('on passe dans la ligne 146', this.data.paginator.pageIndex, newpage);
                 }
+                this.changeDetectorRef.markForCheck();
             });
-            const page = this.route.snapshot.queryParams["page"];
+            const page = this.route.snapshot.queryParams['page'];
             if (page) {
                 const currentPage = Number(page) - 1;
                 this.data.startWith = currentPage;
@@ -1208,16 +1150,16 @@ let TableComponent = class TableComponent {
     }
     ngOnChanges(changes) {
         if ((this.inputSearch.length > 1 || this.inputSearch.length === 0)
-            && this.inputSearch.length < 200) {
-            if (this.data) {
-                this.data.filter(this.inputSearch);
-                this.data.pageNumber.next(0);
-                this.data.fetch(0);
-                this.data.number = 0;
-                this.changeDetectorRef.markForCheck();
-            }
+            && this.inputSearch.length < 200 && this.data) {
+            this.data.filter(this.inputSearch);
+            this.data.fetch(0);
         }
-        this.ngOnInit();
+        //this.changeDetectorRef.markForCheck();
+        if (changes.data && changes.data.isFirstChange()) {
+            console.log('Init init');
+            this.ngOnInit();
+        }
+        //
     }
 };
 TableComponent.ctorParameters = () => [
@@ -1283,14 +1225,14 @@ __decorate([
 TableComponent = __decorate([
     Component({
         selector: 'ngx-design-table',
-        template: "<div class=\"table-wrapper\">\n  <div class=\"row\" style=\"height: 20px;background: transparent!important; box-shadow: none !important\">\n    <div class=\"\">\n      <!--<div class=\"col-lg-12 search-container\">\n        <mat-icon style=\"left: 16%; position: absolute; margin-top: 10px;\">search</mat-icon>\n        <input class=\"search-box\" type=\"text\" [placeholder]=\"search\" [maxLength]=\"100\"\n        [value]=\"inputSearch\"\n        (change)=\"onChange($event)\"\n               (input)=\"((($event.target.value.length > 1 || $event.target.value.length === 0)\n                        && $event.target.value.length < 200)\n                                       ? data.filter($event) : null)\"\n               #filterOngoing>\n        <a class=\"close-search\" *ngIf=\"filterOngoing.value\"\n           [matTooltip]=\"cancelSearch\"\n           (click)=\"reset() && filterOngoing.value = ''\">\n          <img [src]=\"'/assets/icons/search_off-24px.svg'\">\n        </a>\n      </div>-->\n    </div>\n  </div>\n  <!-- Table -->\n  <table mat-table #table=\"matSort\"\n         [dataSource]=\"data \" multiTemplateDataRows matSort\n         class=\"\" *ngIf=\"displayedColumns && columnsToDisplay && data && data.totalElements && showTable\"\n         (matSortChange)=\"data.sortIt($event)\">\n    <ng-container [matColumnDef]=\"column.key\" *ngFor=\"let column of displayedColumns\">\n      <ng-container *ngIf=\"column.sort\">\n        <th mat-header-cell *matHeaderCellDef\n            [class]=\"generateClass([column.class, column.align ? 'text-align-'+column.align : 'text-align-left'])\"\n            mat-sort-header>\n          <app-is-mat-icon [input]=\"column.value\"></app-is-mat-icon>\n        </th>\n      </ng-container>\n      <ng-container *ngIf=\"!column.sort\">\n        <!-- Ajouter fonction generate Class -->\n        <ng-container *ngIf=\"column.clickable\">\n          <th mat-header-cell *matHeaderCellDef\n              (click)=\"clicked.emit({key : column.key, statement : (column.statement = !column.statement)})\"\n              [class]=\"generateClass([column.class, column.align ? 'text-align-'+column.align : 'text-align-left'])\"\n              style=\"cursor: pointer;\">\n            <app-is-mat-icon [input]=\"column.value\"></app-is-mat-icon>\n            <app-is-mat-icon\n              *ngIf=\"column.valueStatement && column.statement !== undefined\"\n              [input]=\"column.valueStatement[column.statement ? 1 : 0]\">\n            </app-is-mat-icon>\n          </th>\n        </ng-container>\n        <ng-container *ngIf=\"!column.clickable\">\n          <th mat-header-cell *matHeaderCellDef\n              [class]=\"generateClass([column.class, column.align ? 'text-align-'+column.align : 'text-align-left'])\">\n            <app-is-mat-icon [input]=\"column.value\"></app-is-mat-icon>\n          </th>\n        </ng-container>\n        <th mat-header-cell *matHeaderCellDef\n            [class]=\"generateClass([column.class, column.align ? 'text-align-'+column.align : 'text-align-left'])\">\n          <app-is-mat-icon [input]=\"column.value\"></app-is-mat-icon>\n        </th>\n      </ng-container>\n\n      <td *ngIf=\"EmptyRow\" [attr.colspan]=\"columnsToDisplay.length\" class=\"empty-row\"></td>\n      <td class=\"row-style\" mat-cell *matCellDef=\"let element\"\n          [class]=\"generateClass([column.class, column.align ? 'text-align-'+column.align : ''])\">\n        <ng-container *ngIf=\"element !== 'empty'\" [ngSwitch]=\"column.module\">\n          <!-- Button click -->\n          <ng-container *ngSwitchCase=\"'button-click'\">\n            <a [matTooltip]=\"open\"\n               class=\"btn-link-text\"\n               (click)=\"callFunction.emit(element[column.key])\">\n              <!--<ng-container *ngIf=\"column.display\">\n                <app-is-mat-icon [input]=\"column.display\"></app-is-mat-icon>\n              </ng-container>\n              <ng-container *ngIf=\"!column.display\">\n                {{element[column.key]}}\n              </ng-container>-->\n              {{ details }}\n            </a>\n          </ng-container>\n          <!-- Button link -->\n          <ng-container *ngSwitchCase=\"'button-link'\">\n            <!--                matBadge=\"*\" matBadgePosition=\"before\"\n               matBadgeColor=\"accent\" -->\n            <a *ngIf=\"element.new\" [matTooltip]=\"open\"\n               class=\"mat-button btn-xs\"\n               (click)=\"element.new = false\"\n               [ngClass]=\"btnOverride == true ? 'link-btn': 'nowboard-btn'\"\n               routerLink=\"{{column.override ? buildLink(column.override, element) : element[column.key]}}\">\n              <ng-container *ngIf=\"column.display\">\n                <app-is-mat-icon [input]=\"column.display\"></app-is-mat-icon>\n              </ng-container>\n              <ng-container *ngIf=\"!column.display\">\n                {{element[column.key]}}\n              </ng-container>\n            </a>\n            <a *ngIf=\"!element.new\"\n               [matTooltip]=\"open\"\n               class=\"mat-button btn-xs\"\n               [ngClass]=\"btnOverride == true ? 'link-btn': 'nowboard-btn'\"\n               routerLink=\"{{column.override ? buildLink(column.override, element) : element[column.key]}}\">\n              <ng-container *ngIf=\"column.display\">\n                <app-is-mat-icon class=\"is-mat-icon-cell\" [input]=\"column.display\"></app-is-mat-icon>\n              </ng-container>\n              <ng-container *ngIf=\"!column.display\">\n                {{element[column.key]}}\n              </ng-container>\n            </a>\n          </ng-container>\n          <!-- Button link text -->\n          <ng-container *ngSwitchCase=\"'button-link-text'\">\n            <button-link-text [lang]=\"lang\" [routerLink]=\"column.override ? buildLink(column.override, element) : element[column.key]\" [text]=\"element[column.key]\"></button-link-text>\n          </ng-container>\n          <!-- icon custom-->\n          <ng-container *ngSwitchCase=\"'custom-icon'\">\n            <input type=\"hidden\" [value]=\"element[column.key]\">\n            <img *ngIf=\"element[column.key] && column.valueOverride\" [src]=\"column.valueOverride[element[column.key]]\" style=\"width: 20px; height: 20px;\">\n          </ng-container>\n          <ng-container *ngSwitchCase=\"'it-category'\">\n            <app-equipement-type [name]=\"element[column.key]\" [type]=\"element[column.override]\"></app-equipement-type>\n          </ng-container>\n          <!-- icon it status -->\n          <ng-container *ngSwitchCase=\"'it-status'\">\n            <app-equipement-status [type]=\"element[column.key]\"></app-equipement-status>\n          </ng-container>\n          <!-- icon customer rank -->\n          <ng-container *ngSwitchCase=\"'customer-rank'\">\n            <app-customer-rank [type]=\"element[column.key]\"></app-customer-rank>\n          </ng-container>\n          <!-- icon priority-->\n          <ng-container *ngSwitchCase=\"'priority'\">\n            <icon-priority [icon]=\"element['Icon']\" [iconLabel]=\"element['Priority'] || null\"></icon-priority>\n          </ng-container>\n          <!-- icon gender avatar-->\n          <ng-container *ngSwitchCase=\"'gender-avatar'\">\n            <app-gender [type]=\"element[column.key]\"></app-gender>\n          </ng-container>\n\n          <!-- icon gender avatar-->\n          <ng-container *ngSwitchCase=\"'phone-display'\">\n            <app-phone-display [number]=\"element[column.key]\"></app-phone-display>\n          </ng-container>\n\n          <!-- icon gender avatar-->\n          <ng-container *ngSwitchCase=\"'yes-no-display'\">\n            <app-yes-nox\n              *ngIf=\"column.config && (column.config.displayNo !== undefined && column.config.displayYes !== undefined)\"\n              [valid]=\"element[column.key]\" [size]=\"column.config?.sizeIcon\"\n              [displayNo]=\"column.config.displayYes\" [displayYes]=\"column.config.displayNo\"\n            >\n            </app-yes-nox>\n            <app-yes-nox\n              *ngIf=\"(!column.config || (column.config && !(column.config.displayNo || column.config.displayYes)))\"\n              [valid]=\"element[column.key]\" [size]=\"column.config?.sizeIcon\">\n            </app-yes-nox>\n          </ng-container>\n          <!-- icon origin-->\n          <ng-container *ngSwitchCase=\"'origin'\">\n            <icon-origin [icon]=\"element[column.key]\"></icon-origin>\n          </ng-container>\n          <!-- icon name avatar-->\n          <ng-container *ngSwitchCase=\"'name-avatar'\">\n            <name-avatar matTooltip=\"{{Join(element, column.override)}}\"\n                         [src]=\"element[column.key]\"\n                         [fontSize]=\"column.fontSize\"\n                         [matTooltipClass]=\"'my-tooltip'\">\n            </name-avatar>\n          </ng-container>\n          <!-- date format -->\n          <ng-container *ngSwitchCase=\"'date-format'\">\n            <date-format style=\"padding-right: 10px\" [date]=\"element[column.key]\"></date-format>\n          </ng-container>\n          <!-- count rows -->\n          <ng-container *ngSwitchCase=\"'count-row'\">\n                       <span style=\"padding-left: 14px\">\n                           {{(element[column.key] && element[column.key].length ? element[column.key].length : '-')}}\n                       </span>\n          </ng-container>\n          <ng-container *ngSwitchDefault>\n            {{element[column.key]}}\n          </ng-container>\n        </ng-container>\n\n        <ng-container *ngIf=\"element === 'empty'\">\n      <td [ngClass]=\"'empty-row'\" mat-cell *matCellDef=\"let element\" [attr.colspan]=\"columnsToDisplay.length\">\n        empty row\n      </td>\n    </ng-container>\n\n    </td>\n    </ng-container>\n\n    <ng-container matColumnDef=\"expandedDetailX\" *ngIf=\"displayDetail\">\n      <td mat-cell *matCellDef=\"let element\" [attr.colspan]=\"columnsToDisplay.length\"\n          [@detailExpand]=\"expandedElement && element == expandedElement ? 'expanded' : 'collapsed'\"\n          style=\"height: 0\">\n        <div *ngIf=\"element['CaseNumber'] && expandedElement\">\n          <div class=\"element-detail\" [innerHTML]=\"element.expanded\">\n          </div>\n\n          <a [class.nav-expanded]=\"element == expandedElement\"\n             [routerLink]=\"['/ticket/', element['CaseNumber']]\" [title]=\"open\">\n            <img class=\"detail-view-ticket\" src=\"/assets/icons/eye.png\">\n          </a>\n        </div>\n      </td>\n    </ng-container>\n    <tr mat-header-row *matHeaderRowDef=\"columnsToDisplay\"></tr>\n    <ng-container *ngIf=\"displayDetail\">\n      <tr mat-row *matRowDef=\"let element; columns: columnsToDisplay;\"\n          class=\"element-row\"\n          [ngClass]=\"!element || element === 'empty'? 'empty-row-none': 'detail-row'\"\n          [class.expanded]=\"expandedElement == element\"\n          (click)=\"expand(element)\">\n      </tr>\n      <tr mat-row *matRowDef=\"let row; columns: ['expandedDetailX']\"\n          [ngClass]=\"!expandedElement || !row || row === 'empty'? 'empty-row': 'detail-row'\">\n\n      </tr>\n    </ng-container>\n    <ng-container *ngIf=\"!displayDetail\">\n      <tr mat-row *matRowDef=\"let element; columns: columnsToDisplay;\"\n          class=\"element-row\">\n      </tr>\n    </ng-container>\n  </table>\n  <ng-container *ngIf=\"data && data.totalElements === 0\">\n    <div class=\"row\" style=\"height: 84px;background: transparent!important;\">\n      <div class=\"\">\n        <div class=\"col-lg-12 search-container\" style=\"text-align: center\">\n          {{ noResult }}\n        </div>\n      </div>\n    </div>\n  </ng-container>\n  <mat-paginator #MatPaginatorCurrent *ngIf=\"data && data.totalElements > 0\" [length]=\"data.totalElements\"\n                 [pageSize]=\"data.size\" [pageIndex]=\"data.number\" [hidePageSize]=\"true\"\n                 (page)=\"data.fetch($event.pageIndex)\" showFirstLastButtons></mat-paginator>\n</div>\n",
+        template: "<div class=\"table-wrapper\">\n  <div class=\"row\" style=\"height: 20px;background: transparent!important; box-shadow: none !important\">\n    <div class=\"\">\n      <!--<div class=\"col-lg-12 search-container\">\n        <mat-icon style=\"left: 16%; position: absolute; margin-top: 10px;\">search</mat-icon>\n        <input class=\"search-box\" type=\"text\" [placeholder]=\"search\" [maxLength]=\"100\"\n        [value]=\"inputSearch\"\n        (change)=\"onChange($event)\"\n               (input)=\"((($event.target.value.length > 1 || $event.target.value.length === 0)\n                        && $event.target.value.length < 200)\n                                       ? data.filter($event) : null)\"\n               #filterOngoing>\n        <a class=\"close-search\" *ngIf=\"filterOngoing.value\"\n           [matTooltip]=\"cancelSearch\"\n           (click)=\"reset() && filterOngoing.value = ''\">\n          <img [src]=\"'/assets/icons/search_off-24px.svg'\">\n        </a>\n      </div>-->\n    </div>\n  </div>\n  <!-- Table -->\n  <table mat-table #table=\"matSort\" [dataSource]=\"data \" multiTemplateDataRows matSort class=\"\"\n    *ngIf=\"displayedColumns && columnsToDisplay && data && data.totalElements && showTable\"\n    (matSortChange)=\"data.sortIt($event)\">\n    <ng-container [matColumnDef]=\"column.key\" *ngFor=\"let column of displayedColumns\">\n      <ng-container *ngIf=\"column.sort\">\n        <th mat-header-cell *matHeaderCellDef\n          [class]=\"generateClass([column.class, column.align ? 'text-align-'+column.align : 'text-align-left'])\"\n          mat-sort-header>\n          <app-is-mat-icon [input]=\"column.value\"></app-is-mat-icon>\n        </th>\n      </ng-container>\n      <ng-container *ngIf=\"!column.sort\">\n        <!-- Ajouter fonction generate Class -->\n        <ng-container *ngIf=\"column.clickable\">\n          <th mat-header-cell *matHeaderCellDef\n            (click)=\"clicked.emit({key : column.key, statement : (column.statement = !column.statement)})\"\n            [class]=\"generateClass([column.class, column.align ? 'text-align-'+column.align : 'text-align-left'])\"\n            style=\"cursor: pointer;\">\n            <app-is-mat-icon [input]=\"column.value\"></app-is-mat-icon>\n            <app-is-mat-icon *ngIf=\"column.valueStatement && column.statement !== undefined\"\n              [input]=\"column.valueStatement[column.statement ? 1 : 0]\">\n            </app-is-mat-icon>\n          </th>\n        </ng-container>\n        <ng-container *ngIf=\"!column.clickable\">\n          <th mat-header-cell *matHeaderCellDef\n            [class]=\"generateClass([column.class, column.align ? 'text-align-'+column.align : 'text-align-left'])\">\n            <app-is-mat-icon [input]=\"column.value\"></app-is-mat-icon>\n          </th>\n        </ng-container>\n        <th mat-header-cell *matHeaderCellDef\n          [class]=\"generateClass([column.class, column.align ? 'text-align-'+column.align : 'text-align-left'])\">\n          <app-is-mat-icon [input]=\"column.value\"></app-is-mat-icon>\n        </th>\n      </ng-container>\n\n      <td *ngIf=\"EmptyRow\" [attr.colspan]=\"columnsToDisplay.length\" class=\"empty-row\"></td>\n      <td class=\"row-style\" mat-cell *matCellDef=\"let element\"\n        [class]=\"generateClass([column.class, column.align ? 'text-align-'+column.align : ''])\">\n        <ng-container *ngIf=\"element !== 'empty'\" [ngSwitch]=\"column.module\">\n          <!-- Button click -->\n          <ng-container *ngSwitchCase=\"'button-click'\">\n            <a [matTooltip]=\"open\" class=\"btn-link-text\" (click)=\"callFunction.emit(element[column.key])\">\n              <!--<ng-container *ngIf=\"column.display\">\n                <app-is-mat-icon [input]=\"column.display\"></app-is-mat-icon>\n              </ng-container>\n              <ng-container *ngIf=\"!column.display\">\n                {{element[column.key]}}\n              </ng-container>-->\n              {{ details }}\n            </a>\n          </ng-container>\n          <!-- Button link -->\n          <ng-container *ngSwitchCase=\"'button-link'\">\n            <!--                matBadge=\"*\" matBadgePosition=\"before\"\n               matBadgeColor=\"accent\" -->\n            <a *ngIf=\"element.new\" [matTooltip]=\"open\" class=\"mat-button btn-xs\" (click)=\"element.new = false\"\n              [ngClass]=\"btnOverride == true ? 'link-btn': 'nowboard-btn'\"\n              routerLink=\"{{column.override ? buildLink(column.override, element) : element[column.key]}}\">\n              <ng-container *ngIf=\"column.display\">\n                <app-is-mat-icon [input]=\"column.display\"></app-is-mat-icon>\n              </ng-container>\n              <ng-container *ngIf=\"!column.display\">\n                {{element[column.key]}}\n              </ng-container>\n            </a>\n            <a *ngIf=\"!element.new\" [matTooltip]=\"open\" class=\"mat-button btn-xs\"\n              [ngClass]=\"btnOverride == true ? 'link-btn': 'nowboard-btn'\"\n              routerLink=\"{{column.override ? buildLink(column.override, element) : element[column.key]}}\">\n              <ng-container *ngIf=\"column.display\">\n                <app-is-mat-icon class=\"is-mat-icon-cell\" [input]=\"column.display\"></app-is-mat-icon>\n              </ng-container>\n              <ng-container *ngIf=\"!column.display\">\n                {{element[column.key]}}\n              </ng-container>\n            </a>\n          </ng-container>\n          <!-- Button link text -->\n          <ng-container *ngSwitchCase=\"'button-link-text'\">\n            <button-link-text [lang]=\"lang\" [routerLink]=\"column.override ? buildLink(column.override, element) : element[column.key]\" [text]=\"element[column.key]\"></button-link-text>\n          </ng-container>\n          <!-- icon custom-->\n          <ng-container *ngSwitchCase=\"'custom-icon'\">\n            <input type=\"hidden\" [value]=\"element[column.key]\">\n            <img *ngIf=\"element[column.key] && column.valueOverride\" [src]=\"column.valueOverride[element[column.key]]\"\n              style=\"width: 20px; height: 20px;\">\n          </ng-container>\n          <ng-container *ngSwitchCase=\"'it-category'\">\n            <app-equipement-type [name]=\"element[column.key]\" [type]=\"element[column.override]\"></app-equipement-type>\n          </ng-container>\n          <!-- icon it status -->\n          <ng-container *ngSwitchCase=\"'it-status'\">\n            <app-equipement-status [type]=\"element[column.key]\"></app-equipement-status>\n          </ng-container>\n          <!-- icon customer rank -->\n          <ng-container *ngSwitchCase=\"'customer-rank'\">\n            <app-customer-rank [type]=\"element[column.key]\"></app-customer-rank>\n          </ng-container>\n          <!-- icon priority-->\n          <ng-container *ngSwitchCase=\"'priority'\">\n            <icon-priority [icon]=\"element['Icon']\" [iconLabel]=\"element['Priority'] || null\"></icon-priority>\n          </ng-container>\n          <!-- icon gender avatar-->\n          <ng-container *ngSwitchCase=\"'gender-avatar'\">\n            <app-gender [type]=\"element[column.key]\"></app-gender>\n          </ng-container>\n\n          <!-- icon gender avatar-->\n          <ng-container *ngSwitchCase=\"'phone-display'\">\n            <app-phone-display [number]=\"element[column.key]\"></app-phone-display>\n          </ng-container>\n\n          <!-- icon gender avatar-->\n          <ng-container *ngSwitchCase=\"'yes-no-display'\">\n            <app-yes-nox\n              *ngIf=\"column.config && (column.config.displayNo !== undefined && column.config.displayYes !== undefined)\"\n              [valid]=\"element[column.key]\" [size]=\"column.config?.sizeIcon\" [displayNo]=\"column.config.displayYes\"\n              [displayYes]=\"column.config.displayNo\">\n            </app-yes-nox>\n            <app-yes-nox\n              *ngIf=\"(!column.config || (column.config && !(column.config.displayNo || column.config.displayYes)))\"\n              [valid]=\"element[column.key]\" [size]=\"column.config?.sizeIcon\">\n            </app-yes-nox>\n          </ng-container>\n          <!-- icon origin-->\n          <ng-container *ngSwitchCase=\"'origin'\">\n            <icon-origin [icon]=\"element[column.key]\"></icon-origin>\n          </ng-container>\n          <!-- icon name avatar-->\n          <ng-container *ngSwitchCase=\"'name-avatar'\">\n            <name-avatar matTooltip=\"{{Join(element, column.override)}}\" [src]=\"element[column.key]\"\n              [matTooltipClass]=\"'my-tooltip'\">\n            </name-avatar>\n          </ng-container>\n          <!-- date format -->\n          <ng-container *ngSwitchCase=\"'date-format'\">\n            <date-format style=\"padding-right: 10px\" [date]=\"element[column.key]\"></date-format>\n          </ng-container>\n          <!-- count rows -->\n          <ng-container *ngSwitchCase=\"'count-row'\">\n            <span style=\"padding-left: 14px\">\n              {{(element[column.key] && element[column.key].length ? element[column.key].length : '-')}}\n            </span>\n          </ng-container>\n          <ng-container *ngSwitchCase=\"'custom-cell'\">\n            <lib-custom-cell [title]=\"element[column.key]\" [subTitle]=\"element[column.subTitle]\"\n              [class]=\"element[column.addClass]\"></lib-custom-cell>\n          </ng-container>\n          <ng-container *ngSwitchDefault>\n            {{element[column.key]}}\n          </ng-container>\n        </ng-container>\n\n        <ng-container *ngIf=\"element === 'empty'\">\n      <td [ngClass]=\"'empty-row'\" mat-cell *matCellDef=\"let element\" [attr.colspan]=\"columnsToDisplay.length\">\n        empty row\n      </td>\n    </ng-container>\n\n    </td>\n    </ng-container>\n\n    <ng-container matColumnDef=\"expandedDetailX\" *ngIf=\"displayDetail\">\n      <td mat-cell *matCellDef=\"let element\" [attr.colspan]=\"columnsToDisplay.length\"\n        [@detailExpand]=\"expandedElement && element == expandedElement ? 'expanded' : 'collapsed'\" style=\"height: 0\">\n        <div *ngIf=\"element['CaseNumber'] && expandedElement\">\n          <div class=\"element-detail\" [innerHTML]=\"element.expanded\">\n          </div>\n\n          <a [class.nav-expanded]=\"element == expandedElement\" [routerLink]=\"['/ticket/', element['CaseNumber']]\"\n            [title]=\"open\">\n            <img class=\"detail-view-ticket\" src=\"/assets/icons/eye.png\">\n          </a>\n        </div>\n      </td>\n    </ng-container>\n    <tr mat-header-row *matHeaderRowDef=\"columnsToDisplay\"></tr>\n    <ng-container *ngIf=\"displayDetail\">\n      <tr mat-row *matRowDef=\"let element; columns: columnsToDisplay;\" class=\"element-row\"\n        [ngClass]=\"!element || element === 'empty'? 'empty-row-none': 'detail-row'\"\n        [class.expanded]=\"expandedElement == element\" (click)=\"expand(element)\">\n      </tr>\n      <tr mat-row *matRowDef=\"let row; columns: ['expandedDetailX']\"\n        [ngClass]=\"!expandedElement || !row || row === 'empty'? 'empty-row': 'detail-row'\">\n\n      </tr>\n    </ng-container>\n    <ng-container *ngIf=\"!displayDetail\">\n      <tr mat-row *matRowDef=\"let element; columns: columnsToDisplay;\" class=\"element-row\">\n      </tr>\n    </ng-container>\n  </table>\n  <ng-container *ngIf=\"data && data.totalElements === 0\">\n    <div class=\"row\" style=\"height: 84px;background: transparent!important;\">\n      <div class=\"\">\n        <div class=\"col-lg-12 search-container\" style=\"text-align: center\">\n          {{ noResult }}\n        </div>\n      </div>\n    </div>\n  </ng-container>\n  <mat-paginator #MatPaginatorCurrent *ngIf=\"data && data.totalElements > 0\" [length]=\"data.totalElements\"\n    [pageSize]=\"data.size\" [pageIndex]=\"data.number\" [hidePageSize]=\"true\" (page)=\"data.fetch($event.pageIndex)\"\n    showFirstLastButtons></mat-paginator>\n</div>",
         animations: [trigger('detailExpand', [
                 state('collapsed', style({ height: '0px', minHeight: '0', display: 'none' })),
                 state('expanded', style({ height: '*' })),
                 transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
             ])],
         encapsulation: ViewEncapsulation.None,
-        styles: [".table-wrapper table{width:100%}.table-wrapper .mat-cell{padding-left:10px}.table-wrapper png-icon{padding-left:17px}.table-wrapper tr:nth-child(1){min-height:48px}.table-wrapper .detail-row{height:auto!important}.table-wrapper tr.element-row:not(.expanded-row):hover{background:#f5f5f5}.table-wrapper tr.element-row:not(.expanded-row):active{background:#efefef}.table-wrapper .text-align-right{text-align:right!important}.table-wrapper .text-align-left{text-align:left!important}.table-wrapper .text-align-center{text-align:center!important}.table-wrapper .element-detail{overflow:hidden;display:flex;padding-top:10px;padding-bottom:10px}@media screen and (min-width:1441px){.table-wrapper .mat-cell{padding-top:15px;padding-bottom:10px;font-size:13px!important}}.table-wrapper .u-1{width:4%!important;max-width:4%!important;min-width:4%!important}.table-wrapper .u-2{width:5%!important;max-width:5%!important;min-width:5%!important}.table-wrapper .u-3{width:7%!important;max-width:7%!important;min-width:7%!important}@media screen and (max-width:1440px){.table-wrapper a.mat-button{padding-top:10px}.table-wrapper .mat-cell{padding-top:15px;padding-bottom:10px;font-size:11px!important}.table-wrapper .u-1{width:5%!important;max-width:5%!important;min-width:5%!important}.table-wrapper .u-2{width:6%!important;max-width:6%!important;min-width:6%!important}.table-wrapper .u-3{width:10%!important;max-width:10%!important;min-width:10%!important}}.table-wrapper .u-4{max-width:11%!important;width:11%!important;min-width:11%!important}.table-wrapper .u-5{max-width:10%!important;width:10%!important;min-width:10%!important}.table-wrapper .u-6{max-width:15%!important;width:15%!important;min-width:15%!important}.table-wrapper .u-7{width:20%!important;min-width:20%!important}.table-wrapper .u-8{width:25%!important;min-width:25%!important}.table-wrapper .u-9{width:30%!important;min-width:30%!important}.is-mat-icon-cell{width:auto;height:auto;display:auto}.is-mat-icon-cell .mat-icon{font-size:14px}.is-mat-icon-cell span,app-is-mat-icon span{margin:auto}.link-btn{color:#171f26;font-family:\"Nexa Text Bold\";font-size:14px!important;letter-spacing:0;text-align:center;text-decoration:underline}.expanded>.mat-cell>.link-btn{text-decoration:none;font-weight:400}.btn-link-text{background:no-repeat padding-box #e5e8ee;border-radius:4px;text-align:left;font:bold 12px/19px \"Nexa Text\";letter-spacing:0;color:#707070!important;cursor:pointer;padding:10px}.empty-row{background:0 0!important;height:10px!important}.empty-row td{background:0 0!important;height:0}.empty-row-none{display:none!important}"]
+        styles: [".table-wrapper table{width:100%}.table-wrapper .mat-cell{padding-left:10px}.table-wrapper png-icon{padding-left:17px}.table-wrapper tr:nth-child(1){min-height:48px}.table-wrapper .detail-row{height:auto!important}.table-wrapper tr.element-row:not(.expanded-row):hover{background:#f5f5f5}.table-wrapper tr.element-row:not(.expanded-row):active{background:#efefef}.table-wrapper .text-align-right{text-align:right!important}.table-wrapper .text-align-left{text-align:left!important}.table-wrapper .text-align-center{text-align:center!important}.table-wrapper .element-detail{overflow:hidden;display:flex;padding-top:10px;padding-bottom:10px}@media screen and (min-width:1441px){.table-wrapper .mat-cell{padding-top:15px;padding-bottom:10px;font-size:13px!important}}.table-wrapper .u-1{width:4%!important;max-width:4%!important;min-width:4%!important}.table-wrapper .u-2{width:5%!important;max-width:5%!important;min-width:5%!important}.table-wrapper .u-3{width:7%!important;max-width:7%!important;min-width:7%!important}@media screen and (max-width:1440px){.table-wrapper a.mat-button{padding-top:10px}.table-wrapper .mat-cell{padding-top:15px;padding-bottom:10px;font-size:11px!important}.table-wrapper .u-1{width:5%!important;max-width:5%!important;min-width:5%!important}.table-wrapper .u-2{width:6%!important;max-width:6%!important;min-width:6%!important}.table-wrapper .u-3{width:10%!important;max-width:10%!important;min-width:10%!important}}.table-wrapper .u-4{max-width:11%!important;width:11%!important;min-width:11%!important}.table-wrapper .u-5{max-width:10%!important;width:10%!important;min-width:10%!important}.table-wrapper .u-6{max-width:15%!important;width:15%!important;min-width:15%!important}.table-wrapper .u-7{width:20%!important;min-width:20%!important}.table-wrapper .u-8{width:25%!important;min-width:25%!important}.table-wrapper .u-9{width:30%!important;min-width:30%!important}.is-mat-icon-cell{width:auto;height:auto;display:auto}.is-mat-icon-cell .mat-icon{font-size:14px}.is-mat-icon-cell span,app-is-mat-icon span{margin:auto}.link-btn{color:#171f26;font-family:\"Nexa Text Bold\";font-size:14px!important;letter-spacing:0;text-align:center;text-decoration:underline}.expanded>.mat-cell>.link-btn{text-decoration:none;font-weight:400}.btn-link-text{background:no-repeat padding-box #e5e8ee;border-radius:4px;text-align:left;font:bold 12px/19px \"Nexa Text\";letter-spacing:0;color:#707070!important;cursor:pointer;padding:10px}.empty-row{background:0 0!important;height:10px!important}.empty-row td{background:0 0!important;height:0}.empty-row .ng-trigger-detailExpand,.empty-row-none{display:none!important}"]
     }),
     __metadata("design:paramtypes", [Router,
         ActivatedRoute,
@@ -2225,6 +2167,32 @@ ButtonLinkTextComponent = __decorate([
     __metadata("design:paramtypes", [TranslateService])
 ], ButtonLinkTextComponent);
 
+let CustomCellComponent = class CustomCellComponent {
+    constructor() { }
+    ngOnInit() {
+    }
+};
+__decorate([
+    Input(),
+    __metadata("design:type", String)
+], CustomCellComponent.prototype, "title", void 0);
+__decorate([
+    Input(),
+    __metadata("design:type", String)
+], CustomCellComponent.prototype, "subTitle", void 0);
+__decorate([
+    Input(),
+    __metadata("design:type", String)
+], CustomCellComponent.prototype, "class", void 0);
+CustomCellComponent = __decorate([
+    Component({
+        selector: 'lib-custom-cell',
+        template: "<div class=\"custom-cell\" [class]=\"class\">\n    <span>{{title}}</span>\n    <span *ngIf=\"!!subTitle\">{{subTitle}}</span>\n</div>",
+        styles: [""]
+    }),
+    __metadata("design:paramtypes", [])
+], CustomCellComponent);
+
 var TableModule_1;
 let TableModule = TableModule_1 = class TableModule {
     constructor(parentModule) {
@@ -2261,7 +2229,8 @@ TableModule = TableModule_1 = __decorate([
             PriorityComponent,
             YesNoComponent,
             NgxFlagsComponent,
-            ButtonLinkTextComponent
+            ButtonLinkTextComponent,
+            CustomCellComponent
         ],
         imports: [
             PngIconModule,
@@ -2311,5 +2280,5 @@ TableModule = TableModule_1 = __decorate([
  * Generated bundle index. Do not edit.
  */
 
-export { CellsComponentList, CoreMatTable, CustomerRankComponent, DateFormatComponent, EquipementStatusComponent, EquipementTypeComponent, GenderComponent, IsMatIconComponent, NameAvatarComponent, OriginComponent, PhoneDisplayComponent, PngIconComponent, PngIconModule, PriorityComponent, TableComponent, TableModule, TableService, YesNoComponent, TranslateService as ɵa, NgxFlagsComponent as ɵb, ButtonLinkTextComponent as ɵc };
+export { CellsComponentList, CoreMatTable, CustomerRankComponent, DateFormatComponent, EquipementStatusComponent, EquipementTypeComponent, GenderComponent, IsMatIconComponent, NameAvatarComponent, OriginComponent, PhoneDisplayComponent, PngIconComponent, PngIconModule, PriorityComponent, TableComponent, TableModule, TableService, YesNoComponent, TranslateService as ɵa, NgxFlagsComponent as ɵb, ButtonLinkTextComponent as ɵc, CustomCellComponent as ɵd };
 //# sourceMappingURL=table.js.map
