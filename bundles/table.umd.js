@@ -2480,7 +2480,10 @@
             }
         };
         ButtonLinkTextComponent.prototype.action = function () {
-            this.callHandler.emit(this.modal);
+            this.callHandler.emit({
+                modal: this.modal,
+                id: this.id,
+            });
         };
         ButtonLinkTextComponent.ctorParameters = function () { return [
             { type: TranslateService }

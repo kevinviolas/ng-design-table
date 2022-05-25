@@ -2149,7 +2149,10 @@ let ButtonLinkTextComponent = class ButtonLinkTextComponent {
         }
     }
     action() {
-        this.callHandler.emit(this.modal);
+        this.callHandler.emit({
+            modal: this.modal,
+            id: this.id,
+        });
     }
 };
 ButtonLinkTextComponent.ctorParameters = () => [
