@@ -6,6 +6,7 @@ export declare class ButtonLinkTextComponent implements OnInit {
     routerLink: string;
     text: string;
     class: string;
+    id: string;
     open: string;
     constructor(translate: TranslateService);
     ngOnInit(): void;
