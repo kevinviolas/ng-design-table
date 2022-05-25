@@ -1329,7 +1329,7 @@
             else {
                 this.expandedElement = element;
             }
-            console.log(this.expandedElement);
+            //console.log(this.expandedElement);
         };
         TableComponent.prototype.ngOnInit = function () {
             var _this = this;
@@ -2472,7 +2472,7 @@
         }
         ButtonLinkTextComponent.prototype.ngOnInit = function () {
             this.open = this.translate.translate(this.lang, 'OPEN');
-            if (this.text == '') {
+            if (this.text == 'Action') {
                 this.text = this.translate.translate(this.lang, 'DETAILS');
             }
             if (this.modal !== '') {

@@ -1030,7 +1030,7 @@ let TableComponent = class TableComponent {
         else {
             this.expandedElement = element;
         }
-        console.log(this.expandedElement);
+        //console.log(this.expandedElement);
     }
     ngOnInit() {
         this.service.emptyRow = this.EmptyRow;
@@ -2141,7 +2141,7 @@ let ButtonLinkTextComponent = class ButtonLinkTextComponent {
     }
     ngOnInit() {
         this.open = this.translate.translate(this.lang, 'OPEN');
-        if (this.text == '') {
+        if (this.text == 'Action') {
             this.text = this.translate.translate(this.lang, 'DETAILS');
         }
         if (this.modal !== '') {
