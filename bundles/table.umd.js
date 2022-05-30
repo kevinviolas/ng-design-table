@@ -1427,8 +1427,6 @@
                 for (var i = 1; i < override.length; i++) {
                     basePath += '/' + element[override[i]];
                 }
-                console.log('---------override----------', override);
-                console.log('---------basePath----------', basePath);
                 return basePath;
             }
         };
