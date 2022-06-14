@@ -2272,11 +2272,12 @@ var ButtonLinkTextComponent = /** @class */ (function () {
         }
     };
     ButtonLinkTextComponent.prototype.action = function () {
-        var _a;
+        var _a, _b;
         this.callHandler.emit({
             modal: this.modal,
             id: this.id,
-            caseNumber: (_a = this.element) === null || _a === void 0 ? void 0 : _a.CaseNumber
+            caseNumber: (_a = this.element) === null || _a === void 0 ? void 0 : _a.CaseNumber,
+            Vote: (_b = this.element) === null || _b === void 0 ? void 0 : _b.Vote
         });
     };
     ButtonLinkTextComponent.ctorParameters = function () { return [
