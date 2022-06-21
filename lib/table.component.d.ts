@@ -32,7 +32,7 @@ interface displayedColumnsInterface {
     subTitle?: string;
     config?: displayColumnsConfig;
     valueOverride?: {
-        [key: string]: string;
+        [key: string]: any;
     };
 }
 declare class TableComponent implements OnInit, OnChanges {

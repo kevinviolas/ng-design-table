@@ -1,5 +1,7 @@
 import { __decorate, __param, __metadata, __values, __extends, __spread, __awaiter, __generator } from 'tslib';
 import { EventEmitter, Inject, ɵɵdefineInjectable, ɵɵinject, Injectable, ChangeDetectorRef, Input, Component, ViewChild, ElementRef, NgModule, Output, ViewEncapsulation, Optional, SkipSelf } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
+import { isValidPhoneNumber, parsePhoneNumber } from 'libphonenumber-js';
 import { CommonModule } from '@angular/common';
 import { Router, ActivatedRoute, RouterModule } from '@angular/router';
 import { BehaviorSubject, from } from 'rxjs';
@@ -364,7 +366,7 @@ var NameAvatarComponent = /** @class */ (function () {
         this.defaultDimension = 24;
     }
     NameAvatarComponent.prototype.ngOnInit = function () {
-        if (this.src) {
+        if (this.src && !this.src.includes('assets')) {
             var deg = Math.random() * (10 - 360) + 10;
             /*this.icon.nativeElement.style.backgroundImage = this.service.settingConfig.nameAvatarBackgroundColor; /*`linear-gradient(${deg}deg, #9d107d,
                                                              #8b3391, #7647a0, #5f56a8, #4862ab)`;*/
@@ -372,8 +374,8 @@ var NameAvatarComponent = /** @class */ (function () {
             this.icon.nativeElement.style.borderRadius = this._borderRadius;
             this.icon.nativeElement.style.marginLeft = '16px';
             this.icon.nativeElement.style.display = this._display;
-            this.icon.nativeElement.style.width = this.fontSize;
-            this.icon.nativeElement.style.height = this.fontSize;
+            this.icon.nativeElement.style.width = this.fontSize || '44px';
+            this.icon.nativeElement.style.height = this.fontSize || '44px';
             this.icon.nativeElement.style.fontSize = (parseInt(this.fontSize, 0) / 2) + 'px';
             this.icon.nativeElement.style.padding = (parseInt(this.icon.nativeElement.style.fontSize, 0) / 3) + 'px';
             this.icon.nativeElement.style.fontWeight = '900';
@@ -381,6 +383,15 @@ var NameAvatarComponent = /** @class */ (function () {
             this.icon.nativeElement.style.color = '#171F26';
             var tmp = this.src.split(' ');
             this.letter = (tmp[0][0] + (tmp[1] && tmp[1][0] ? tmp[1][0] : tmp[0][1])).toUpperCase();
+        }
+        else if (this.src && this.src.includes('assets')) {
+            //this.icon.nativeElement.style.backgroundImage = this.src;
+            /*this.icon.nativeElement.style.borderRadius = this._borderRadius;
+            this.icon.nativeElement.style.marginLeft = '16px';
+            this.icon.nativeElement.style.display = this._display;
+            this.icon.nativeElement.style.width = this.fontSize;
+            this.icon.nativeElement.style.height = this.fontSize;
+            this.icon.nativeElement.style.padding = (parseInt(this.icon.nativeElement.style.fontSize, 0) / 3) + 'px';*/
         }
         else if (this.afterInit === false) {
             this.afterInit = true;
@@ -415,7 +426,7 @@ var NameAvatarComponent = /** @class */ (function () {
     NameAvatarComponent = __decorate([
         Component({
             selector: 'name-avatar',
-            template: "<div #avatar>\r\n    {{letter}}\r\n</div>\r\n",
+            template: "<div [ngStyle]=\"src && src.includes('assets') && {'display': 'none'}\" #avatar>\r\n    {{letter}}\r\n</div>\r\n\r\n<img [src]=\"src\" [ngStyle]=\"{'width': fontSize || '44px', 'height': fontSize || '44px',  'vertical-align': 'middle', 'border-radius': _borderRadius}\" *ngIf=\"src && src.includes('assets')\" />",
             styles: ["div{align-items:center;justify-content:center;padding:0!important}"]
         }),
         __metadata("design:paramtypes", [TableService])
@@ -472,32 +483,56 @@ var OriginComponent = /** @class */ (function () {
 }());
 
 var PhoneDisplayComponent = /** @class */ (function () {
-    function PhoneDisplayComponent() {
+    function PhoneDisplayComponent(fb) {
+        this.fb = fb;
+        this.flag = '';
     }
     PhoneDisplayComponent.prototype.ngOnInit = function () {
         this.display = this.normalize(this.number);
+        this.flag = (this.number && this.number != '' && isValidPhoneNumber(this.number) ? parsePhoneNumber(this.number).country : 'FR');
+        this.flag = !this.number ? '' : this.flag;
     };
     PhoneDisplayComponent.prototype.ngOnChanges = function (changes) {
         this.ngOnInit();
     };
     PhoneDisplayComponent.prototype.normalize = function (str) {
-        str = (str || '').replace(/[^\d]/g, '');
+        if (str && isValidPhoneNumber(str)) {
+            return parsePhoneNumber(str).formatNational();
+        }
+        else if (str) {
+            var phone = parsePhoneNumber(str, 'FR');
+            if (phone.isValid()) {
+                return phone.formatNational();
+            }
+            else {
+                return '';
+            }
+        }
+        else {
+            return '';
+        }
+        str = (str || '').replace(/[^\d]/g, "");
         if (str.length == 10) {
-            return str.replace(/(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/, '(+33) $1.$2.$3.$4.$5');
+            //reformat and return phone number
+            return str.replace(/(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/, "(+33) $1.$2.$3.$4.$5");
         }
         else if (str.length > 10 && str.length <= 13) {
             if (str.length === 11) {
-                str = '0' + str;
+                //str = '0'+str;
             }
-            if (str.length === 12 && str.includes('+')) {
-                var tmp = str.slice(0, 3);
-                var end = str.slice(3, str.length);
-                str = tmp + end;
-            }
-            return str.replace(/(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/, '(+$1) $2.$3.$4.$5.$6');
+            //if ( str.length === 13 && str.includes('+')) {
+            var tmp = str.slice(2, 3);
+            var end = str.slice(3, str.length);
+            str = '0' + tmp + end;
+            //}
+            //return str.replace(/(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/, "(+$1) $2.$3.$4.$5.$6");
+            return str.replace(/(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/, "$1.$2.$3.$4.$5");
         }
         return null;
     };
+    PhoneDisplayComponent.ctorParameters = function () { return [
+        { type: FormBuilder }
+    ]; };
     __decorate([
         Input(),
         __metadata("design:type", String)
@@ -505,10 +540,10 @@ var PhoneDisplayComponent = /** @class */ (function () {
     PhoneDisplayComponent = __decorate([
         Component({
             selector: 'app-phone-display',
-            template: "<strong>{{display || '-'}}</strong>\r\n",
+            template: "<flag [country]=\"flag\"></flag> <strong>{{display || '-'}}</strong>\r\n",
             styles: [""]
         }),
-        __metadata("design:paramtypes", [])
+        __metadata("design:paramtypes", [FormBuilder])
     ], PhoneDisplayComponent);
     return PhoneDisplayComponent;
 }());
@@ -1016,6 +1051,7 @@ var CellsComponentList;
     CellsComponentList["ItCategory"] = "it-category";
     CellsComponentList["ItStatus"] = "it-status";
     CellsComponentList["CustomIcon"] = "custom-icon";
+    CellsComponentList["PngIcon"] = "png-icon";
     CellsComponentList["CustomCell"] = "custom-cell";
 })(CellsComponentList || (CellsComponentList = {}));
 
@@ -1085,7 +1121,7 @@ var TableComponent = /** @class */ (function () {
         else {
             this.expandedElement = element;
         }
-        console.log(this.expandedElement);
+        //console.log(this.expandedElement);
     };
     TableComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -1316,7 +1352,7 @@ var TableComponent = /** @class */ (function () {
     TableComponent = __decorate([
         Component({
             selector: 'ngx-design-table',
-            template: "<div class=\"table-wrapper\">\r\n  <div class=\"row\" style=\"height: 20px;background: transparent!important; box-shadow: none !important\">\r\n    <div class=\"\">\r\n      <!--<div class=\"col-lg-12 search-container\">\r\n        <mat-icon style=\"left: 16%; position: absolute; margin-top: 10px;\">search</mat-icon>\r\n        <input class=\"search-box\" type=\"text\" [placeholder]=\"search\" [maxLength]=\"100\"\r\n        [value]=\"inputSearch\"\r\n        (change)=\"onChange($event)\"\r\n               (input)=\"((($event.target.value.length > 1 || $event.target.value.length === 0)\r\n                        && $event.target.value.length < 200)\r\n                                       ? data.filter($event) : null)\"\r\n               #filterOngoing>\r\n        <a class=\"close-search\" *ngIf=\"filterOngoing.value\"\r\n           [matTooltip]=\"cancelSearch\"\r\n           (click)=\"reset() && filterOngoing.value = ''\">\r\n          <img [src]=\"'/assets/icons/search_off-24px.svg'\">\r\n        </a>\r\n      </div>-->\r\n    </div>\r\n  </div>\r\n  <!-- Table -->\r\n  <table mat-table #table=\"matSort\" [dataSource]=\"data \" multiTemplateDataRows matSort class=\"\"\r\n    *ngIf=\"displayedColumns && columnsToDisplay && data && data.totalElements && showTable\"\r\n    (matSortChange)=\"data.sortIt($event)\">\r\n    <ng-container [matColumnDef]=\"column.key\" *ngFor=\"let column of displayedColumns\">\r\n      <ng-container *ngIf=\"column.sort\">\r\n        <th mat-header-cell *matHeaderCellDef\r\n          [class]=\"generateClass([column.class, column.align ? 'text-align-'+column.align : 'text-align-left'])\"\r\n          mat-sort-header>\r\n          <app-is-mat-icon [input]=\"column.value\"></app-is-mat-icon>\r\n        </th>\r\n      </ng-container>\r\n      <ng-container *ngIf=\"!column.sort\">\r\n        <!-- Ajouter fonction generate Class -->\r\n        <ng-container *ngIf=\"column.clickable\">\r\n          <th mat-header-cell *matHeaderCellDef\r\n            (click)=\"clicked.emit({key : column.key, statement : (column.statement = !column.statement)})\"\r\n            [class]=\"generateClass([column.class, column.align ? 'text-align-'+column.align : 'text-align-left'])\"\r\n            style=\"cursor: pointer;\">\r\n            <app-is-mat-icon [input]=\"column.value\"></app-is-mat-icon>\r\n            <app-is-mat-icon *ngIf=\"column.valueStatement && column.statement !== undefined\"\r\n              [input]=\"column.valueStatement[column.statement ? 1 : 0]\">\r\n            </app-is-mat-icon>\r\n          </th>\r\n        </ng-container>\r\n        <ng-container *ngIf=\"!column.clickable\">\r\n          <th mat-header-cell *matHeaderCellDef\r\n            [class]=\"generateClass([column.class, column.align ? 'text-align-'+column.align : 'text-align-left'])\">\r\n            <app-is-mat-icon [input]=\"column.value\"></app-is-mat-icon>\r\n          </th>\r\n        </ng-container>\r\n        <th mat-header-cell *matHeaderCellDef\r\n          [class]=\"generateClass([column.class, column.align ? 'text-align-'+column.align : 'text-align-left'])\">\r\n          <app-is-mat-icon [input]=\"column.value\"></app-is-mat-icon>\r\n        </th>\r\n      </ng-container>\r\n\r\n      <td *ngIf=\"EmptyRow\" [attr.colspan]=\"columnsToDisplay.length\" class=\"empty-row\"></td>\r\n      <td class=\"row-style\" mat-cell *matCellDef=\"let element\"\r\n        [class]=\"generateClass([column.class, column.align ? 'text-align-'+column.align : ''])\">\r\n        <ng-container *ngIf=\"element !== 'empty'\" [ngSwitch]=\"column.module\">\r\n          <!-- Button click -->\r\n          <ng-container *ngSwitchCase=\"'button-click'\">\r\n            <a [matTooltip]=\"open\" class=\"btn-link-text\" (click)=\"callFunction.emit(element[column.key])\">\r\n              <!--<ng-container *ngIf=\"column.display\">\r\n                <app-is-mat-icon [input]=\"column.display\"></app-is-mat-icon>\r\n              </ng-container>\r\n              <ng-container *ngIf=\"!column.display\">\r\n                {{element[column.key]}}\r\n              </ng-container>-->\r\n              {{ details }}\r\n            </a>\r\n          </ng-container>\r\n          <!-- Button link -->\r\n          <ng-container *ngSwitchCase=\"'button-link'\">\r\n            <!--                matBadge=\"*\" matBadgePosition=\"before\"\r\n               matBadgeColor=\"accent\" -->\r\n            <a *ngIf=\"element.new\" [matTooltip]=\"open\" class=\"mat-button btn-xs\" (click)=\"element.new = false\"\r\n              [ngClass]=\"btnOverride == true ? 'link-btn': 'nowboard-btn'\"\r\n              routerLink=\"{{column.override ? buildLink(column.override, element) : element[column.key]}}\">\r\n              <ng-container *ngIf=\"column.display\">\r\n                <app-is-mat-icon [input]=\"column.display\"></app-is-mat-icon>\r\n              </ng-container>\r\n              <ng-container *ngIf=\"!column.display\">\r\n                {{element[column.key]}}\r\n              </ng-container>\r\n            </a>\r\n            <a *ngIf=\"!element.new\" [matTooltip]=\"open\" class=\"mat-button btn-xs\"\r\n              [ngClass]=\"btnOverride == true ? 'link-btn': 'nowboard-btn'\"\r\n              routerLink=\"{{column.override ? buildLink(column.override, element) : element[column.key]}}\">\r\n              <ng-container *ngIf=\"column.display\">\r\n                <app-is-mat-icon class=\"is-mat-icon-cell\" [input]=\"column.display\"></app-is-mat-icon>\r\n              </ng-container>\r\n              <ng-container *ngIf=\"!column.display\">\r\n                {{element[column.key]}}\r\n              </ng-container>\r\n            </a>\r\n          </ng-container>\r\n          <!-- Button link text -->\r\n          <ng-container *ngSwitchCase=\"'button-link-text'\">\r\n            <a [matTooltip]=\"open\" class=\"btn-link-text btn-xs\" (click)=\"element.new = false\"\r\n              routerLink=\"{{column.override ? buildLink(column.override, element) : element[column.key]}}\">\r\n              {{ details }}\r\n            </a>\r\n          </ng-container>\r\n          <!-- icon custom-->\r\n          <ng-container *ngSwitchCase=\"'custom-icon'\">\r\n            <input type=\"hidden\" [value]=\"element[column.key]\">\r\n            <img *ngIf=\"element[column.key] && column.valueOverride\" [src]=\"column.valueOverride[element[column.key]]\"\r\n              style=\"width: 20px; height: 20px;\">\r\n          </ng-container>\r\n          <ng-container *ngSwitchCase=\"'it-category'\">\r\n            <app-equipement-type [name]=\"element[column.key]\" [type]=\"element[column.override]\"></app-equipement-type>\r\n          </ng-container>\r\n          <!-- icon it status -->\r\n          <ng-container *ngSwitchCase=\"'it-status'\">\r\n            <app-equipement-status [type]=\"element[column.key]\"></app-equipement-status>\r\n          </ng-container>\r\n          <!-- icon customer rank -->\r\n          <ng-container *ngSwitchCase=\"'customer-rank'\">\r\n            <app-customer-rank [type]=\"element[column.key]\"></app-customer-rank>\r\n          </ng-container>\r\n          <!-- icon priority-->\r\n          <ng-container *ngSwitchCase=\"'priority'\">\r\n            <icon-priority [icon]=\"element['Icon']\" [iconLabel]=\"element['Priority'] || null\"></icon-priority>\r\n          </ng-container>\r\n          <!-- icon gender avatar-->\r\n          <ng-container *ngSwitchCase=\"'gender-avatar'\">\r\n            <app-gender [type]=\"element[column.key]\"></app-gender>\r\n          </ng-container>\r\n\r\n          <!-- icon gender avatar-->\r\n          <ng-container *ngSwitchCase=\"'phone-display'\">\r\n            <app-phone-display [number]=\"element[column.key]\"></app-phone-display>\r\n          </ng-container>\r\n\r\n          <!-- icon gender avatar-->\r\n          <ng-container *ngSwitchCase=\"'yes-no-display'\">\r\n            <app-yes-nox\r\n              *ngIf=\"column.config && (column.config.displayNo !== undefined && column.config.displayYes !== undefined)\"\r\n              [valid]=\"element[column.key]\" [size]=\"column.config?.sizeIcon\" [displayNo]=\"column.config.displayYes\"\r\n              [displayYes]=\"column.config.displayNo\">\r\n            </app-yes-nox>\r\n            <app-yes-nox\r\n              *ngIf=\"(!column.config || (column.config && !(column.config.displayNo || column.config.displayYes)))\"\r\n              [valid]=\"element[column.key]\" [size]=\"column.config?.sizeIcon\">\r\n            </app-yes-nox>\r\n          </ng-container>\r\n          <!-- icon origin-->\r\n          <ng-container *ngSwitchCase=\"'origin'\">\r\n            <icon-origin [icon]=\"element[column.key]\"></icon-origin>\r\n          </ng-container>\r\n          <!-- icon name avatar-->\r\n          <ng-container *ngSwitchCase=\"'name-avatar'\">\r\n            <name-avatar matTooltip=\"{{Join(element, column.override)}}\" [src]=\"element[column.key]\"\r\n              [matTooltipClass]=\"'my-tooltip'\">\r\n            </name-avatar>\r\n          </ng-container>\r\n          <!-- date format -->\r\n          <ng-container *ngSwitchCase=\"'date-format'\">\r\n            <date-format style=\"padding-right: 10px\" [date]=\"element[column.key]\"></date-format>\r\n          </ng-container>\r\n          <!-- count rows -->\r\n          <ng-container *ngSwitchCase=\"'count-row'\">\r\n            <span style=\"padding-left: 14px\">\r\n              {{(element[column.key] && element[column.key].length ? element[column.key].length : '-')}}\r\n            </span>\r\n          </ng-container>\r\n          <ng-container *ngSwitchCase=\"'custom-cell'\">\r\n            <lib-custom-cell [title]=\"element[column.key]\" [subTitle]=\"element[column.subTitle]\"\r\n              [class]=\"element[column.addClass]\"></lib-custom-cell>\r\n          </ng-container>\r\n          <ng-container *ngSwitchDefault>\r\n            {{element[column.key]}}\r\n          </ng-container>\r\n        </ng-container>\r\n\r\n        <ng-container *ngIf=\"element === 'empty'\">\r\n      <td [ngClass]=\"'empty-row'\" mat-cell *matCellDef=\"let element\" [attr.colspan]=\"columnsToDisplay.length\">\r\n        empty row\r\n      </td>\r\n    </ng-container>\r\n\r\n    </td>\r\n    </ng-container>\r\n\r\n    <ng-container matColumnDef=\"expandedDetailX\" *ngIf=\"displayDetail\">\r\n      <td mat-cell *matCellDef=\"let element\" [attr.colspan]=\"columnsToDisplay.length\"\r\n        [@detailExpand]=\"expandedElement && element == expandedElement ? 'expanded' : 'collapsed'\" style=\"height: 0\">\r\n        <div *ngIf=\"element['CaseNumber'] && expandedElement\">\r\n          <div class=\"element-detail\" [innerHTML]=\"element.expanded\">\r\n          </div>\r\n\r\n          <a [class.nav-expanded]=\"element == expandedElement\" [routerLink]=\"['/ticket/', element['CaseNumber']]\"\r\n            [title]=\"open\">\r\n            <img class=\"detail-view-ticket\" src=\"/assets/icons/eye.png\">\r\n          </a>\r\n        </div>\r\n      </td>\r\n    </ng-container>\r\n    <tr mat-header-row *matHeaderRowDef=\"columnsToDisplay\"></tr>\r\n    <ng-container *ngIf=\"displayDetail\">\r\n      <tr mat-row *matRowDef=\"let element; columns: columnsToDisplay;\" class=\"element-row\"\r\n        [ngClass]=\"!element || element === 'empty'? 'empty-row-none': 'detail-row'\"\r\n        [class.expanded]=\"expandedElement == element\" (click)=\"expand(element)\">\r\n      </tr>\r\n      <tr mat-row *matRowDef=\"let row; columns: ['expandedDetailX']\"\r\n        [ngClass]=\"!expandedElement || !row || row === 'empty'? 'empty-row': 'detail-row'\">\r\n\r\n      </tr>\r\n    </ng-container>\r\n    <ng-container *ngIf=\"!displayDetail\">\r\n      <tr mat-row *matRowDef=\"let element; columns: columnsToDisplay;\" class=\"element-row\">\r\n      </tr>\r\n    </ng-container>\r\n  </table>\r\n  <ng-container *ngIf=\"data && data.totalElements === 0\">\r\n    <div class=\"row\" style=\"height: 84px;background: transparent!important;\">\r\n      <div class=\"\">\r\n        <div class=\"col-lg-12 search-container\" style=\"text-align: center\">\r\n          {{ noResult }}\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </ng-container>\r\n  <mat-paginator #MatPaginatorCurrent *ngIf=\"data && data.totalElements > 0\" [length]=\"data.totalElements\"\r\n    [pageSize]=\"data.size\" [pageIndex]=\"data.number\" [hidePageSize]=\"true\" (page)=\"data.fetch($event.pageIndex)\"\r\n    showFirstLastButtons></mat-paginator>\r\n</div>",
+            template: "<div class=\"table-wrapper\">\r\n  <div class=\"row\" style=\"height: 20px;background: transparent!important; box-shadow: none !important\">\r\n    <div class=\"\">\r\n      <!--<div class=\"col-lg-12 search-container\">\r\n        <mat-icon style=\"left: 16%; position: absolute; margin-top: 10px;\">search</mat-icon>\r\n        <input class=\"search-box\" type=\"text\" [placeholder]=\"search\" [maxLength]=\"100\"\r\n        [value]=\"inputSearch\"\r\n        (change)=\"onChange($event)\"\r\n               (input)=\"((($event.target.value.length > 1 || $event.target.value.length === 0)\r\n                        && $event.target.value.length < 200)\r\n                                       ? data.filter($event) : null)\"\r\n               #filterOngoing>\r\n        <a class=\"close-search\" *ngIf=\"filterOngoing.value\"\r\n           [matTooltip]=\"cancelSearch\"\r\n           (click)=\"reset() && filterOngoing.value = ''\">\r\n          <img [src]=\"'/assets/icons/search_off-24px.svg'\">\r\n        </a>\r\n      </div>-->\r\n    </div>\r\n  </div>\r\n  <!-- Table -->\r\n  <table mat-table #table=\"matSort\" [dataSource]=\"data \" multiTemplateDataRows matSort class=\"\"\r\n    *ngIf=\"displayedColumns && columnsToDisplay && data && data.totalElements && showTable\"\r\n    (matSortChange)=\"data.sortIt($event)\">\r\n    <ng-container [matColumnDef]=\"column.key\" *ngFor=\"let column of displayedColumns\">\r\n      <ng-container *ngIf=\"column.sort\">\r\n        <th mat-header-cell *matHeaderCellDef\r\n          [class]=\"generateClass([column.class, column.align ? 'text-align-'+column.align : 'text-align-left'])\"\r\n          mat-sort-header>\r\n          <app-is-mat-icon [input]=\"column.value\"></app-is-mat-icon>\r\n        </th>\r\n      </ng-container>\r\n      <ng-container *ngIf=\"!column.sort\">\r\n        <!-- Ajouter fonction generate Class -->\r\n        <ng-container *ngIf=\"column.clickable\">\r\n          <th mat-header-cell *matHeaderCellDef\r\n            (click)=\"clicked.emit({key : column.key, statement : (column.statement = !column.statement)})\"\r\n            [class]=\"generateClass([column.class, column.align ? 'text-align-'+column.align : 'text-align-left'])\"\r\n            style=\"cursor: pointer;\">\r\n            <app-is-mat-icon [input]=\"column.value\"></app-is-mat-icon>\r\n            <app-is-mat-icon *ngIf=\"column.valueStatement && column.statement !== undefined\"\r\n              [input]=\"column.valueStatement[column.statement ? 1 : 0]\">\r\n            </app-is-mat-icon>\r\n          </th>\r\n        </ng-container>\r\n        <ng-container *ngIf=\"!column.clickable\">\r\n          <th mat-header-cell *matHeaderCellDef\r\n            [class]=\"generateClass([column.class, column.align ? 'text-align-'+column.align : 'text-align-left'])\">\r\n            <app-is-mat-icon [input]=\"column.value\"></app-is-mat-icon>\r\n          </th>\r\n        </ng-container>\r\n        <th mat-header-cell *matHeaderCellDef\r\n          [class]=\"generateClass([column.class, column.align ? 'text-align-'+column.align : 'text-align-left'])\">\r\n          <app-is-mat-icon [input]=\"column.value\"></app-is-mat-icon>\r\n        </th>\r\n      </ng-container>\r\n\r\n      <td *ngIf=\"EmptyRow\" [attr.colspan]=\"columnsToDisplay.length\" class=\"empty-row\"></td>\r\n      <td class=\"row-style\" mat-cell *matCellDef=\"let element\"\r\n        [class]=\"generateClass([column.class, column.align ? 'text-align-'+column.align : ''])\">\r\n        <ng-container *ngIf=\"element !== 'empty'\" [ngSwitch]=\"column.module\">\r\n          <!-- Button click -->\r\n          <ng-container *ngSwitchCase=\"'button-click'\">\r\n            <a [matTooltip]=\"open\" class=\"btn-link-text\" (click)=\"callFunction.emit(element[column.key])\">\r\n              <!--<ng-container *ngIf=\"column.display\">\r\n                <app-is-mat-icon [input]=\"column.display\"></app-is-mat-icon>\r\n              </ng-container>\r\n              <ng-container *ngIf=\"!column.display\">\r\n                {{element[column.key]}}\r\n              </ng-container>-->\r\n              {{ details }}\r\n            </a>\r\n          </ng-container>\r\n          <!-- Button link -->\r\n          <ng-container *ngSwitchCase=\"'button-link'\">\r\n            <!--                matBadge=\"*\" matBadgePosition=\"before\"\r\n               matBadgeColor=\"accent\" -->\r\n            <a *ngIf=\"element.new\" [matTooltip]=\"open\" class=\"mat-button btn-xs\" (click)=\"element.new = false\"\r\n              [ngClass]=\"btnOverride == true ? 'link-btn': 'nowboard-btn'\"\r\n              routerLink=\"{{column.override ? buildLink(column.override, element) : element[column.key]}}\">\r\n              <ng-container *ngIf=\"column.display\">\r\n                <app-is-mat-icon [input]=\"column.display\"></app-is-mat-icon>\r\n              </ng-container>\r\n              <ng-container *ngIf=\"!column.display\">\r\n                {{element[column.key]}}\r\n              </ng-container>\r\n            </a>\r\n            <a *ngIf=\"!element.new\" [matTooltip]=\"open\" class=\"mat-button btn-xs\"\r\n              [ngClass]=\"btnOverride == true ? 'link-btn': 'nowboard-btn'\"\r\n              routerLink=\"{{column.override ? buildLink(column.override, element) : element[column.key]}}\">\r\n              <ng-container *ngIf=\"column.display\">\r\n                <app-is-mat-icon class=\"is-mat-icon-cell\" [input]=\"column.display\"></app-is-mat-icon>\r\n              </ng-container>\r\n              <ng-container *ngIf=\"!column.display\">\r\n                {{element[column.key]}}\r\n              </ng-container>\r\n            </a>\r\n          </ng-container>\r\n          <!-- Button link text -->\r\n          <ng-container *ngSwitchCase=\"'button-link-text'\">\r\n            <button-link-text (callHandler)=\"callFunction.emit($event)\" [lang]=\"lang\"\r\n              [routerLink]=\"column.override ? buildLink(column.override, element) : element[column.key]\"\r\n              [text]=\"column.key\" [class]=\"column.valueOverride?.class\"\r\n              [id]=\"column.valueOverride?.id ? element[column.valueOverride?.id] : ''\"\r\n              [modal]=\"column.valueOverride?.modal\" [element]=\"element\">\r\n            </button-link-text>\r\n          </ng-container>\r\n          <!-- icon custom-->\r\n          <ng-container *ngSwitchCase=\"'custom-icon'\">\r\n            <input type=\"hidden\" [value]=\"element[column.key]\">\r\n            <img *ngIf=\"element[column.key] && column.valueOverride\" [src]=\"column.valueOverride[element[column.key]]\"\r\n              style=\"width: 20px; height: 20px;\">\r\n          </ng-container>\r\n          <ng-container *ngSwitchCase=\"'it-category'\">\r\n            <app-equipement-type [name]=\"element[column.key]\" [type]=\"element[column.override]\"></app-equipement-type>\r\n          </ng-container>\r\n          <!-- icon it status -->\r\n          <ng-container *ngSwitchCase=\"'it-status'\">\r\n            <app-equipement-status [type]=\"element[column.key]\"></app-equipement-status>\r\n          </ng-container>\r\n          <!-- icon customer rank -->\r\n          <ng-container *ngSwitchCase=\"'customer-rank'\">\r\n            <app-customer-rank [type]=\"element[column.key]\"></app-customer-rank>\r\n          </ng-container>\r\n          <!-- icon priority-->\r\n          <ng-container *ngSwitchCase=\"'priority'\">\r\n            <icon-priority [icon]=\"element['Icon']\" [iconLabel]=\"element['Priority'] || null\"></icon-priority>\r\n          </ng-container>\r\n          <!-- icon gender avatar-->\r\n          <ng-container *ngSwitchCase=\"'gender-avatar'\">\r\n            <app-gender [type]=\"element[column.key]\"></app-gender>\r\n          </ng-container>\r\n\r\n          <!-- icon gender avatar-->\r\n          <ng-container *ngSwitchCase=\"'phone-display'\">\r\n            <app-phone-display [number]=\"element[column.key]\"></app-phone-display>\r\n          </ng-container>\r\n\r\n          <!-- icon gender avatar-->\r\n          <ng-container *ngSwitchCase=\"'yes-no-display'\">\r\n            <app-yes-nox\r\n              *ngIf=\"column.config && (column.config.displayNo !== undefined && column.config.displayYes !== undefined)\"\r\n              [valid]=\"element[column.key]\" [size]=\"column.config?.sizeIcon\" [displayNo]=\"column.config.displayYes\"\r\n              [displayYes]=\"column.config.displayNo\">\r\n            </app-yes-nox>\r\n            <app-yes-nox\r\n              *ngIf=\"(!column.config || (column.config && !(column.config.displayNo || column.config.displayYes)))\"\r\n              [valid]=\"element[column.key]\" [size]=\"column.config?.sizeIcon\">\r\n            </app-yes-nox>\r\n          </ng-container>\r\n          <!-- icon origin-->\r\n          <ng-container *ngSwitchCase=\"'origin'\">\r\n            <icon-origin [icon]=\"element[column.key]\"></icon-origin>\r\n          </ng-container>\r\n          <!-- icon name avatar-->\r\n          <ng-container *ngSwitchCase=\"'name-avatar'\">\r\n            <name-avatar matTooltip=\"{{Join(element, column.override)}}\" [src]=\"element[column.key]\"\r\n              [matTooltipClass]=\"'my-tooltip'\">\r\n            </name-avatar>\r\n          </ng-container>\r\n          <!-- date format -->\r\n          <ng-container *ngSwitchCase=\"'date-format'\">\r\n            <date-format style=\"padding-right: 10px\" [date]=\"element[column.key]\"></date-format>\r\n          </ng-container>\r\n          <!-- count rows -->\r\n          <ng-container *ngSwitchCase=\"'count-row'\">\r\n            <span style=\"padding-left: 14px\">\r\n              {{(element[column.key] && element[column.key].length ? element[column.key].length : '-')}}\r\n            </span>\r\n          </ng-container>\r\n          <ng-container *ngSwitchCase=\"'custom-cell'\">\r\n            <lib-custom-cell [title]=\"element[column.key]\" [subTitle]=\"element[column.subTitle]\"\r\n              [class]=\"element[column.addClass]\"></lib-custom-cell>\r\n          </ng-container>\r\n          <ng-container *ngSwitchDefault>\r\n            {{element[column.key]}}\r\n          </ng-container>\r\n        </ng-container>\r\n        <ng-container *ngIf=\"element === 'empty'\">\r\n      <td [ngClass]=\"'empty-row'\" mat-cell *matCellDef=\"let element\" [attr.colspan]=\"columnsToDisplay.length\">\r\n        empty row\r\n      </td>\r\n    </ng-container>\r\n\r\n    </td>\r\n    </ng-container>\r\n\r\n    <ng-container matColumnDef=\"expandedDetailX\" *ngIf=\"displayDetail\">\r\n      <td mat-cell *matCellDef=\"let element\" [attr.colspan]=\"columnsToDisplay.length\"\r\n        [@detailExpand]=\"expandedElement && element == expandedElement ? 'expanded' : 'collapsed'\" style=\"height: 0\">\r\n        <div *ngIf=\"element['CaseNumber'] && expandedElement\">\r\n          <div class=\"element-detail\" [innerHTML]=\"element.expanded\">\r\n          </div>\r\n\r\n          <a [class.nav-expanded]=\"element == expandedElement\" [routerLink]=\"['/ticket/', element['CaseNumber']]\"\r\n            [title]=\"open\">\r\n            <img class=\"detail-view-ticket\" src=\"/assets/icons/eye.png\">\r\n          </a>\r\n        </div>\r\n      </td>\r\n    </ng-container>\r\n    <tr mat-header-row *matHeaderRowDef=\"columnsToDisplay\"></tr>\r\n    <ng-container *ngIf=\"displayDetail\">\r\n      <tr mat-row *matRowDef=\"let element; columns: columnsToDisplay;\" class=\"element-row with-detail\"\r\n        [ngClass]=\"!element || element === 'empty'? 'empty-row-none': 'detail-row'\"\r\n        [class.expanded]=\"expandedElement == element\" (click)=\"expand(element)\">\r\n      </tr>\r\n      <tr mat-row *matRowDef=\"let row; columns: ['expandedDetailX']\"\r\n        [ngClass]=\"!expandedElement || !row || row === 'empty'? 'empty-row': 'detail-row'\">\r\n\r\n      </tr>\r\n    </ng-container>\r\n    <ng-container *ngIf=\"!displayDetail\">\r\n      <tr mat-row *matRowDef=\"let element; columns: columnsToDisplay;\" class=\"element-row without-detail\">\r\n      </tr>\r\n    </ng-container>\r\n  </table>\r\n  <ng-container *ngIf=\"data && data.totalElements === 0\">\r\n    <div class=\"row\" style=\"height: 84px;background: transparent!important;\">\r\n      <div class=\"\">\r\n        <div class=\"col-lg-12 search-container\" style=\"text-align: center\">\r\n          {{ noResult }}\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </ng-container>\r\n  <mat-paginator #MatPaginatorCurrent *ngIf=\"data && data.totalElements > 0\" [length]=\"data.totalElements\"\r\n    [pageSize]=\"data.size\" [pageIndex]=\"data.number\" [hidePageSize]=\"true\" (page)=\"data.fetch($event.pageIndex)\"\r\n    showFirstLastButtons></mat-paginator>\r\n</div>",
             animations: [trigger('detailExpand', [
                     state('collapsed', style({ height: '0px', minHeight: '0', display: 'none' })),
                     state('expanded', style({ height: '*' })),
@@ -1333,6 +1369,961 @@ var TableComponent = /** @class */ (function () {
             ChangeDetectorRef])
     ], TableComponent);
     return TableComponent;
+}());
+
+var db = {
+    ad: 'ad',
+    and: 'ad',
+    andorra: 'ad',
+    ae: 'ae',
+    are: 'ae',
+    'united-arab-emirates-(the)': 'ae',
+    af: 'af',
+    afg: 'af',
+    afghanistan: 'af',
+    ag: 'ag',
+    atg: 'ag',
+    'antigua-and-barbuda': 'ag',
+    al: 'al',
+    alb: 'al',
+    albania: 'al',
+    am: 'am',
+    arm: 'am',
+    armenia: 'am',
+    ao: 'ao',
+    ago: 'ao',
+    angola: 'ao',
+    ar: 'ar',
+    arg: 'ar',
+    argentina: 'ar',
+    at: 'at',
+    aut: 'at',
+    austria: 'at',
+    au: 'au',
+    aus: 'au',
+    australia: 'au',
+    az: 'az',
+    aze: 'az',
+    azerbaijan: 'az',
+    ba: 'ba',
+    bih: 'ba',
+    'bosnia-and-herzegovina': 'ba',
+    bb: 'bb',
+    brb: 'bb',
+    barbados: 'bb',
+    bd: 'bd',
+    bgd: 'bd',
+    bangladesh: 'bd',
+    be: 'be',
+    bel: 'be',
+    belgium: 'be',
+    bf: 'bf',
+    bfa: 'bf',
+    'burkina-faso': 'bf',
+    bg: 'bg',
+    bgr: 'bg',
+    bulgaria: 'bg',
+    bh: 'bh',
+    bhr: 'bh',
+    bahrain: 'bh',
+    bi: 'bi',
+    bdi: 'bi',
+    burundi: 'bi',
+    bj: 'bj',
+    ben: 'bj',
+    benin: 'bj',
+    bn: 'bn',
+    brn: 'bn',
+    'brunei-darussalam': 'bn',
+    bo: 'bo',
+    bol: 'bo',
+    bolivia: 'bo',
+    br: 'br',
+    bra: 'br',
+    brazil: 'br',
+    bs: 'bs',
+    bhs: 'bs',
+    bahamas: 'bs',
+    bt: 'bt',
+    btn: 'bt',
+    bhutan: 'bt',
+    bw: 'bw',
+    bwa: 'bw',
+    botswana: 'bw',
+    by: 'by',
+    blr: 'by',
+    belarus: 'by',
+    bz: 'bz',
+    blz: 'bz',
+    belize: 'bz',
+    ca: 'ca',
+    can: 'ca',
+    canada: 'ca',
+    cd: 'cd',
+    cod: 'cd',
+    'the-democratic-republic-of-the-congo': 'cd',
+    cf: 'cf',
+    caf: 'cf',
+    'central-african-republic': 'cf',
+    cg: 'cg',
+    cog: 'cg',
+    congo: 'cg',
+    ch: 'ch',
+    che: 'ch',
+    switzerland: 'ch',
+    ci: 'ci',
+    civ: 'ci',
+    'cote-d-ivoire': 'ci',
+    cl: 'cl',
+    chl: 'cl',
+    chile: 'cl',
+    cm: 'cm',
+    cmr: 'cm',
+    cameroon: 'cm',
+    cn: 'cn',
+    chn: 'cn',
+    china: 'cn',
+    co: 'co',
+    col: 'co',
+    colombia: 'co',
+    cr: 'cr',
+    cri: 'cr',
+    'costa-rica': 'cr',
+    cu: 'cu',
+    cub: 'cu',
+    cuba: 'cu',
+    cv: 'cv',
+    cpv: 'cv',
+    'cabo-verde [f]': 'cv',
+    cy: 'cy',
+    cyp: 'cy',
+    cyprus: 'cy',
+    cz: 'cz',
+    cze: 'cz',
+    czechia: 'cz',
+    de: 'de',
+    deu: 'de',
+    germany: 'de',
+    dj: 'dj',
+    dji: 'dj',
+    djibouti: 'dj',
+    dk: 'dk',
+    dnk: 'dk',
+    denmark: 'dk',
+    dm: 'dm',
+    dma: 'dm',
+    dominica: 'dm',
+    do: 'do',
+    dom: 'do',
+    'dominican-republic': 'do',
+    dz: 'dz',
+    dza: 'dz',
+    algeria: 'dz',
+    ec: 'ec',
+    'ec-w': 'ec-w',
+    ecu: 'ec',
+    ecuador: 'ec',
+    ee: 'ee',
+    est: 'ee',
+    estonia: 'ee',
+    eg: 'eg',
+    egy: 'eg',
+    egypt: 'eg',
+    er: 'er',
+    eri: 'er',
+    eritrea: 'er',
+    es: 'es',
+    esp: 'es',
+    spain: 'es',
+    et: 'et',
+    eth: 'et',
+    ethiopia: 'et',
+    fi: 'fi',
+    fin: 'fi',
+    finland: 'fi',
+    fj: 'fj',
+    fji: 'fj',
+    fiji: 'fj',
+    fm: 'fm',
+    fsm: 'fm',
+    micronesia: 'fm',
+    fr: 'fr',
+    fra: 'fr',
+    france: 'fr',
+    ga: 'ga',
+    gab: 'ga',
+    gabon: 'ga',
+    gb: 'gb',
+    gbr: 'gb',
+    'united-kingdom': 'gb',
+    uk: 'gb',
+    'great-britain': 'gb',
+    gd: 'gd',
+    grd: 'gd',
+    grenada: 'gd',
+    ge: 'ge',
+    geo: 'ge',
+    georgia: 'ge',
+    gh: 'gh',
+    gha: 'gh',
+    ghana: 'gh',
+    gm: 'gm',
+    gmb: 'gm',
+    gambia: 'gm',
+    gn: 'gn',
+    gin: 'gn',
+    guinea: 'gn',
+    gq: 'gq',
+    gnq: 'gq',
+    'equatorial-guinea': 'gq',
+    gr: 'gr',
+    grc: 'gr',
+    greece: 'gr',
+    gt: 'gt',
+    gtm: 'gt',
+    guatemala: 'gt',
+    gw: 'gw',
+    gnb: 'gw',
+    'guinea-bissau': 'gw',
+    gy: 'gy',
+    guy: 'gy',
+    guyana: 'gy',
+    hn: 'hn',
+    hnd: 'hn',
+    honduras: 'hn',
+    hr: 'hr',
+    hrv: 'hr',
+    croatia: 'hr',
+    ht: 'ht',
+    hti: 'ht',
+    haiti: 'ht',
+    hu: 'hu',
+    hun: 'hu',
+    hungary: 'hu',
+    id: 'id',
+    idn: 'id',
+    indonesia: 'id',
+    ie: 'ie',
+    irl: 'ie',
+    ireland: 'ie',
+    il: 'il',
+    isr: 'il',
+    israel: 'il',
+    in: 'in',
+    ind: 'in',
+    india: 'in',
+    iq: 'iq',
+    irq: 'iq',
+    iraq: 'iq',
+    ir: 'ir',
+    irn: 'ir',
+    iran: 'ir',
+    is: 'is',
+    isl: 'is',
+    iceland: 'is',
+    it: 'it',
+    ita: 'it',
+    italy: 'it',
+    jm: 'jm',
+    jam: 'jm',
+    jamaica: 'jm',
+    jo: 'jo',
+    jor: 'jo',
+    jordan: 'jo',
+    jp: 'jp',
+    jpn: 'jp',
+    japan: 'jp',
+    ke: 'ke',
+    ken: 'ke',
+    kenya: 'ke',
+    kg: 'kg',
+    kgz: 'kg',
+    kyrgyzstan: 'kg',
+    kh: 'kh',
+    khm: 'kh',
+    cambodia: 'kh',
+    ki: 'ki',
+    kir: 'ki',
+    kiribati: 'ki',
+    km: 'km',
+    com: 'km',
+    comoros: 'km',
+    kn: 'kn',
+    kna: 'kn',
+    'saint-kitts-and-nevis': 'kn',
+    kp: 'kp',
+    prk: 'kp',
+    'north-korea': 'kp',
+    kr: 'kr',
+    kor: 'kr',
+    'south-korea': 'kr',
+    kw: 'kw',
+    kwt: 'kw',
+    kuwait: 'kw',
+    kz: 'kz',
+    kaz: 'kz',
+    kazakhstan: 'kz',
+    la: 'la',
+    lao: 'la',
+    laos: 'la',
+    lb: 'lb',
+    lbn: 'lb',
+    lebanon: 'lb',
+    lc: 'lc',
+    lca: 'lc',
+    'saint-lucia': 'lc',
+    li: 'li',
+    lie: 'li',
+    liechtenstein: 'li',
+    lk: 'lk',
+    lka: 'lk',
+    'sri-lanka': 'lk',
+    lr: 'lr',
+    lbr: 'lr',
+    liberia: 'lr',
+    ls: 'ls',
+    lso: 'ls',
+    lesotho: 'ls',
+    lt: 'lt',
+    ltu: 'lt',
+    lithuania: 'lt',
+    lu: 'lu',
+    lux: 'lu',
+    luxembourg: 'lu',
+    lv: 'lv',
+    lva: 'lv',
+    latvia: 'lv',
+    ly: 'ly',
+    lby: 'ly',
+    libya: 'ly',
+    ma: 'ma',
+    mar: 'ma',
+    morocco: 'ma',
+    mc: 'mc',
+    mco: 'mc',
+    monaco: 'mc',
+    md: 'md',
+    mda: 'md',
+    moldova: 'md',
+    me: 'me',
+    mne: 'me',
+    montenegro: 'me',
+    mg: 'mg',
+    mdg: 'mg',
+    madagascar: 'mg',
+    mh: 'mh',
+    mhl: 'mh',
+    'marshall-islands': 'mh',
+    mk: 'mk',
+    mkd: 'mk',
+    'north-macedonia': 'mk',
+    ml: 'ml',
+    mli: 'ml',
+    mali: 'ml',
+    mm: 'mm',
+    mmr: 'mm',
+    myanmar: 'mm',
+    mn: 'mn',
+    mng: 'mn',
+    mongolia: 'mn',
+    mr: 'mr',
+    mrt: 'mr',
+    mauritania: 'mr',
+    mt: 'mt',
+    mlt: 'mt',
+    malta: 'mt',
+    mu: 'mu',
+    mus: 'mu',
+    mauritius: 'mu',
+    mv: 'mv',
+    mdv: 'mv',
+    maldives: 'mv',
+    mw: 'mw',
+    mwi: 'mw',
+    malawi: 'mw',
+    mx: 'mx',
+    mex: 'mx',
+    mexico: 'mx',
+    my: 'my',
+    mys: 'my',
+    malaysia: 'my',
+    mz: 'mz',
+    moz: 'mz',
+    mozambique: 'mz',
+    na: 'na',
+    nam: 'na',
+    namibia: 'na',
+    ne: 'ne',
+    ner: 'ne',
+    niger: 'ne',
+    ng: 'ng',
+    nga: 'ng',
+    nigeria: 'ng',
+    ni: 'ni',
+    nic: 'ni',
+    nicaragua: 'ni',
+    nl: 'nl',
+    nld: 'nl',
+    netherlands: 'nl',
+    no: 'no',
+    nor: 'no',
+    norway: 'no',
+    np: 'np',
+    npl: 'np',
+    nepal: 'np',
+    nr: 'nr',
+    nru: 'nr',
+    nauru: 'nr',
+    nz: 'nz',
+    nzl: 'nz',
+    'new-zealand': 'nz',
+    om: 'om',
+    omn: 'om',
+    oman: 'om',
+    pa: 'pa',
+    pan: 'pa',
+    panama: 'pa',
+    pe: 'pe',
+    per: 'pe',
+    peru: 'pe',
+    pg: 'pg',
+    png: 'pg',
+    'papua-new-guinea': 'pg',
+    ph: 'ph',
+    phl: 'ph',
+    philippines: 'ph',
+    pk: 'pk',
+    pak: 'pk',
+    pakistan: 'pk',
+    pl: 'pl',
+    pol: 'pl',
+    poland: 'pl',
+    pt: 'pt',
+    prt: 'pt',
+    portugal: 'pt',
+    pw: 'pw',
+    plw: 'pw',
+    palau: 'pw',
+    py: 'py',
+    pry: 'py',
+    paraguay: 'py',
+    qa: 'qa',
+    qat: 'qa',
+    qatar: 'qa',
+    ro: 'ro',
+    rou: 'ro',
+    romania: 'ro',
+    rs: 'rs',
+    srb: 'rs',
+    serbia: 'rs',
+    ru: 'ru',
+    rus: 'ru',
+    russia: 'ru',
+    rw: 'rw',
+    rwa: 'rw',
+    rwanda: 'rw',
+    sa: 'sa',
+    sau: 'sa',
+    'saudi-arabia': 'sa',
+    sb: 'sb',
+    slb: 'sb',
+    'solomon-islands': 'sb',
+    sc: 'sc',
+    syc: 'sc',
+    seychelles: 'sc',
+    sd: 'sd',
+    sdn: 'sd',
+    sudan: 'sd',
+    se: 'se',
+    swe: 'se',
+    sweden: 'se',
+    sg: 'sg',
+    sgp: 'sg',
+    singapore: 'sg',
+    si: 'si',
+    svn: 'si',
+    slovenia: 'si',
+    sk: 'sk',
+    svk: 'sk',
+    slovakia: 'sk',
+    sl: 'sl',
+    sle: 'sl',
+    'sierra-leone': 'sl',
+    sm: 'sm',
+    smr: 'sm',
+    'san-marino': 'sm',
+    sn: 'sn',
+    sen: 'sn',
+    senegal: 'sn',
+    so: 'so',
+    som: 'so',
+    somalia: 'so',
+    sr: 'sr',
+    sur: 'sr',
+    suriname: 'sr',
+    ss: 'ss',
+    ssd: 'ss',
+    'south-sudan': 'ss',
+    st: 'st',
+    stp: 'st',
+    'sao-tome-and-principe': 'st',
+    sv: 'sv',
+    slv: 'sv',
+    'el-salvador': 'sv',
+    sy: 'sy',
+    syr: 'sy',
+    syria: 'sy',
+    sz: 'sz',
+    swz: 'sz',
+    eswatini: 'sz',
+    td: 'td',
+    tcd: 'td',
+    chad: 'td',
+    tg: 'tg',
+    tgo: 'tg',
+    togo: 'tg',
+    th: 'th',
+    tha: 'th',
+    thailand: 'th',
+    tj: 'tj',
+    tjk: 'tj',
+    tajikistan: 'tj',
+    tl: 'tl',
+    tls: 'tl',
+    'timor-leste': 'tl',
+    tm: 'tm',
+    tkm: 'tm',
+    turkmenistan: 'tm',
+    tn: 'tn',
+    tun: 'tn',
+    tunisia: 'tn',
+    to: 'to',
+    ton: 'to',
+    tonga: 'to',
+    tr: 'tr',
+    tur: 'tr',
+    turkey: 'tr',
+    tt: 'tt',
+    tto: 'tt',
+    'trinidad-and-tobago': 'tt',
+    tv: 'tv',
+    tuv: 'tv',
+    tuvalu: 'tv',
+    tz: 'tz',
+    tza: 'tz',
+    tanzania: 'tz',
+    ua: 'ua',
+    ukr: 'ua',
+    ukraine: 'ua',
+    ug: 'ug',
+    uga: 'ug',
+    uganda: 'ug',
+    us: 'us',
+    usa: 'us',
+    'united-states-of-america': 'us',
+    uy: 'uy',
+    ury: 'uy',
+    uruguay: 'uy',
+    uz: 'uz',
+    uzb: 'uz',
+    uzbekistan: 'uz',
+    vc: 'vc',
+    vct: 'vc',
+    'saint-vincent-and-the-grenadines': 'vc',
+    ve: 've',
+    ven: 've',
+    venezuela: 've',
+    vn: 'vn',
+    vnm: 'vn',
+    'viet-nam': 'vn',
+    vu: 'vu',
+    vut: 'vu',
+    vanuatu: 'vu',
+    ws: 'ws',
+    wsm: 'ws',
+    samoa: 'ws',
+    ye: 'ye',
+    yem: 'ye',
+    yemen: 'ye',
+    za: 'za',
+    zaf: 'za',
+    'south-africa': 'za',
+    zm: 'zm',
+    zmb: 'zm',
+    zambia: 'zm',
+    zw: 'zw',
+    zwe: 'zw',
+    zimbabwe: 'zw',
+    cc: 'cc',
+    cck: 'cc',
+    'cocos-islands': 'cc',
+    'au-cc': 'cc',
+    cx: 'cx',
+    cxr: 'cx',
+    'christmas-island': 'cx',
+    'au-cx': 'cx',
+    hm: 'hm',
+    hmd: 'hm',
+    'heard-island-and-mcdonald-islands': 'hm',
+    'au-hm': 'hm',
+    nf: 'nf',
+    nfk: 'nf',
+    'norfolk-island': 'nf',
+    'au-nf': 'nf',
+    hk: 'hk',
+    hkg: 'hk',
+    'hong-kong': 'hk',
+    'cn-hk': 'hk',
+    mo: 'mo',
+    mac: 'mo',
+    macao: 'mo',
+    'cn-mo': 'mo',
+    tw: 'tw',
+    twn: 'tw',
+    taiwan: 'tw',
+    'cn-tw': 'tw',
+    fo: 'fo',
+    fro: 'fo',
+    'faroe-islands': 'fo',
+    'dk-fo': 'fo',
+    gl: 'gl',
+    grl: 'gl',
+    greenland: 'gl',
+    'dk-gl': 'gl',
+    ax: 'ax',
+    ala: 'ax',
+    'aland-islands': 'ax',
+    'fi-ax': 'ax',
+    bl: 'bl',
+    blm: 'bl',
+    'saint-barthelemy': 'bl',
+    'fr-bl': 'bl',
+    gf: 'gf',
+    guf: 'gf',
+    'french-guiana': 'gf',
+    'fr-gf': 'gf',
+    gp: 'gp',
+    glp: 'gp',
+    guadeloupe: 'gp',
+    'fr-gp': 'gp',
+    mf: 'mf',
+    maf: 'mf',
+    'saint-martin': 'mf',
+    'fr-mf': 'mf',
+    mq: 'mq',
+    mtq: 'mq',
+    martinique: 'mq',
+    'fr-mq': 'mq',
+    nc: 'nc',
+    ncl: 'nc',
+    'new-caledonia': 'nc',
+    'fr-nc': 'nc',
+    pf: 'pf',
+    pyf: 'pf',
+    'french-polynesia': 'pf',
+    'fr-pf': 'pf',
+    pm: 'pm',
+    spm: 'pm',
+    'saint-pierre-and-miquelon': 'pm',
+    'fr-pm': 'pm',
+    re: 're',
+    reu: 're',
+    reunion: 're',
+    'fr-re': 're',
+    tf: 'tf',
+    atf: 'tf',
+    'french-southern-territories': 'tf',
+    'fr-tf': 'tf',
+    wf: 'wf',
+    wlf: 'wf',
+    'wallis-and-futuna': 'wf',
+    'fr-wf': 'wf',
+    yt: 'yt',
+    myt: 'yt',
+    mayotte: 'yt',
+    'fr-yt': 'yt',
+    gg: 'gg',
+    ggy: 'gg',
+    guernsey: 'gg',
+    'gb-gg': 'gg',
+    im: 'im',
+    imn: 'im',
+    'isle-of-man': 'im',
+    'gb-im': 'im',
+    je: 'je',
+    jey: 'je',
+    jersey: 'je',
+    'gb-je': 'je',
+    aw: 'aw',
+    abw: 'aw',
+    aruba: 'aw',
+    'nl-aw': 'aw',
+    bq: 'bq',
+    bes: 'bq',
+    bonaire: 'bq',
+    'nl-bq': 'bq',
+    cw: 'cw',
+    cuw: 'cw',
+    curaçao: 'cw',
+    'nl-cw': 'cw',
+    sx: 'sx',
+    sxm: 'sx',
+    'sint-maarten': 'sx',
+    'nl-sx': 'sx',
+    bv: 'bv',
+    bvt: 'bv',
+    'bouvet-island': 'bv',
+    'no-bv': 'bv',
+    sj: 'sj',
+    sjm: 'sj',
+    svalbard: 'sj',
+    'no-sj': 'sj',
+    ck: 'ck',
+    cok: 'ck',
+    'cook-islands': 'ck',
+    'nz-ck': 'ck',
+    nu: 'nu',
+    niu: 'nu',
+    niue: 'nu',
+    'nz-nu': 'nu',
+    tk: 'tk',
+    tkl: 'tk',
+    tokelau: 'tk',
+    'nz-tk': 'tk',
+    ai: 'ai',
+    aia: 'ai',
+    anguilla: 'ai',
+    'uk-ai': 'ai',
+    bm: 'bm',
+    bmu: 'bm',
+    bermuda: 'bm',
+    'uk-bm': 'bm',
+    fk: 'fk',
+    flk: 'fk',
+    'falkland-islands': 'fk',
+    'uk-fk': 'fk',
+    gi: 'gi',
+    gib: 'gi',
+    gibraltar: 'gi',
+    'uk-gi': 'gi',
+    gs: 'gs',
+    sgs: 'gs',
+    'south-georgia-and-the-south-sandwich-islands': 'gs',
+    'uk-gs': 'gs',
+    io: 'io',
+    iot: 'io',
+    'british-indian-ocean-territory': 'io',
+    'uk-io': 'io',
+    ky: 'ky',
+    cym: 'ky',
+    'cayman-islands': 'ky',
+    'uk-ky': 'ky',
+    ms: 'ms',
+    msr: 'ms',
+    montserrat: 'ms',
+    'uk-ms': 'ms',
+    pn: 'pn',
+    pcn: 'pn',
+    pitcairn: 'pn',
+    'uk-pn': 'pn',
+    sh: 'sh',
+    shn: 'sh',
+    'saint-helena': 'sh',
+    'uk-sh': 'sh',
+    tc: 'tc',
+    tca: 'tc',
+    'turks-and-caicos-islands': 'tc',
+    'uk-tc': 'tc',
+    vg: 'vg',
+    vgb: 'vg',
+    'british-virgin-islands': 'vg',
+    'uk-vg': 'vg',
+    as: 'as',
+    asm: 'as',
+    'american-samoa': 'as',
+    'us-as': 'as',
+    gu: 'gu',
+    gum: 'gu',
+    guam: 'gu',
+    'us-gu': 'gu',
+    mp: 'mp',
+    mnp: 'mp',
+    'northern-mariana-islands': 'mp',
+    'us-mp': 'mp',
+    pr: 'pr',
+    pri: 'pr',
+    'puerto-rico': 'pr',
+    'us-pr': 'pr',
+    um: 'um',
+    umi: 'um',
+    'united-states-minor-outlying-islands': 'um',
+    'us-um': 'um',
+    vi: 'vi',
+    vir: 'vi',
+    'us-virgin-islands': 'vi',
+    'us-vi': 'vi',
+    aq: 'aq',
+    ata: 'aq',
+    antarctica: 'aq',
+    eh: 'eh',
+    esh: 'eh',
+    'western-sahara': 'eh',
+    ps: 'ps',
+    pse: 'ps',
+    palestine: 'ps',
+    va: 'va',
+    vat: 'va',
+    'holy-see': 'va',
+    'vatican-city': 'va',
+};
+
+var NgxFlagsComponent = /** @class */ (function () {
+    function NgxFlagsComponent() {
+        this.size = 48;
+        this.class = '';
+        this.database = db;
+        this.countryCode = '';
+    }
+    NgxFlagsComponent.prototype.ngOnChanges = function (changes) {
+        this.setImage();
+    };
+    NgxFlagsComponent.prototype.setImage = function () {
+        this.imageUrl = "assets/flags/" + this.getFlag(this.getCode()) + ".svg";
+        this.style = {
+            borderRadius: this.getFormat() == FORMAT.ROUND ? '9999px' : '0%',
+            width: "10px",
+            height: '10px',
+            marginRight: '5px',
+            backgroundImage: "url(\"" + this.imageUrl + "\")",
+        };
+    };
+    NgxFlagsComponent.prototype.getSize = function () {
+        return isNaN(+this.size) ? +SIZE[this.size.toUpperCase()] : this.size;
+    };
+    NgxFlagsComponent.prototype.getFormat = function () {
+        return this.format ? this.format.toLowerCase() : FORMAT.NONE;
+    };
+    NgxFlagsComponent.prototype.getCode = function () {
+        return this.country.toLowerCase();
+    };
+    NgxFlagsComponent.prototype.getFlag = function (code) {
+        return this.database[code.toLowerCase()];
+    };
+    __decorate([
+        Input(),
+        __metadata("design:type", String)
+    ], NgxFlagsComponent.prototype, "country", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", String)
+    ], NgxFlagsComponent.prototype, "format", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Object)
+    ], NgxFlagsComponent.prototype, "size", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", String)
+    ], NgxFlagsComponent.prototype, "class", void 0);
+    NgxFlagsComponent = __decorate([
+        Component({
+            selector: 'flag',
+            template: "<div *ngIf=\"this.country\" [style]=\"this.style\" [ngClass]=\"['ngx-flag', this.class]\"></div>",
+            styles: ["\n      .ngx-flag {\n        display: inline-block;\n        background-repeat: no-repeat;\n        background-position: center;\n        background-size: cover;\n      }\n    "]
+        }),
+        __metadata("design:paramtypes", [])
+    ], NgxFlagsComponent);
+    return NgxFlagsComponent;
+}());
+var FORMAT;
+(function (FORMAT) {
+    FORMAT["NONE"] = "none";
+    FORMAT["ROUND"] = "round";
+    FORMAT["SQUARE"] = "square";
+})(FORMAT || (FORMAT = {}));
+var SIZE;
+(function (SIZE) {
+    SIZE[SIZE["XXS"] = 8] = "XXS";
+    SIZE[SIZE["XS"] = 16] = "XS";
+    SIZE[SIZE["S"] = 24] = "S";
+    SIZE[SIZE["M"] = 32] = "M";
+    SIZE[SIZE["L"] = 48] = "L";
+    SIZE[SIZE["XL"] = 64] = "XL";
+    SIZE[SIZE["XXL"] = 96] = "XXL";
+})(SIZE || (SIZE = {}));
+
+var ButtonLinkTextComponent = /** @class */ (function () {
+    function ButtonLinkTextComponent(translate) {
+        this.translate = translate;
+        this.text = '';
+        this.class = '';
+        this.id = '';
+        this.modal = '';
+        this.callHandler = new EventEmitter();
+        this.open = '';
+    }
+    ButtonLinkTextComponent.prototype.ngOnInit = function () {
+        this.open = this.translate.translate(this.lang, 'OPEN');
+        if (this.text == 'Action') {
+            this.text = this.translate.translate(this.lang, 'DETAILS');
+        }
+        if (this.modal !== '') {
+            this.routerLink = '';
+        }
+    };
+    ButtonLinkTextComponent.prototype.action = function () {
+        var _a, _b;
+        this.callHandler.emit({
+            modal: this.modal,
+            id: this.id,
+            caseNumber: (_a = this.element) === null || _a === void 0 ? void 0 : _a.CaseNumber,
+            Vote: (_b = this.element) === null || _b === void 0 ? void 0 : _b.Vote
+        });
+    };
+    ButtonLinkTextComponent.ctorParameters = function () { return [
+        { type: TranslateService }
+    ]; };
+    __decorate([
+        Input(),
+        __metadata("design:type", String)
+    ], ButtonLinkTextComponent.prototype, "lang", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", String)
+    ], ButtonLinkTextComponent.prototype, "routerLink", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Object)
+    ], ButtonLinkTextComponent.prototype, "text", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Object)
+    ], ButtonLinkTextComponent.prototype, "class", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Object)
+    ], ButtonLinkTextComponent.prototype, "id", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Object)
+    ], ButtonLinkTextComponent.prototype, "modal", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Object)
+    ], ButtonLinkTextComponent.prototype, "element", void 0);
+    __decorate([
+        Output(),
+        __metadata("design:type", EventEmitter)
+    ], ButtonLinkTextComponent.prototype, "callHandler", void 0);
+    ButtonLinkTextComponent = __decorate([
+        Component({
+            selector: 'button-link-text',
+            template: "<a [matTooltip]=\"open\"\r\n    [ngClass]=\"class\"\r\n    class=\"btn-link-text btn-xs\"\r\n    [routerLink]=\"routerLink\"\r\n    [id]=\"id\"\r\n    (click)=\"action()\"\r\n>\r\n    {{ text }}\r\n</a>",
+            styles: [""]
+        }),
+        __metadata("design:paramtypes", [TranslateService])
+    ], ButtonLinkTextComponent);
+    return ButtonLinkTextComponent;
 }());
 
 var CustomCellComponent = /** @class */ (function () {
@@ -1398,6 +2389,8 @@ var TableModule = /** @class */ (function () {
                 PhoneDisplayComponent,
                 PriorityComponent,
                 YesNoComponent,
+                NgxFlagsComponent,
+                ButtonLinkTextComponent,
                 CustomCellComponent
             ],
             imports: [
@@ -1432,7 +2425,8 @@ var TableModule = /** @class */ (function () {
                 CommonModule,
                 MatIconModule,
                 RouterModule,
-                MatBadgeModule
+                MatBadgeModule,
+                NgxFlagsComponent
             ]
         }),
         __param(0, Optional()), __param(0, SkipSelf()),
@@ -1449,5 +2443,5 @@ var TableModule = /** @class */ (function () {
  * Generated bundle index. Do not edit.
  */
 
-export { CellsComponentList, CoreMatTable, CustomerRankComponent, DateFormatComponent, EquipementStatusComponent, EquipementTypeComponent, GenderComponent, IsMatIconComponent, NameAvatarComponent, OriginComponent, PhoneDisplayComponent, PngIconComponent, PngIconModule, PriorityComponent, TableComponent, TableModule, TableService, YesNoComponent, TranslateService as ɵa, CustomCellComponent as ɵb };
+export { CellsComponentList, CoreMatTable, CustomerRankComponent, DateFormatComponent, EquipementStatusComponent, EquipementTypeComponent, GenderComponent, IsMatIconComponent, NameAvatarComponent, OriginComponent, PhoneDisplayComponent, PngIconComponent, PngIconModule, PriorityComponent, TableComponent, TableModule, TableService, YesNoComponent, TranslateService as ɵa, NgxFlagsComponent as ɵb, ButtonLinkTextComponent as ɵc, CustomCellComponent as ɵd };
 //# sourceMappingURL=table.js.map
