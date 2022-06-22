@@ -1121,11 +1121,13 @@ let TableComponent = class TableComponent {
         });
     }
     buildLink(override, element) {
+        console.log(override);
         if (override.length >= 2) {
             let basePath = override[0];
             for (let i = 1; i < override.length; i++) {
                 basePath += '/' + element[override[i]];
             }
+            console.log(basePath);
             return basePath;
         }
     }

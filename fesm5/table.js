@@ -1248,11 +1248,13 @@ var TableComponent = /** @class */ (function () {
         });
     };
     TableComponent.prototype.buildLink = function (override, element) {
+        console.log(override);
         if (override.length >= 2) {
             var basePath = override[0];
             for (var i = 1; i < override.length; i++) {
                 basePath += '/' + element[override[i]];
             }
+            console.log(basePath);
             return basePath;
         }
     };
