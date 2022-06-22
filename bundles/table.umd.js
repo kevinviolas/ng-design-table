@@ -2478,7 +2478,7 @@
                 this.text = this.translate.translate(this.lang, 'DETAILS');
             }
             if (this.modal !== '') {
-                this.routerLink = '';
+                //this.routerLink = '';
             }
         };
         ButtonLinkTextComponent.prototype.action = function () {
