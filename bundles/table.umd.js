@@ -312,7 +312,7 @@
         CustomerRankComponent = __decorate([
             core.Component({
                 selector: 'app-customer-rank',
-                template: "<span [class]=\"typeClass\" matTooltip=\"Contrat de type : {{type}}\">\r\n  <span style=\"color:black\">{{type}}</span><mat-icon *ngIf=\"type !== 'CLASSIC'\">star_rate</mat-icon>\r\n</span>\r\n",
+                template: "<span [class]=\"typeClass\" matTooltip=\"Contrat de type : {{type}}\">\n  <span style=\"color:black\">{{type}}</span><mat-icon *ngIf=\"type !== 'CLASSIC'\">star_rate</mat-icon>\n</span>\n",
                 styles: [".gold{font-size:12px;font-weight:700;color:gold!important}.silver{font-size:12px;font-weight:700;color:silver!important}.bronze{font-weight:700;font-size:12px;color:#cd7f32!important}.default{font-weight:700;font-size:12px;color:#000!important}"]
             }),
             __metadata("design:paramtypes", [core.ChangeDetectorRef, TableService])
@@ -348,7 +348,7 @@
         DateFormatComponent = __decorate([
             core.Component({
                 selector: 'date-format',
-                template: "<span matTooltip=\"{{(date| date : 'short' : timezone)}}\" [innerHTML]=\"run((date| date : 'short' : timezone))\"></span>\r\n",
+                template: "<span matTooltip=\"{{(date| date : 'short' : timezone)}}\" [innerHTML]=\"run((date| date : 'short' : timezone))\"></span>\n",
                 styles: ["span.time-badge{display:block;text-align:center!important;padding-right:25px}span.time-badge .hour{display:block;font-weight:900;font-size:12px}span.time-badge .minute{display:block;font-weight:300;font-size:10px}"]
             }),
             __metadata("design:paramtypes", [])
@@ -404,7 +404,7 @@
         EquipementStatusComponent = __decorate([
             core.Component({
                 selector: 'app-equipement-status',
-                template: "<span [style]=\"css\" matTooltip=\"{{type}}\">\r\n    <img [src]=\"icon\" [style]=\"css\" class=\"equipement-status\">\r\n</span>",
+                template: "<span [style]=\"css\" matTooltip=\"{{type}}\">\n    <img [src]=\"icon\" [style]=\"css\" class=\"equipement-status\">\n</span>",
                 styles: [""]
             }),
             __metadata("design:paramtypes", [core.ChangeDetectorRef, TableService])
@@ -473,7 +473,7 @@
         EquipementTypeComponent = __decorate([
             core.Component({
                 selector: 'app-equipement-type',
-                template: "<span [style]=\"css\" matTooltip=\"{{type}}\">\r\n    <img [src]=\"icon\" [style]=\"css\">\r\n</span>\r\n",
+                template: "<span [style]=\"css\" matTooltip=\"{{type}}\">\n    <img [src]=\"icon\" [style]=\"css\">\n</span>\n",
                 styles: [""]
             }),
             __metadata("design:paramtypes", [core.ChangeDetectorRef, TableService])
@@ -520,7 +520,7 @@
         GenderComponent = __decorate([
             core.Component({
                 selector: 'app-gender',
-                template: "<span [style]=\"css\" matTooltip=\"{{type}}\">\r\n    <img [src]=\"icon\" [style]=\"css\">\r\n</span>\r\n",
+                template: "<span [style]=\"css\" matTooltip=\"{{type}}\">\n    <img [src]=\"icon\" [style]=\"css\">\n</span>\n",
                 styles: [""]
             }),
             __metadata("design:paramtypes", [TableService])
@@ -552,7 +552,7 @@
         IsMatIconComponent = __decorate([
             core.Component({
                 selector: 'app-is-mat-icon',
-                template: "<ng-container *ngIf=\"!isIcon\">\r\n    <span >{{display}}</span>\r\n</ng-container>\r\n<ng-container  *ngIf=\"isIcon\">\r\n    <mat-icon>{{display}}</mat-icon>\r\n</ng-container>",
+                template: "<ng-container *ngIf=\"!isIcon\">\n    <span >{{display}}</span>\n</ng-container>\n<ng-container  *ngIf=\"isIcon\">\n    <mat-icon>{{display}}</mat-icon>\n</ng-container>",
                 styles: [":host{height:34px;display:flex;padding:auto}:host .mat-icon{display:block;fill:currentColor;text-align:center;width:24px;margin:auto;vertical-align:middle;background:no-repeat}:host i,:host mat-icon{font-size:24px;height:24px}"]
             }),
             __metadata("design:paramtypes", [])
@@ -634,7 +634,7 @@
         NameAvatarComponent = __decorate([
             core.Component({
                 selector: 'name-avatar',
-                template: "<div [ngStyle]=\"src && src.includes('assets') && {'display': 'none'}\" #avatar>\r\n    {{letter}}\r\n</div>\r\n\r\n<img [src]=\"src\" [ngStyle]=\"{'width': fontSize || '44px', 'height': fontSize || '44px',  'vertical-align': 'middle', 'border-radius': _borderRadius}\" *ngIf=\"src && src.includes('assets')\" />",
+                template: "<div [ngStyle]=\"src && src.includes('assets') && {'display': 'none'}\" #avatar>\n    {{letter}}\n</div>\n\n<img [src]=\"src\" [ngStyle]=\"{'width': fontSize || '44px', 'height': fontSize || '44px',  'vertical-align': 'middle', 'border-radius': _borderRadius}\" *ngIf=\"src && src.includes('assets')\" />",
                 styles: ["div{align-items:center;justify-content:center;padding:0!important}"]
             }),
             __metadata("design:paramtypes", [TableService])
@@ -748,7 +748,7 @@
         PhoneDisplayComponent = __decorate([
             core.Component({
                 selector: 'app-phone-display',
-                template: "<flag [country]=\"flag\"></flag> <strong>{{display || '-'}}</strong>\r\n",
+                template: "<flag [country]=\"flag\"></flag> <strong>{{display || '-'}}</strong>\n",
                 styles: [""]
             }),
             __metadata("design:paramtypes", [forms.FormBuilder])
@@ -795,7 +795,7 @@
         PngIconComponent = __decorate([
             core.Component({
                 selector: 'png-icon',
-                template: "<span #icon>\r\n\r\n</span>",
+                template: "<span #icon>\n\n</span>",
                 styles: [""]
             }),
             __metadata("design:paramtypes", [])
@@ -899,7 +899,7 @@
         PriorityComponent = __decorate([
             core.Component({
                 selector: 'icon-priority',
-                template: "<!--<png-icon matTooltip=\"{{this.iconLabel}}\" [src]=\"this.iconSrc\"></png-icon>-->\r\n<!--<png-icon [src]=\"this.iconSrc\"></png-icon>-->\r\n<span matTooltip=\"{{this.label}}\" class=\"{{this.iconSrc}}\">\r\n    {{this.label}}\r\n</span>",
+                template: "<!--<png-icon matTooltip=\"{{this.iconLabel}}\" [src]=\"this.iconSrc\"></png-icon>-->\n<!--<png-icon [src]=\"this.iconSrc\"></png-icon>-->\n<span matTooltip=\"{{this.label}}\" class=\"{{this.iconSrc}}\">\n    {{this.label}}\n</span>",
                 styles: [".now-low{background:no-repeat padding-box rgba(17,150,3,.56)!important;border-radius:5px;border:none!important;color:#3c5905!important;font:14px/36px \"Nexa Text\";letter-spacing:0;min-width:100%!important;padding:0 10px;overflow:hidden;white-space:nowrap;max-width:80px!important;text-overflow:ellipsis;display:inline-block;height:36px;text-align:center}.now-normal{background:no-repeat padding-box rgba(170,238,230,.56)!important;border-radius:5px;border:none!important;font:14px/36px \"Nexa Text\";letter-spacing:0;color:#169d8a!important;min-width:100%!important;padding:0 10px;overflow:hidden;white-space:nowrap;max-width:80px!important;text-overflow:ellipsis;display:inline-block;height:36px;text-align:center}.now-urgent{background:no-repeat padding-box rgba(243,161,36,.56)!important;border-radius:5px;border:none!important;font:14px/36px \"Nexa Text\";letter-spacing:0;color:#c48e3b!important;min-width:100%!important;padding:0 10px;overflow:hidden;white-space:nowrap;max-width:80px!important;text-overflow:ellipsis;display:inline-block;height:36px;text-align:center}.now-critic{background:no-repeat padding-box rgba(215,5,43,.56)!important;border-radius:5px;border:none!important;font:14px/36px \"Nexa Text\";letter-spacing:0;color:#7c1c2d!important;min-width:100%!important;padding:0 10px;overflow:hidden;white-space:nowrap;max-width:80px!important;text-overflow:ellipsis;display:inline-block;height:36px;text-align:center}.now-vip{background:no-repeat padding-box rgba(120,125,130,.56)!important;border-radius:5px;border:none!important;font:12px/36px \"Nexa Text\";letter-spacing:0;color:#171f26!important;min-width:100%!important;padding:0 10px;overflow:hidden;white-space:nowrap;max-width:80px!important;text-overflow:ellipsis;display:inline-block;height:36px;text-align:center}"]
             }),
             __metadata("design:paramtypes", [TableService])
@@ -953,7 +953,7 @@
         YesNoComponent = __decorate([
             core.Component({
                 selector: 'app-yes-nox',
-                template: "<span [style]=\"css\" >\r\n    <img [src]=\"icon\" [style]=\"css\">\r\n</span>\r\n",
+                template: "<span [style]=\"css\" >\n    <img [src]=\"icon\" [style]=\"css\">\n</span>\n",
                 styles: [""]
             }),
             __metadata("design:paramtypes", [TableService])
@@ -1295,7 +1295,6 @@
         return TranslateService;
     }());
 
-<<<<<<< HEAD
     var TableComponent = /** @class */ (function () {
         function TableComponent(router, route, service, detector, translate, changeDetectorRef) {
             this.router = router;
@@ -1578,290 +1577,6 @@
                 core.ChangeDetectorRef])
         ], TableComponent);
         return TableComponent;
-=======
-    var TableComponent = /** @class */ (function () {
-        function TableComponent(router, route, service, detector, translate, changeDetectorRef) {
-            this.router = router;
-            this.route = route;
-            this.service = service;
-            this.detector = detector;
-            this.translate = translate;
-            this.changeDetectorRef = changeDetectorRef;
-            this.displayDetail = false;
-            this.btnOverride = false;
-            this.callFunction = new core.EventEmitter();
-            this.inputSearch = '';
-            this.EmptyRow = false;
-            this.blockDetails = false;
-            this.clicked = new core.EventEmitter();
-            this.filter = [];
-            this.index = 0;
-            this.open = '';
-            this.search = '';
-            this.cancelSearch = '';
-            this.noResult = '';
-            this.details = '';
-            this.showTable = false;
-        }
-        TableComponent.prototype.expand = function (element) {
-            if (this.blockDetails) {
-                return;
-            }
-            if (this.expandedElement === element) {
-                this.expandedElement = null;
-            }
-            else {
-                this.expandedElement = element;
-            }
-            //console.log(this.expandedElement);
-        };
-        TableComponent.prototype.ngOnInit = function () {
-            var _this = this;
-            this.service.emptyRow = this.EmptyRow;
-            this.open = this.translate.translate(this.lang, 'OPEN');
-            this.search = this.translate.translate(this.lang, 'SEARCH');
-            this.cancelSearch = this.translate.translate(this.lang, 'CANCEL_SEARCH');
-            this.noResult = this.translate.translate(this.lang, 'NO_RESULT');
-            this.details = this.translate.translate(this.lang, 'DETAILS');
-            if (this.data) {
-                this.expandedElement = false;
-                this.data.paginator = this.paginatorCurrent;
-                this.data.sort = this.sortCurrent;
-                this.data.pageNumber.subscribe(function (newpage) {
-                    if (newpage > 0) {
-                        _this.router.navigate([], {
-                            relativeTo: _this.route,
-                            queryParams: { page: newpage + 1 },
-                            queryParamsHandling: 'merge',
-                        });
-                    }
-                    else if (newpage === 0) {
-                        _this.router.navigate([], {
-                            relativeTo: _this.route,
-                            queryParams: { page: null },
-                            queryParamsHandling: 'merge',
-                        });
-                    }
-                    if (_this.data && _this.data.paginator && _this.data.paginator.pageIndex !== newpage) {
-                        // this.data.paginator.pageIndex = newpage;
-                        console.log('on passe dans la ligne 146', _this.data.paginator.pageIndex, newpage);
-                    }
-                    _this.changeDetectorRef.markForCheck();
-                });
-                var page = this.route.snapshot.queryParams['page'];
-                if (page) {
-                    var currentPage = Number(page) - 1;
-                    this.data.startWith = currentPage;
-                    this.data.fetch(currentPage);
-                    this.data.number = currentPage;
-                }
-                this.PrivateColumnDefinitions = this.columnDefinitions;
-                this.buildHeaders().catch(function (err) { return console.log('Error build table', err); });
-                this.service.updateHeader.subscribe(function (status) {
-                    if (status === true) {
-                        _this.displayedColumns = null;
-                        _this.columnsToDisplay = null;
-                        _this.PrivateColumnDefinitions = _this.service.displayColumn;
-                        console.log('Module table -> New column definitions', _this.PrivateColumnDefinitions);
-                        _this.buildHeaders().catch(function (err) { return console.log('Error build table', err); });
-                        _this.detector.detectChanges();
-                    }
-                });
-            }
-        };
-        TableComponent.prototype.ngAfterViewChecked = function () {
-            this.showTable = true;
-        };
-        TableComponent.prototype.buildHeaders = function () {
-            return __awaiter(this, void 0, void 0, function () {
-                var _a, tmp, _b, _c, k;
-                var e_1, _d;
-                return __generator(this, function (_e) {
-                    switch (_e.label) {
-                        case 0:
-                            _a = this;
-                            return [4 /*yield*/, this.sort()];
-                        case 1:
-                            _a.displayedColumns = _e.sent();
-                            if (this.displayedColumns) {
-                                tmp = [];
-                                try {
-                                    for (_b = __values(this.displayedColumns), _c = _b.next(); !_c.done; _c = _b.next()) {
-                                        k = _c.value;
-                                        tmp.push(k.key);
-                                    }
-                                }
-                                catch (e_1_1) { e_1 = { error: e_1_1 }; }
-                                finally {
-                                    try {
-                                        if (_c && !_c.done && (_d = _b.return)) _d.call(_b);
-                                    }
-                                    finally { if (e_1) throw e_1.error; }
-                                }
-                                this.columnsToDisplay = __spread(tmp);
-                            }
-                            return [2 /*return*/];
-                    }
-                });
-            });
-        };
-        TableComponent.prototype.generateClass = function (Class) {
-            var e_2, _a;
-            var MyClass = ['default-table-class'];
-            try {
-                for (var Class_1 = __values(Class), Class_1_1 = Class_1.next(); !Class_1_1.done; Class_1_1 = Class_1.next()) {
-                    var c = Class_1_1.value;
-                    if (c && c !== '') {
-                        MyClass.push(c);
-                    }
-                }
-            }
-            catch (e_2_1) { e_2 = { error: e_2_1 }; }
-            finally {
-                try {
-                    if (Class_1_1 && !Class_1_1.done && (_a = Class_1.return)) _a.call(Class_1);
-                }
-                finally { if (e_2) throw e_2.error; }
-            }
-            return MyClass;
-        };
-        TableComponent.prototype.sort = function () {
-            return __awaiter(this, void 0, void 0, function () {
-                var compare;
-                return __generator(this, function (_a) {
-                    compare = function (a, b) {
-                        return (a.order < b.order ? -1 : (a.order > b.order ? 1 : 0));
-                    };
-                    if (this.PrivateColumnDefinitions) {
-                        return [2 /*return*/, __spread(this.PrivateColumnDefinitions.sort(compare))];
-                    }
-                    return [2 /*return*/];
-                });
-            });
-        };
-        TableComponent.prototype.buildLink = function (override, element) {
-            if (override.length >= 2) {
-                var basePath = override[0];
-                for (var i = 1; i < override.length; i++) {
-                    basePath += '/' + element[override[i]];
-                }
-                return basePath;
-            }
-        };
-        TableComponent.prototype.Join = function (elem, override, joinKey) {
-            if (joinKey === void 0) { joinKey = '\n'; }
-            var value = [];
-            for (var x in elem) {
-                if (override.indexOf(x) > -1) {
-                    value.push(elem[x]);
-                }
-            }
-            return value.join(joinKey);
-        };
-        TableComponent.prototype.reset = function () {
-            this.data.filter({
-                target: {
-                    value: ''
-                }
-            });
-            return true;
-        };
-        TableComponent.prototype.expandShow = function (template) {
-        };
-        TableComponent.prototype.ngOnChanges = function (changes) {
-            if ((this.inputSearch.length > 1 || this.inputSearch.length === 0)
-                && this.inputSearch.length < 200 && this.data) {
-                this.data.filter(this.inputSearch);
-                this.data.fetch(0);
-            }
-            //this.changeDetectorRef.markForCheck();
-            if (changes.data && changes.data.isFirstChange()) {
-                console.log('Init init');
-                this.ngOnInit();
-            }
-            //
-        };
-        TableComponent.ctorParameters = function () { return [
-            { type: router.Router },
-            { type: router.ActivatedRoute },
-            { type: TableService },
-            { type: core.ChangeDetectorRef },
-            { type: TranslateService },
-            { type: core.ChangeDetectorRef }
-        ]; };
-        __decorate([
-            core.ViewChild('MatPaginatorCurrent', { static: true }),
-            __metadata("design:type", paginator.MatPaginator)
-        ], TableComponent.prototype, "paginatorCurrent", void 0);
-        __decorate([
-            core.ViewChild('table', { static: true }),
-            __metadata("design:type", sort.MatSort)
-        ], TableComponent.prototype, "sortCurrent", void 0);
-        __decorate([
-            core.Input(),
-            __metadata("design:type", Array)
-        ], TableComponent.prototype, "columnDefinitions", void 0);
-        __decorate([
-            core.Input(),
-            __metadata("design:type", Boolean)
-        ], TableComponent.prototype, "displayDetail", void 0);
-        __decorate([
-            core.Input(),
-            __metadata("design:type", String)
-        ], TableComponent.prototype, "displayComponent", void 0);
-        __decorate([
-            core.Input(),
-            __metadata("design:type", Object)
-        ], TableComponent.prototype, "data", void 0);
-        __decorate([
-            core.Input(),
-            __metadata("design:type", String)
-        ], TableComponent.prototype, "lang", void 0);
-        __decorate([
-            core.Input(),
-            __metadata("design:type", Object)
-        ], TableComponent.prototype, "btnOverride", void 0);
-        __decorate([
-            core.Output(),
-            __metadata("design:type", core.EventEmitter)
-        ], TableComponent.prototype, "callFunction", void 0);
-        __decorate([
-            core.Input(),
-            __metadata("design:type", Object)
-        ], TableComponent.prototype, "inputSearch", void 0);
-        __decorate([
-            core.Input(),
-            __metadata("design:type", Object)
-        ], TableComponent.prototype, "EmptyRow", void 0);
-        __decorate([
-            core.Input(),
-            __metadata("design:type", Object)
-        ], TableComponent.prototype, "blockDetails", void 0);
-        __decorate([
-            core.Output(),
-            __metadata("design:type", core.EventEmitter)
-        ], TableComponent.prototype, "clicked", void 0);
-        TableComponent = __decorate([
-            core.Component({
-                selector: 'ngx-design-table',
-                template: "<div class=\"table-wrapper\">\r\n  <div class=\"row\" style=\"height: 20px;background: transparent!important; box-shadow: none !important\">\r\n    <div class=\"\">\r\n      <!--<div class=\"col-lg-12 search-container\">\r\n        <mat-icon style=\"left: 16%; position: absolute; margin-top: 10px;\">search</mat-icon>\r\n        <input class=\"search-box\" type=\"text\" [placeholder]=\"search\" [maxLength]=\"100\"\r\n        [value]=\"inputSearch\"\r\n        (change)=\"onChange($event)\"\r\n               (input)=\"((($event.target.value.length > 1 || $event.target.value.length === 0)\r\n                        && $event.target.value.length < 200)\r\n                                       ? data.filter($event) : null)\"\r\n               #filterOngoing>\r\n        <a class=\"close-search\" *ngIf=\"filterOngoing.value\"\r\n           [matTooltip]=\"cancelSearch\"\r\n           (click)=\"reset() && filterOngoing.value = ''\">\r\n          <img [src]=\"'/assets/icons/search_off-24px.svg'\">\r\n        </a>\r\n      </div>-->\r\n    </div>\r\n  </div>\r\n  <!-- Table -->\r\n  <table mat-table #table=\"matSort\" [dataSource]=\"data \" multiTemplateDataRows matSort class=\"\"\r\n    *ngIf=\"displayedColumns && columnsToDisplay && data && data.totalElements && showTable\"\r\n    (matSortChange)=\"data.sortIt($event)\">\r\n    <ng-container [matColumnDef]=\"column.key\" *ngFor=\"let column of displayedColumns\">\r\n      <ng-container *ngIf=\"column.sort\">\r\n        <th mat-header-cell *matHeaderCellDef\r\n          [class]=\"generateClass([column.class, column.align ? 'text-align-'+column.align : 'text-align-left'])\"\r\n          mat-sort-header>\r\n          <app-is-mat-icon [input]=\"column.value\"></app-is-mat-icon>\r\n        </th>\r\n      </ng-container>\r\n      <ng-container *ngIf=\"!column.sort\">\r\n        <!-- Ajouter fonction generate Class -->\r\n        <ng-container *ngIf=\"column.clickable\">\r\n          <th mat-header-cell *matHeaderCellDef\r\n            (click)=\"clicked.emit({key : column.key, statement : (column.statement = !column.statement)})\"\r\n            [class]=\"generateClass([column.class, column.align ? 'text-align-'+column.align : 'text-align-left'])\"\r\n            style=\"cursor: pointer;\">\r\n            <app-is-mat-icon [input]=\"column.value\"></app-is-mat-icon>\r\n            <app-is-mat-icon *ngIf=\"column.valueStatement && column.statement !== undefined\"\r\n              [input]=\"column.valueStatement[column.statement ? 1 : 0]\">\r\n            </app-is-mat-icon>\r\n          </th>\r\n        </ng-container>\r\n        <ng-container *ngIf=\"!column.clickable\">\r\n          <th mat-header-cell *matHeaderCellDef\r\n            [class]=\"generateClass([column.class, column.align ? 'text-align-'+column.align : 'text-align-left'])\">\r\n            <app-is-mat-icon [input]=\"column.value\"></app-is-mat-icon>\r\n          </th>\r\n        </ng-container>\r\n        <th mat-header-cell *matHeaderCellDef\r\n          [class]=\"generateClass([column.class, column.align ? 'text-align-'+column.align : 'text-align-left'])\">\r\n          <app-is-mat-icon [input]=\"column.value\"></app-is-mat-icon>\r\n        </th>\r\n      </ng-container>\r\n\r\n      <td *ngIf=\"EmptyRow\" [attr.colspan]=\"columnsToDisplay.length\" class=\"empty-row\"></td>\r\n      <td class=\"row-style\" mat-cell *matCellDef=\"let element\"\r\n        [class]=\"generateClass([column.class, column.align ? 'text-align-'+column.align : ''])\">\r\n        <ng-container *ngIf=\"element !== 'empty'\" [ngSwitch]=\"column.module\">\r\n          <!-- Button click -->\r\n          <ng-container *ngSwitchCase=\"'button-click'\">\r\n            <a [matTooltip]=\"open\" class=\"btn-link-text\" (click)=\"callFunction.emit(element[column.key])\">\r\n              <!--<ng-container *ngIf=\"column.display\">\r\n                <app-is-mat-icon [input]=\"column.display\"></app-is-mat-icon>\r\n              </ng-container>\r\n              <ng-container *ngIf=\"!column.display\">\r\n                {{element[column.key]}}\r\n              </ng-container>-->\r\n              {{ details }}\r\n            </a>\r\n          </ng-container>\r\n          <!-- Button link -->\r\n          <ng-container *ngSwitchCase=\"'button-link'\">\r\n            <!--                matBadge=\"*\" matBadgePosition=\"before\"\r\n               matBadgeColor=\"accent\" -->\r\n            <a *ngIf=\"element.new\" [matTooltip]=\"open\" class=\"mat-button btn-xs\" (click)=\"element.new = false\"\r\n              [ngClass]=\"btnOverride == true ? 'link-btn': 'nowboard-btn'\"\r\n              routerLink=\"{{column.override ? buildLink(column.override, element) : element[column.key]}}\">\r\n              <ng-container *ngIf=\"column.display\">\r\n                <app-is-mat-icon [input]=\"column.display\"></app-is-mat-icon>\r\n              </ng-container>\r\n              <ng-container *ngIf=\"!column.display\">\r\n                {{element[column.key]}}\r\n              </ng-container>\r\n            </a>\r\n            <a *ngIf=\"!element.new\" [matTooltip]=\"open\" class=\"mat-button btn-xs\"\r\n              [ngClass]=\"btnOverride == true ? 'link-btn': 'nowboard-btn'\"\r\n              routerLink=\"{{column.override ? buildLink(column.override, element) : element[column.key]}}\">\r\n              <ng-container *ngIf=\"column.display\">\r\n                <app-is-mat-icon class=\"is-mat-icon-cell\" [input]=\"column.display\"></app-is-mat-icon>\r\n              </ng-container>\r\n              <ng-container *ngIf=\"!column.display\">\r\n                {{element[column.key]}}\r\n              </ng-container>\r\n            </a>\r\n          </ng-container>\r\n          <!-- Button link text -->\r\n          <ng-container *ngSwitchCase=\"'button-link-text'\">\r\n            <button-link-text (callHandler)=\"callFunction.emit($event)\" [lang]=\"lang\"\r\n              [routerLink]=\"column.override ? buildLink(column.override, element) : element[column.key]\"\r\n              [text]=\"column.key\" [class]=\"column.valueOverride?.class\"\r\n              [id]=\"column.valueOverride?.id ? element[column.valueOverride?.id] : ''\"\r\n              [modal]=\"column.valueOverride?.modal || ''\" [element]=\"element\">\r\n            </button-link-text>\r\n          </ng-container>\r\n          <!-- icon custom-->\r\n          <ng-container *ngSwitchCase=\"'custom-icon'\">\r\n            <input type=\"hidden\" [value]=\"element[column.key]\">\r\n            <img *ngIf=\"element[column.key] && column.valueOverride\" [src]=\"column.valueOverride[element[column.key]]\"\r\n              style=\"width: 20px; height: 20px;\">\r\n          </ng-container>\r\n          <ng-container *ngSwitchCase=\"'it-category'\">\r\n            <app-equipement-type [name]=\"element[column.key]\" [type]=\"element[column.override]\"></app-equipement-type>\r\n          </ng-container>\r\n          <!-- icon it status -->\r\n          <ng-container *ngSwitchCase=\"'it-status'\">\r\n            <app-equipement-status [type]=\"element[column.key]\"></app-equipement-status>\r\n          </ng-container>\r\n          <!-- icon customer rank -->\r\n          <ng-container *ngSwitchCase=\"'customer-rank'\">\r\n            <app-customer-rank [type]=\"element[column.key]\"></app-customer-rank>\r\n          </ng-container>\r\n          <!-- icon priority-->\r\n          <ng-container *ngSwitchCase=\"'priority'\">\r\n            <icon-priority [icon]=\"element['Icon']\" [iconLabel]=\"element['Priority'] || null\"></icon-priority>\r\n          </ng-container>\r\n          <!-- icon gender avatar-->\r\n          <ng-container *ngSwitchCase=\"'gender-avatar'\">\r\n            <app-gender [type]=\"element[column.key]\"></app-gender>\r\n          </ng-container>\r\n\r\n          <!-- icon gender avatar-->\r\n          <ng-container *ngSwitchCase=\"'phone-display'\">\r\n            <app-phone-display [number]=\"element[column.key]\"></app-phone-display>\r\n          </ng-container>\r\n\r\n          <!-- icon gender avatar-->\r\n          <ng-container *ngSwitchCase=\"'yes-no-display'\">\r\n            <app-yes-nox\r\n              *ngIf=\"column.config && (column.config.displayNo !== undefined && column.config.displayYes !== undefined)\"\r\n              [valid]=\"element[column.key]\" [size]=\"column.config?.sizeIcon\" [displayNo]=\"column.config.displayYes\"\r\n              [displayYes]=\"column.config.displayNo\">\r\n            </app-yes-nox>\r\n            <app-yes-nox\r\n              *ngIf=\"(!column.config || (column.config && !(column.config.displayNo || column.config.displayYes)))\"\r\n              [valid]=\"element[column.key]\" [size]=\"column.config?.sizeIcon\">\r\n            </app-yes-nox>\r\n          </ng-container>\r\n          <!-- icon origin-->\r\n          <ng-container *ngSwitchCase=\"'origin'\">\r\n            <icon-origin [icon]=\"element[column.key]\"></icon-origin>\r\n          </ng-container>\r\n          <!-- icon name avatar-->\r\n          <ng-container *ngSwitchCase=\"'name-avatar'\">\r\n            <name-avatar matTooltip=\"{{Join(element, column.override)}}\" [src]=\"element[column.key]\"\r\n              [matTooltipClass]=\"'my-tooltip'\">\r\n            </name-avatar>\r\n          </ng-container>\r\n          <!-- date format -->\r\n          <ng-container *ngSwitchCase=\"'date-format'\">\r\n            <date-format style=\"padding-right: 10px\" [date]=\"element[column.key]\"></date-format>\r\n          </ng-container>\r\n          <!-- count rows -->\r\n          <ng-container *ngSwitchCase=\"'count-row'\">\r\n            <span style=\"padding-left: 14px\">\r\n              {{(element[column.key] && element[column.key].length ? element[column.key].length : '-')}}\r\n            </span>\r\n          </ng-container>\r\n          <ng-container *ngSwitchCase=\"'custom-cell'\">\r\n            <lib-custom-cell [title]=\"element[column.key]\" [subTitle]=\"element[column.subTitle]\"\r\n              [class]=\"element[column.addClass]\"></lib-custom-cell>\r\n          </ng-container>\r\n          <ng-container *ngSwitchDefault>\r\n            {{element[column.key]}}\r\n          </ng-container>\r\n        </ng-container>\r\n      </td>\r\n      <ng-container *matCellDef=\"let element\">\r\n        <td [ngClass]=\"'empty-row'\" *ngIf=\"element === 'empty'\" mat-cell [attr.colspan]=\"columnsToDisplay.length\">\r\n          empty row\r\n        </td>\r\n      </ng-container>\r\n\r\n    </ng-container>\r\n\r\n    <ng-container matColumnDef=\"expandedDetailX\" *ngIf=\"displayDetail\">\r\n      <td mat-cell *matCellDef=\"let element\" [attr.colspan]=\"columnsToDisplay.length\"\r\n        [@detailExpand]=\"expandedElement && element == expandedElement ? 'expanded' : 'collapsed'\" style=\"height: 0\">\r\n        <div *ngIf=\"element['CaseNumber'] && expandedElement\">\r\n          <div class=\"element-detail\" [innerHTML]=\"element.expanded\">\r\n          </div>\r\n\r\n          <a [class.nav-expanded]=\"element == expandedElement\" [routerLink]=\"['/ticket/', element['CaseNumber']]\"\r\n            [title]=\"open\">\r\n            <img class=\"detail-view-ticket\" src=\"/assets/icons/eye.png\">\r\n          </a>\r\n        </div>\r\n      </td>\r\n    </ng-container>\r\n    <tr mat-header-row *matHeaderRowDef=\"columnsToDisplay\"></tr>\r\n    <ng-container *ngIf=\"displayDetail\">\r\n      <tr mat-row *matRowDef=\"let element; columns: columnsToDisplay;\" class=\"element-row\"\r\n        [ngClass]=\"!element || element === 'empty'? 'empty-row-none': 'detail-row'\"\r\n        [class.expanded]=\"expandedElement == element\" (click)=\"expand(element)\">\r\n      </tr>\r\n      <tr mat-row *matRowDef=\"let row; columns: ['expandedDetailX']\"\r\n        [ngClass]=\"!expandedElement || !row || row === 'empty'? 'empty-row': 'detail-row'\">\r\n\r\n      </tr>\r\n    </ng-container>\r\n    <ng-container *ngIf=\"!displayDetail\">\r\n      <tr mat-row *matRowDef=\"let element; columns: columnsToDisplay;\"\r\n        [ngClass]=\"element==='empty'? 'no-display-detail-empty-row':''\" class=\"element-row\">\r\n      </tr>\r\n    </ng-container>\r\n  </table>\r\n  <ng-container *ngIf=\"data && data.totalElements === 0\">\r\n    <div class=\"row\" style=\"height: 84px;background: transparent!important;\">\r\n      <div class=\"\">\r\n        <div class=\"col-lg-12 search-container\" style=\"text-align: center\">\r\n          {{ noResult }}\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </ng-container>\r\n  <mat-paginator #MatPaginatorCurrent *ngIf=\"data && data.totalElements > 0\" [length]=\"data.totalElements\"\r\n    [pageSize]=\"data.size\" [pageIndex]=\"data.number\" [hidePageSize]=\"true\" (page)=\"data.fetch($event.pageIndex)\"\r\n    showFirstLastButtons></mat-paginator>\r\n</div>",
-                animations: [animations.trigger('detailExpand', [
-                        animations.state('collapsed', animations.style({ height: '0px', minHeight: '0', display: 'none' })),
-                        animations.state('expanded', animations.style({ height: '*' })),
-                        animations.transition('expanded <=> collapsed', animations.animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
-                    ])],
-                encapsulation: core.ViewEncapsulation.None,
-                styles: [".table-wrapper table{width:100%}.table-wrapper .mat-cell{padding-left:10px}.table-wrapper png-icon{padding-left:17px}.table-wrapper tr:nth-child(1){min-height:48px}.table-wrapper .detail-row{height:auto!important}.table-wrapper tr.element-row:not(.expanded-row):hover{background:#f5f5f5}.table-wrapper tr.element-row:not(.expanded-row):active{background:#efefef}.table-wrapper .text-align-right{text-align:right!important}.table-wrapper .text-align-left{text-align:left!important}.table-wrapper .text-align-center{text-align:center!important}.table-wrapper .element-detail{overflow:hidden;display:flex;padding-top:10px;padding-bottom:10px}@media screen and (min-width:1441px){.table-wrapper .mat-cell{padding-top:15px;padding-bottom:10px;font-size:13px!important}}.table-wrapper .u-1{width:4%!important;max-width:4%!important;min-width:4%!important}.table-wrapper .u-2{width:5%!important;max-width:5%!important;min-width:5%!important}.table-wrapper .u-3{width:7%!important;max-width:7%!important;min-width:7%!important}@media screen and (max-width:1440px){.table-wrapper a.mat-button{padding-top:10px}.table-wrapper .mat-cell{padding-top:15px;padding-bottom:10px;font-size:11px!important}.table-wrapper .u-1{width:5%!important;max-width:5%!important;min-width:5%!important}.table-wrapper .u-2{width:6%!important;max-width:6%!important;min-width:6%!important}.table-wrapper .u-3{width:10%!important;max-width:10%!important;min-width:10%!important}}.table-wrapper .u-4{max-width:11%!important;width:11%!important;min-width:11%!important}.table-wrapper .u-5{max-width:10%!important;width:10%!important;min-width:10%!important}.table-wrapper .u-6{max-width:15%!important;width:15%!important;min-width:15%!important}.table-wrapper .u-7{width:20%!important;min-width:20%!important}.table-wrapper .u-8{width:25%!important;min-width:25%!important}.table-wrapper .u-9{width:30%!important;min-width:30%!important}.is-mat-icon-cell{width:auto;height:auto;display:auto}.is-mat-icon-cell .mat-icon{font-size:14px}.is-mat-icon-cell span,app-is-mat-icon span{margin:auto}.link-btn{color:#171f26;font-family:\"Nexa Text Bold\";font-size:14px!important;letter-spacing:0;text-align:center;text-decoration:underline}.expanded>.mat-cell>.link-btn{text-decoration:none;font-weight:400}.btn-link-text{background:no-repeat padding-box #e5e8ee;border-radius:4px;text-align:left;font:bold 12px/19px \"Nexa Text\";letter-spacing:0;color:#707070!important;cursor:pointer;padding:10px}.empty-row{background:0 0!important;height:10px!important}.empty-row td{background:0 0!important;height:0}.empty-row .ng-trigger-detailExpand,.empty-row-none{display:none!important}"]
-            }),
-            __metadata("design:paramtypes", [router.Router,
-                router.ActivatedRoute,
-                TableService,
-                core.ChangeDetectorRef,
-                TranslateService,
-                core.ChangeDetectorRef])
-        ], TableComponent);
-        return TableComponent;
->>>>>>> b6621de67de76055dfd0933f0fa8d9961c0994aa
     }());
 
     var db = {
@@ -2811,7 +2526,7 @@
         ButtonLinkTextComponent = __decorate([
             core.Component({
                 selector: 'button-link-text',
-                template: "<a [matTooltip]=\"open\"\r\n    [ngClass]=\"class\"\r\n    class=\"btn-link-text btn-xs\"\r\n    [routerLink]=\"routerLink\"\r\n    [id]=\"id\"\r\n    (click)=\"action()\"\r\n>\r\n    {{ text }}\r\n</a>",
+                template: "<a [matTooltip]=\"open\"\n    [ngClass]=\"class\"\n    class=\"btn-link-text btn-xs\"\n    [routerLink]=\"routerLink\"\n    [id]=\"id\"\n    (click)=\"action()\"\n>\n    {{ text }}\n</a>",
                 styles: [""]
             }),
             __metadata("design:paramtypes", [TranslateService])
